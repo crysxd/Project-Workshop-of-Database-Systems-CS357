@@ -1,5 +1,5 @@
 if(/mobile|android|iOS|iPhone|iPad/i.test(navigator.userAgent)) {
-  $('#splash-screen').height($(window).height() - $('#top-menu').height() - $('#splash-screen').css('margin-bottom').replace("px", ""));
+  $('#splash-screen').height($(window).height() - $('#splash-screen').css('margin-bottom').replace("px", ""));
 }
 
 $('.menu-toggle').click(function() {
