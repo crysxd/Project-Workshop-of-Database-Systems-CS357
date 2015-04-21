@@ -39,7 +39,7 @@
     width: 90%;
   }
   .search-box:hover {
-    width: 90%;
+    width: 90% !important;
   }
 }
 
@@ -58,6 +58,7 @@
   margin: 0;
   font-size: 30px;
   text-align: center;
+  line-height: 30px;
 }
 
 .search-box>p.small {
