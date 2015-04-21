@@ -15,3 +15,7 @@ $('.menu-toggle').click(function() {
     $('#login-button').css('opacity', '1');
   }    
 });
+
+$('#splash-screen .search-box').click(function() {
+  $(this).find('p').html('Searching...');
+});
