@@ -262,6 +262,7 @@ footer {
   -ms-transition: all 0.2s;
   -o-transition: all 0.2s;
   transition: all 0.2s;
+  padding: 15px;
 }
 
 .search-box:hover {
@@ -278,8 +279,19 @@ footer {
   border: 0;
   font-size: 30px;
   text-align: center;
-  line-height: 70px;
+  height: 100%;
+  vertical-align: middle;
   margin: 0;
+  line-height: 35px;
+}
+
+@media (max-width: 600px) {
+  .search-box {
+    width: 90%;
+  }
+  .search-box:hover {
+    width: 90%;
+  }
 }
 
 #splash-screen>#splash-footer {
