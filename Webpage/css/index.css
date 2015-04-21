@@ -28,6 +28,7 @@ body {
 
 #main-content > section > .row {
   margin-left: 0;
+  margin-right: 0;
 }
 
 #top-menu {
@@ -184,6 +185,10 @@ body {
   padding: 0;
 }
 
+footer {
+  padding: 20px;
+  text-align: center;
+}
 
 @media (max-width: 1023px) {
   #left-menu {
@@ -263,7 +268,18 @@ body {
   content: ' '
 }
 
-footer {
-  padding: 20px;
+.how-to-column {
+  padding: 40px;
+  padding-top: 25px;
+}
+
+.how-to-column h4 {
+  text-align: center;
+  height: 60px;
+  margin-bottom: 20px;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.05);
+}
+
+.how-to-column p {
   text-align: center;
 }
