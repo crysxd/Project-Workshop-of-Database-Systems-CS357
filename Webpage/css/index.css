@@ -7,6 +7,7 @@ html, body {
 
 body {
   overflow-x: hidden;
+  overflow: hidden;
 }
 
 .noselect {
@@ -224,6 +225,58 @@ body {
 
 #task-register {
   display: none;
+}
+
+#loading-overlay {
+  display: table;
+  z-index: 10200;
+  background: #00d4ff;
+  text-align: center;
+}
+
+#loading-overlay * {
+  color: #fff;
+}
+
+.loading-indicator {
+  position: relative;
+  width: 128px;
+  height: 140px;
+  margin: 20px;
+  background-image: url(../imgs/icon.png);
+  background-position: top center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  margin: auto;
+  -webkit-animation: flip 3s infinite;
+  animation: flip 3s infinite;
+}
+
+.loading-indicator:after {
+  content: 'LOADING';
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+@keyframes flip {
+  0% { opacity: 1; }
+  25% { opacity: 1; }
+  50% { opacity: 0.2; }
+  75% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@-webkit-keyframes flip {
+  0% { opacity: 1; }
+  25% { opacity: 1; }
+  50% { opacity: 0.2; }
+  75% { opacity: 1; }
+  100% { opacity: 1; }
 }
 
 footer {

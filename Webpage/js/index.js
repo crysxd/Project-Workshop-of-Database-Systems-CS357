@@ -2,6 +2,10 @@ if(/mobile|android|iOS|iPhone|iPad/i.test(navigator.userAgent)) {
   $('#splash-screen').height($(window).height() - $('#splash-screen').css('margin-bottom').replace("px", ""));
 }
 
+$(document).ready(function() {
+  window.setTimeout(hideLoadingOverlay, 1000);
+});
+
 $('.menu-toggle').click(function() {
   if($('#menu:visible').length > 0) {
     $('#menu').fadeOut();
@@ -19,7 +23,7 @@ $('.menu-toggle').click(function() {
 });
 
 $('#splash-screen .search-box').click(function() {
-  $(this).find('p').html('Searching...');
+  showLoadingOverlay();
 });
 
 $('#login-button').click(function() {
@@ -57,4 +61,14 @@ function stopScrolling() {
 
 function startScrolling() {
   $('body').css('overflow', 'scroll');
+}
+
+function showLoadingOverlay() {
+  $('#loading-overlay').fadeIn().css('display','table');
+  stopScrolling();
+}
+
+function hideLoadingOverlay() {
+  $('#loading-overlay').fadeOut();
+  startScrolling();
 }
