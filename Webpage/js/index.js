@@ -1,5 +1,5 @@
 if(/mobile|android|iOS|iPhone|iPad/i.test(navigator.userAgent)) {
-  $('#splash-screen').height($(window).height() - $('#top-menu').height() - $('#splash-screen').css('margin-bottom').replace("px", ""));
+  $('#splash-screen').height($(window).height() - $('#splash-screen').css('margin-bottom').replace("px", ""));
 }
 
 $('.menu-toggle').click(function() {
@@ -14,4 +14,8 @@ $('.menu-toggle').click(function() {
     loginWasVisible = $('#login-button').css('opacity');
     $('#login-button').css('opacity', '1');
   }    
+});
+
+$('#splash-screen .search-box').click(function() {
+  $(this).find('p').html('Searching...');
 });
