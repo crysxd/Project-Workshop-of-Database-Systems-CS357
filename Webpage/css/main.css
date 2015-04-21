@@ -1,0 +1,372 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Important for index.html splash screen */
+  background: #dedede;
+}
+
+body {
+  overflow: hidden; /* Disable scrolling as default, will be enabled by JS when hiding the loading overlay */
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#main-content {
+  margin-left: 50px; /* Margin because of left menu */
+  height: 100%; /* Fill page */
+  -webkit-transition: margin-left 0.3s, height 1s;
+  -moz-transition: margin-left 0.3s, height 1s;
+  -ms-transition: margin-left 0.3s, height 1s;
+  -o-transition: margin-left 0.3s, height 1s;
+  transition: margin-left 0.3s, height 1s;
+}
+
+#main-content > section > .row {
+  margin-left: 0; /* Default -15px causing the first column to be cut off */
+  margin-right: 0; /* Default -15px causing the last column to be cut off */
+}
+
+#top-menu {
+  position: fixed; /* Position sticky on top with height of 50px */
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: rgba(0, 212, 255, 0.80); /* Slightly transparent theme color */
+  z-index: 9998;
+  padding-left: 50px; /* Padding because of left menu, altered responsive */
+  -webkit-transition: padding 0.3s;
+  -moz-transition: padding 0.3s;
+  -ms-transition: padding 0.3s;
+  -o-transition: padding 0.3s;
+  transition: padding 0.3s;
+}
+
+#left-menu {
+  position: fixed; /* Position sticky on left with width of 50px */
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  background: #fff; /* White background */
+  z-index: 9999;
+  padding: 10px;
+  -webkit-transition: width 0.3s;
+  -moz-transition: width 0.3s;
+  -ms-transition: width 0.3s;
+  -o-transition: width 0.3s;
+  transition: width 0.3s;
+}
+
+.menu-toggle {
+  width: 30px; /* 30x30px */
+  height: 30px;
+  position: fixed; /* Fixed position 10px under top, left/rifght value is set n #top-menu-toggle and #left-menu-toggle */
+  top: 10px;
+  z-index: 10002;
+  padding-top: 3px; /* Initial padding for the bars */
+  cursor: pointer;
+  -webkit-transition: right 0.3s, opacity 0.3s, left 0.3s;
+  -moz-transition: right 0.3s, opacity 0.3s, left 0.3s;
+  -ms-transition: right 0.3s, opacity 0.3s, left 0.3s;
+  -o-transition: right 0.3s, opacity 0.3s, left 0.3s;
+  transition: right 0.3s, opacity 0.3s, left 0.3s;
+}
+
+.menu-toggle-open>.bar {
+  background: white !important; /* Forcewhite background when toggle is open, important to ovverride id settings */
+}
+
+.menu-toggle-open>.bar:nth-child(1) {
+  -webkit-transform: translate(0px, 7px) rotate(-45deg );
+  -moz-transform: translate(0px, 7px) rotate(-45deg );
+  -ms-transform: translate(0px, 7px) rotate(-45deg );
+  -o-transform: translate(0px, 7px) rotate(-45deg );
+  transform: translate(0px, 7px) rotate(-45deg );
+}
+
+.menu-toggle-open>.bar:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle-open>.bar:nth-child(3) {
+  -webkit-transform: translate(0, -7px) rotate(45deg );
+  -moz-transform: translate(0, -7px) rotate(45deg );
+  -ms-transform: translate(0, -7px) rotate(45deg );
+  -o-transform: translate(0, -7px) rotate(45deg );
+  -transform: translate(0, -7px) rotate(45deg );
+}
+
+.menu-toggle>.bar {
+  width: 24px; /* 24px width, 3px padding left/right to match 30px width of .menu-toggle */
+  height: 3px;
+  background: #00d4ff;
+  margin-left: 3px;
+  margin-top: 4px; /* Magin to previous bar */
+  -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+  -moz-transition: transform 0.3s, opacity 0.3s;
+  -ms-transition: transform 0.3s, opacity 0.3s;
+  -o-transition: transform 0.3s, opacity 0.3s;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+#top-menu-toggle>.bar {
+  background: white;
+}
+
+#left-menu-toggle {
+  left: 10px; /* Position left */
+}
+
+#top-menu-toggle {
+  right: -40px; /* Position right outside the view port. Will be relocated in responsive media */
+}
+
+#top-menu>#logo {
+  height: 100%; /* Match menu bar height */
+}
+
+#login-button {
+  position: fixed;
+  top: 0;
+  right: 10px; /* Will be relocated in responsive media to not interfere with #top-menu-toggle */
+  height: 50px; /* Match height of top menu bar */
+  color: #fff;
+  padding-left: 20px;
+  padding-right: 20px;
+  line-height: 50px; /* Center font, must match height */
+  text-decoration: none; /* Remove underline from link */
+  z-index: 10002;
+  cursor: pointer;
+  -webkit-transition: right 0.3s, opacity 0.3s;
+  -moz-transition: right 0.3s, opacity 0.3s;
+  -ms-transition: right 0.3s, opacity 0.3s;
+  -o-transition: right 0.3s, opacity 0.3s;
+  transition: right 0.3s, opacity 0.3s;
+}
+
+#login-button:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* Slightly black translucent background to make it little darker */
+}
+
+.overlay {
+  position: fixed; /* Span over entire view port */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 10000;
+  display: none; /* Hide as default, must later be table! */
+  width: 100%; /* Explicitly set width and height */
+  height: 100%;
+  background: #fff;
+}
+
+.overlay>* {
+  display: table-cell; /* Center the main component in the overlay vertically */
+  vertical-align: middle; 
+  padding: 0;
+  width: 100%;
+}
+
+#menu {
+  background: #00d4ff;
+}
+
+#menu>ul>li>a {
+  font-size: 44px; /* Big font as default, is changed in responsive media query */
+  color: white;
+  width: 100%; /* Force full width */
+  display: block;
+  cursor: pointer;
+  margin-top: 0;
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+  -ms-transition: all 1s;
+  -o-transition: all 1s;
+  transition: all 1s;
+}
+
+#menu>ul>li {
+  list-style: none; /* Remove point */
+  text-align: center;
+  width: 100%; /* Force full width */
+}
+
+.scroll {
+  overflow-y: scroll;
+  max-height: 400px; /* Fix hight, change later with JS */
+}
+
+#login-overlay {
+  z-index: 10100; /* Highest overlay after loading overlay */
+}
+
+#login-overlay * {
+  text-align: center; /* Center every text */
+}
+
+#login-overlay a {
+  cursor: pointer;
+}
+
+#login-overlay input,
+#login-overlay button {
+  margin-bottom: 10px; /* Spacing for all inputs and buttons */
+}
+
+#login-overlay form {
+  width: 300px;
+  margin: auto;
+  -webkit-transition: width 0.3s;
+  -moz-transition: width 0.3s;
+  -ms-transition: width 0.3s;
+  -o-transition: width 0.3s;
+  transition: width 0.3s;
+}
+
+#task-register {
+  display: none; /* Default hide register fields */
+}
+
+#loading-overlay {
+  display: table;
+  z-index: 10200; /* Highest overlay */
+  background: #00d4ff;
+  text-align: center;
+}
+
+#loading-overlay * {
+  color: #fff;
+}
+
+.loading-indicator {
+  position: relative;
+  width: 128px; /* 128x128px image, rest for :after */
+  height: 140px;
+  margin: 20px; /* Spacing of image to font */
+  background-image: url(../imgs/icon.png);
+  background-position: top center;
+  background-size: 100%; /* Do not for hight to leave space for the text of :after */
+  background-repeat: no-repeat;
+  margin: auto;
+  -webkit-animation: pulse 3s infinite;
+  -moz-animation: pulse 3s infinite;
+  -ms-animation: pulse 3s infinite;
+  -o-animation: pulse 3s infinite;
+  animation: pulse 3s infinite;
+}
+
+.loading-indicator:after {
+  content: 'LOADING';
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  bottom: 0; /* bottom full width, center font */
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+@-webkit-keyframes pulse {
+  0% { opacity: 1; }
+  25% { opacity: 1; }
+  50% { opacity: 0.2; }
+  75% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@-moz-keyframes pulse {
+  0% { opacity: 1; }
+  25% { opacity: 1; }
+  50% { opacity: 0.2; }
+  75% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@-ms-keyframes pulse {
+  0% { opacity: 1; }
+  25% { opacity: 1; }
+  50% { opacity: 0.2; }
+  75% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@-o-keyframes pulse {
+  0% { opacity: 1; }
+  25% { opacity: 1; }
+  50% { opacity: 0.2; }
+  75% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  25% { opacity: 1; }
+  50% { opacity: 0.2; }
+  75% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+footer {
+  padding: 20px;
+  text-align: center;
+}
+
+.btn-colored {
+  background-color: #00d4ff; /* theme color */
+  border-color: #00bde3; /* slightly darker theme color */
+  color: white;
+}
+
+.btn-colored:hover {
+  background-color: #00bde3; /* slightly darker theme color */
+  color: white;
+}
+
+@media (max-width: 1023px) {
+  #left-menu {
+    width: 0; /* hide left menu */
+    padding: 0;
+  }
+  #main-content {
+    margin-left: 0; /* remove margin for left menu */
+  }
+  #top-menu {
+    padding-left: 0; /* remove padding for left menu */
+  }
+  #top-menu-toggle {
+    right: 10px; /* move top toggle inside the view port */
+  }
+  #left-menu-toggle {
+    left: -40px; /* move left toggle outside the view port */
+  }
+  #menu>ul>li>a {
+    font-size: 33px; /* smaller menu font */
+  }
+  #menu {
+    padding: 0; /* remove padding for left menu */
+  }
+  #login-button {
+    right: 50px; /* move login button to avoid collision with #top-menu-toggle */
+  }
+}
+
+@media (max-width: 460px) {
+  #login-button {
+    opacity: 0; /* hide login button */
+  }
+  #menu>ul>li>a {
+    font-size: 22px; /* smaller menu font */
+  }
+  #login-overlay form {
+    width: 80%; /* variable with for login form (was fixed in px) */
+  }
+}
