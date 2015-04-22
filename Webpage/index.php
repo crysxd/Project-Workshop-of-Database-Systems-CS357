@@ -9,7 +9,7 @@
   <meta name="author" content="">
   <link rel="icon" href="favicon.ico">
 
-  <title>Carousel Template for Bootstrap</title>
+  <title>my-burger.com | Home</title>
 
   <!-- Bootstrap core CSS -->
   <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -25,47 +25,13 @@
   <![endif]-->
 
   <!-- Custom styles for this template -->
+  <link href="css/main.css" rel="stylesheet">
   <link href="css/index.css" rel="stylesheet">
 </head>
 <body>
   
-  <!-- Menu -->
-  <header class="noselect">
-    <!-- menu toggle top right -->
-    <div id="top-menu-toggle" class="menu-toggle">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-    </div>
-    
-    <!-- menu toggle top left -->
-    <div id="left-menu-toggle" class="menu-toggle">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-    </div>
-    
-    <!-- login button top right -->
-    <a id="login-button">Login</a>
-    
-    <!-- menu at top -->
-    <div id="top-menu">
-      <img id="logo" src="imgs/logo.png" alt>
-    </div>
-    
-    <!-- menu left -->
-    <div id="left-menu"></div>
-    
-    <!-- main menu overlay -->
-    <nav id="menu">
-      <ul>
-        <li><a>Home</a></li>
-        <li><a>How to order</a></li>
-        <li><a>Career</a></li>
-        <li><a>Help & FAQ</a></li>
-      </ul>
-    </nav>
-  </header>
+  <!-- Menus and overlays -->
+  <?php  include('shared/header.html'); ?>
   
   <div id="main-content">
     <!-- Splash screen and search bar -->
@@ -83,38 +49,38 @@
 
     <!-- About us and other text -->
     <section id="how-to">
-      <div class="row">
+      <div class="row equalheights">
         <div class="col-xs-12"><h2><center>Order your meal online in a few steps!</center></h2></div>
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="how-to-column">
-            <img src="" alt>
-            <h4>1. Select your favorite food online</h4>
-            <p>Search on my-burger.com for your favorite restaurant and 
-              select your meal and drinks.</p>
+            <div class="circle-number">1</div>
+            <h4>Select your favorite food online</h4>
+            <p>Search on my-burger.com for your favorite restaurant close to you and 
+              select your meals and drinks.</p>
           </div>
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="how-to-column">
-            <img src="" alt>
-            <h4>2. Login using your mobile number</h4>
+            <div class="circle-number">2</div>
+            <h4>Login using your mobile number</h4>
             <p>Login simply using your mobile number and your name. 
               No online payment information are required as you pay on arrival.</p>
           </div>
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="how-to-column">
-            <img src="" alt>
-            <h4>3. Wait for the courier to deliver your food</h4>
-            <p>After  you placed your order you will be informed about the ETA via SMS. 
-              As soon as the courier is on his way to you, you will receive a second SMS.</p>
+            <div class="circle-number">3</div>
+            <h4>Wait for the courier to deliver your food</h4>
+            <p>After  you placed your order you will be informed as soon as the 
+              courier is on his way to you including his ETA.</p>
           </div>
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="how-to-column">
-            <img src="" alt>
-            <h4>4. Pay on arrival and enjoy your meal!</h4>
-            <p>The courier will call you as soon as he is on your address. 
-              Attend him, receive your food and pay him directly</p>
+            <div class="circle-number">4</div>
+            <h4>Pay on arrival and enjoy your meal!</h4>
+            <p>The courier will call you as soon as he is on your address, 
+              receive your food and pay him.</p>
             <p>Enjoy your meal!</p>
           </div>
         </div>
@@ -122,17 +88,14 @@
     </section>
 
     <!-- Footer -->
-    <footer>
-      &copy; Myburger Inc. 2015 - All rights reserved.
-      <a href="index.html">Home</a> - 
-      <a href="index.html">Help & FAQ</a> - 
-      <a href="mailto:hello@my-burger.com">Contact us</a>
-    </footer>
+    <?php include('shared/footer.html'); ?>
+    
   </div>
   
   <!-- Load Scripts at the end to optimize site loading time -->
   <script src="js/jquery-2.1.0.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
   <script src="js/index.js"></script>
 </body>
 </html>

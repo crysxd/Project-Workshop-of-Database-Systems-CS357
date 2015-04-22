@@ -1,21 +1,9 @@
-if(/mobile|android|iOS|iPhone|iPad/i.test(navigator.userAgent)) {
-  $('#splash-screen').height($(window).height() - $('#splash-screen').css('margin-bottom').replace("px", ""));
-}
-
-$('.menu-toggle').click(function() {
-  if($('#menu:visible').length > 0) {
-    $('#menu').fadeOut();
-    $('.menu-toggle').removeClass('menu-toggle-open');
-    $('#login-button').css('opacity', '');
-  } else {
-    $('#menu').fadeIn().css('display','table');
-    $('.menu-toggle').addClass('menu-toggle-open');
-    $('#menu').addClass('menu-open');
-    loginWasVisible = $('#login-button').css('opacity');
-    $('#login-button').css('opacity', '1');
-  }    
+/* Click handler for search box */
+$('#splash-screen .search-box').click(function() {
+  leaveTo('restaurants.php');
 });
 
-$('#splash-screen .search-box').click(function() {
-  $(this).find('p').html('Searching...');
+/* When the doc is ready fade out the loading screen after 1s */
+$(document).ready(function() {
+  window.setTimeout(hideLoadingOverlay, 250);
 });
