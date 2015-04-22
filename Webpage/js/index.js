@@ -5,11 +5,6 @@ if(/mobile|android|iOS|iPhone|iPad/i.test(navigator.userAgent)) {
   $('#splash-screen').height($(window).height() - 20);
 }
 
-/* When the doc is ready fade out the loading screen after 1s */
-$(document).ready(function() {
-  window.setTimeout(hideLoadingOverlay, 1000);
-});
-
 /* Click handler for all menu-toggles */
 $('.menu-toggle').click(function() {
   /* If the menu is already visible */
