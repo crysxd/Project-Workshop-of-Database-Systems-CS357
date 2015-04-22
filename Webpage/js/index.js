@@ -1,6 +1,6 @@
 /* Click handler for search box */
 $('#splash-screen .search-box').click(function() {
-  showLoadingOverlay();
+  leaveTo('restaurants.php');
 });
 
 /* When the doc is ready fade out the loading screen after 1s */
