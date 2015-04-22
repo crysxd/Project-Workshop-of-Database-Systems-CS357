@@ -96,13 +96,13 @@ function startScrolling() {
 }
 
 /* Shows the loading overlay */
-function showLoadingOverlay() {
-  $('#loading-overlay').fadeIn().css('display','table');
+function showLoadingOverlay(callback) {
+  $('#loading-overlay').fadeIn(callback).css('display','table');
   stopScrolling();
 }
 
 /* Hides the loading overlay */
-function hideLoadingOverlay() {
-  $('#loading-overlay').fadeOut();
+function hideLoadingOverlay(callback) {
+  $('#loading-overlay').fadeOut(callback);
   startScrolling();
 }
