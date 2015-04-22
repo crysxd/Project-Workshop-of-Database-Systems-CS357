@@ -106,3 +106,10 @@ function hideLoadingOverlay(callback) {
   $('#loading-overlay').fadeOut(callback);
   startScrolling();
 }
+
+/* Shows the loading dialog and goes to the given url */
+function leaveTo(url) {
+  showLoadingOverlay(function() {
+    window.location.href = url;
+  });
+}
