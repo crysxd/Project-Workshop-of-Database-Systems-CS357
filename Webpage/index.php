@@ -88,12 +88,8 @@
     </section>
 
     <!-- Footer -->
-    <footer>
-      &copy; Myburger Inc. 2015 - All rights reserved.
-      <a href="index.html">Home</a> - 
-      <a href="index.html">Help & FAQ</a> - 
-      <a href="mailto:hello@my-burger.com">Contact us</a>
-    </footer>
+    <?php include('shared/footer.html'); ?>
+    
   </div>
   
   <!-- Load Scripts at the end to optimize site loading time -->
