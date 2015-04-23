@@ -1,0 +1,227 @@
+--------------------------------------------------------------------------------
+api/1.0/resturants?center_lat=&center_long=&start=&count=
+	- Parameter:
+		- center_lat: Latitude of the user's current position
+		- center_long: Longitude of the user's current position
+		- start: Start of the limit for the current query (see SQL LIMIT)
+		- count: Range of the limit for the current query (see SQL LIMIT)
+	- Answer Success:
+		{
+			"success": true
+			"count": 2,
+			"start": 0,
+			"data": [
+				{
+					"id": 0
+					"name": "Restaurant Uno",
+					"position_lat": 42.0234,
+					"position_long": 34.4545,
+					"avg_rating": 4.5,
+					"advertising": "The second best restaurant you will find!"
+					"min_order_value": 10.0
+					"image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
+					VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
+				},
+				{
+					"id": 1
+					"name": "Restaurant Duo",
+					"position_lat": 42.466,
+					"position_long": 34.5464,
+					"avg_rating": 4.8,
+					"advertising": "The best restaurant you will find!"
+					"min_order_value": 12.5
+					"image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
+					VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
+				}
+			]
+		}
+		- Answer Error (general, others possible):
+			{
+				"success": true,
+				"error_code": 100,
+				"error": "Insufficient query"
+			}
+
+--------------------------------------------------------------------------------
+api/1.0/meals?restaurant=&start=&count=&order=&direction=
+	- Parameter:
+		- restaurant: ID of the restaurant which's meals are requetsed
+		- order: The field which should be used to order the result (e.g. price)
+		- direction: The direction of the order, either ASC or DESC
+		- start: Start of the limit for the current query (see SQL LIMIT)
+		- count: Range of the limit for the current query (see SQL LIMIT)
+	- Answer:
+		{
+			"success": true
+			"count": 2,
+			"start": 0,
+			"data": [
+				{
+					"name": "Hot Rice",
+					"desription": "A wonderful pot of rice"
+					"price": 2.5,
+					"vegetarian": true
+					"vegan": true
+					"pork": false
+					"avg_rating": 4.8,
+					"phone": 1302348923849,
+					"address": "Dongchuan Road 345\nMinhang\nShanghai",
+					"image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
+					VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
+				},
+				{
+					"name": "Cold Rice",
+					"desription": "A wonderful pot of rice (cold)"
+					"price": 1,
+					"vegetarian": true
+					"vegan": true
+					"pork": false
+					"avg_rating": 1.4,
+					"phone": 1302348923849,
+					"address": "Dongchuan Road 345\nMinhang\nShanghai",
+					"image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
+					VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
+				}
+			]
+		}
+		- Answer Error (general, others possible):
+			{
+				"success": true,
+				"error_code": 100,
+				"error": "Insufficient query"
+			}
+
+--------------------------------------------------------------------------------
+api/1.0/ratings?meal=&start=&count=
+	- Parameter:
+		- meal: The ID of the meal which's ratings are requested
+		- start: Start of the limit for the current query (see SQL LIMIT)
+		- count: Range of the limit for the current query (see SQL LIMIT)
+	- Answer:
+		{
+			"success": true
+			"count": 2,
+			"start": 0,
+			"data": [
+				{
+					"composer": "cool_guy"
+					"rating": 4.5
+					"comment": "Best stuff!"
+				},
+				{
+					"composer": "other-guy"
+					"rating": 4.0
+					"comment": "Was ok!"
+				},
+			]
+		}
+		- Answer Error (general, others possible):
+			{
+				"success": true,
+				"error_code": 100,
+				"error": "Insufficient query"
+			}
+
+--------------------------------------------------------------------------------
+api/1.0/login?user=&pw=
+	- Parameter:
+		- user: The user's phone number
+		- pw: The user's password
+	- Answer Sucess:
+		{
+			"success": true,
+			"session": 848395782
+		}
+	- Answer Error:
+		{
+			"success": false,
+			"error_code": 1,
+			"error": "Password or user wrong!" 
+		}
+
+--------------------------------------------------------------------------------
+api/1.0/logout?user=&session=
+	- Parameter:
+		- user: The user's phone number
+		- session: The session which  shoud be terminated
+	- Answer (fixed, errors are not reported):
+		{
+			"success": true,
+		}
+
+--------------------------------------------------------------------------------
+api/1.0/order?user=&session=&order=
+	- Parameter:
+		- user: The user's phone number
+		- session: The session which is used to order
+		- order: the order, encoded as following:
+			{
+				"restaurant": 0,
+				"meals": [
+					{"id": 0, "quantity": 1},
+					{"id": 5, "quantity": 1},
+					{"id": 42, "quantity": 12},
+					{"id": 1337, "quantity": 1},
+				]
+			}
+	- Answer Success:
+		{
+			"success": true,
+			"eta_minutes": 32,
+			"restaurant_phone": 1303445439
+		}
+	- Answer Error:
+		{
+			"success": false,
+			"error_code": 32,
+			"error": "You have to be logged in to place a order"
+		}
+
+--------------------------------------------------------------------------------
+api/1.0/register?phone=&first_name=&sure_name=&user_name=street=&district=&city&
+pw=&update=
+	- Parameter:
+		- phone: The user's phone number
+		- first_name: The user's first name
+		- sure_name: The user's sure name
+		- street: The user's street and house number
+		- district: The user's district
+		- city: The user's city
+		- pw: The user's password
+		- update: true or false, if true the user already exists and the profile
+				  should be updated, not a new one created
+	- Answer Sucess:
+		{
+			"success": true,
+			"session": 848395782
+		}
+	- Answer Error:
+		{
+			"success": false,
+			"error_code": 2,
+			"error": "Phone number alreay in use" 
+		}
+
+--------------------------------------------------------------------------------
+api/1.0/user_infos?user=&session=
+	- Parameter:
+		- phone: The user's phone number
+		- session: The session in which the user is logged in
+	- Answer Sucess:
+		{
+			"success": true,
+			"user_name": "cool_guy",
+			"phone": 13032424398,
+			"first_name": "Cool",
+			"sure_name": "Guy",
+			"street": "Dongchuan Road 500",
+			"distrcit": "Minhang",
+			"city": "Shanghai",
+			"pw": "my_secret"
+		}
+	- Answer Error (session does not match user or user does not exist):
+		{
+			"success": false,
+			"error_code": 3,
+			"error": "You are not allowed to request this information" 
+		}
