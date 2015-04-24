@@ -41,7 +41,7 @@
         <h1>Restaurants close to you</h1>
         <div id="restaurants" class="row">
           <?php for($i=0; $i<11; $i++) { ?>
-            <a class="item col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <a class="item col-lg-3 col-md-4 col-sm-6 col-xs-12" href="javascript:leaveTo('meals.php')">
               <div class="row">
                 <div class="col-xs-5 data">
                   <img src="imgs/icon.png" alt>
