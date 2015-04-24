@@ -17,6 +17,8 @@ api/1.0/resturants?center_lat=&center_long=&start=&count=
                     "position_lat": 42.0234,
                     "position_long": 34.4545,
                     "avg_rating": 4.5,
+                    "rating_count": 102,
+                    "shpping_cost": 0,
                     "advertising": "The second best restaurant you will find!"
                     "min_order_value": 10.0
                     "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
