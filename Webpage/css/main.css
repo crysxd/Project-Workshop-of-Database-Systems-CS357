@@ -107,8 +107,8 @@ body {
   display: block;
   width: 50px;
   height: 50px;
-  background-position: 15px 15px;
-  background-size: 20px 20px;
+  background-position: 13px 13px;
+  background-size: 24px 24px;
   background-repeat: no-repeat;
   cursor: pointer;
   -webkit-transition: background-color .6s;
@@ -119,31 +119,31 @@ body {
 }
 
 #left-menu .social.facebook {
-  background-image: url(../imgs/facebook.png);
+  background-image: url(../imgs/facebook.svg);
 }
 
 #left-menu .social.twitter {
-  background-image: url(../imgs/twitter.png);
+  background-image: url(../imgs/twitter.svg);
 }
 
-#left-menu .social.google-plus {
-  background-image: url(../imgs/google-plus.png);
+#left-menu .social.github {
+  background-image: url(../imgs/github.svg);
 }
 
 #left-menu .social.reddit {
-  background-image: url(../imgs/reddit.png);
+  background-image: url(../imgs/reddit.svg);
 }
 
 #left-menu .social.share {
-  background-image: url(../imgs/share.png);
+  background-image: url(../imgs/more.svg);
 }
 
 #left-menu .social.facebook:hover {
   background-color: #3b5998;
 }
 
-#left-menu .social.google-plus:hover {
-  background-color: #dd4b39;
+#left-menu .social.github:hover {
+  background-color: #3871A8;
 }
 
 #left-menu .social.twitter:hover {
