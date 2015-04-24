@@ -30,6 +30,8 @@ api/1.0/resturants?center_lat=&center_long=&start=&count=
                     "position_lat": 42.466,
                     "position_long": 34.5464,
                     "avg_rating": 4.8,
+                    "rating_count": 102,
+                    "shpping_cost": 0,
                     "advertising": "The best restaurant you will find!"
                     "min_order_value": 12.5
                     "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
