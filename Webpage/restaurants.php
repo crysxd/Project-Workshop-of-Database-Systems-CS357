@@ -36,12 +36,37 @@
   <div id="main-content">
     
     <!-- Restaurants list -->
-    <section id="restaurants">
-
-    </section>
-
+    <section id="splash-screen">
+      <div class="splash-container">
+        <h1>Restaurants close to you</h1>
+        <div id="restaurants" class="row">
+          <?php for($i=0; $i<11; $i++) { ?>
+            <a class="item col-lg-3 col-md-4 col-sm-6 col-xs-12">
+              <div class="row">
+                <div class="col-xs-5 data">
+                  <img src="imgs/icon.png" alt>
+                </div>
+                <div class="col-xs-7 data">
+                  <h4 class="restaurant-name">El Davido</h4>
+                  <p><span class="rating-stars">☆☆☆☆☆</span>&nbsp;<span class="rating-count">395</span></p>
+                  <p>From: <span class="min-order-value">30¥</span></p>
+                  <p>Shipping: <span class="shipping-costs">Free</span></p>
+                  <p>ETA: <span class="eta">30min</span></p>
+                </div>
+              </div>
+            </a>
+          <?php } ?>
+          <a class="load-more-item col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <div class="data">
+              <div class="reload-icon"></div>
+              <h4>Load more</h4> 
+            </div>
+          </a>
+        </div>
+      </div>
     <!-- Footer -->
     <?php include('shared/footer.html'); ?>
+    </section>
     
   </div>
   
