@@ -68,8 +68,6 @@ api/1.0/meals?restaurant=&start=&count=&order=&direction=
                     "vegan": true
                     "pork": false
                     "avg_rating": 4.8,
-                    "phone": 1302348923849,
-                    "address": "Dongchuan Road 345\nMinhang\nShanghai",
                     "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
                     VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
                 },
@@ -81,8 +79,6 @@ api/1.0/meals?restaurant=&start=&count=&order=&direction=
                     "vegan": true
                     "pork": false
                     "avg_rating": 1.4,
-                    "phone": 1302348923849,
-                    "address": "Dongchuan Road 345\nMinhang\nShanghai",
                     "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
                     VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
                 }
