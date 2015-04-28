@@ -480,6 +480,27 @@ footer {
 }
 
 @media (max-width: 460px) {
+  #splash-screen>.splash-container {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 150px;
+  }
+  
+  #splash-screen {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  #restaurants {
+    border-radius: 0;
+    margin-bottom: 0;
+  }
+  
+  footer {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
   #login-button {
     opacity: 0; /* hide login button */
   }
