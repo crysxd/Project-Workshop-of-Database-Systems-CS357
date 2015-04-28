@@ -1,3 +1,7 @@
+#restaurants {
+  margin: 0;
+}
+
 #restaurants>* {
   padding: 0;
   margin: 0;
@@ -18,7 +22,7 @@
 
 #restaurants>.item:hover,
 #restaurants>.load-more-item:hover {
-  background: rgba(0, 0, 0, 0.05); /* Light hover */
+  background: rgba(0, 0, 0, 0.1); /* Light hover */
 }
 
 #restaurants>.load-more-item {
@@ -102,9 +106,4 @@
 
 #restaurants>.col-md-4:nth-child(4):hover {
   background: #01c5ed; /* Background forth column */
-}
-
-#splash-screen>footer {
-  margin-left: -70px; /* stretch footer over full width */
-  margin-right: -70px;
 }
