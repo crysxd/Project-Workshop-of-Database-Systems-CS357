@@ -35,13 +35,20 @@
   
   <div id="main-content">
     
-    <!-- How to order list -->
-    <section id="meals">
+    <!-- meals list -->
+    <section id="splash-screen">
+      <div class="splash-container">
+        <h1>Meals of <span class="restaurant-name"></span></h1>
+        <div class="splash-container-scroller">
+          isodhfoi
+        </div>
+      </div>
+      
+      <!-- Footer -->
+      <?php include('shared/footer.html'); ?>
       
     </section>
 
-    <!-- Footer -->
-    <?php include('shared/footer.html'); ?>
     
   </div>
   
