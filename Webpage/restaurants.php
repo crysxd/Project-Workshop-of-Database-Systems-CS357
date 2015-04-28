@@ -39,7 +39,7 @@
     <section id="splash-screen">
       <div class="splash-container">
         <h1>Restaurants close to you</h1>
-        <div id="restaurants" class="row">
+        <div id="restaurants" class="splash-container-scroller row">
           <?php for($i=0; $i<11; $i++) { ?>
             <a class="item col-lg-3 col-md-4 col-sm-6 col-xs-12" href="javascript:leaveTo('meals.php')">
               <div class="row">

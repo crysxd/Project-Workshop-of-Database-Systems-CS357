@@ -1,3 +1,9 @@
+#splash-screen {
+  height: calc(100% - 20px) !important; /* View port height -20 px */
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .search-box {
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.80);
