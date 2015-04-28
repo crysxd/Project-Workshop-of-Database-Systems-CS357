@@ -40,7 +40,15 @@
       <div class="splash-container">
         <h1>Meals of <span class="restaurant-name"></span></h1>
         <div class="splash-container-scroller">
-          isodhfoi
+          <div id="restaurant-info">
+            <img src="imgs/icon.png" class="pull-left" alt>
+            <h4 class="restaurant-name">A Restaurant</h4>
+            <p><span class="restaurant-rating-stars">☆☆☆☆☆</span>&nbsp;(<span class="restaurant-rating-count">395</span>)</p>
+            <p class="restaurant-description">A super cool restaurant close to you. Choose a cool meal to be cool.</p>
+          </div>
+          <div id="meals-list">
+          
+          </div>
         </div>
       </div>
       

@@ -1,25 +1,19 @@
-#splash-screen {
-  padding-left: 70px;
-  padding-right: 70px;
-  height: 100% !important; /* Override height 100%-20px from main.css */
-  overflow-y: scroll;
-  overflow-x: hidden;
+#restaurant-info {
+  padding: 20px;
+  margin-bottom: 20px;
+  border-bottom: solid 1px #c1c1c1;
+  min-height: 100px;
+  float:left;
+  width: 100%;
 }
 
-#splash-screen>.splash-container {
-    padding-top: 250px; /* Move container content down */
-    min-height: 100%; /*at least 100% height, otherwise the footer will be misaligned */
+#restaurant-info img {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
 }
 
-#splash-screen>footer {
-  margin-left: -70px; /* stretch footer over full width */
-  margin-right: -70px;
-}
-
-#splash-screen>.splash-container>.splash-container-scroller {
-  background: rgba(253, 253, 253, 0.80);
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
-  margin-bottom: 80px; /* Margin to footer */
+#restaurant-info h4,
+#restaurant-info p {
+  margin: 0;
 }
