@@ -35,21 +35,9 @@
   
   <div id="main-content">
     
-    <div id="main-contant-overlay"></div>
-    
     <!-- How to order list -->
     <section id="meals">
       
-    </section>
-    
-    <!-- How to order list -->
-    <section id="left-drawer">
-      <div id="drawer-toggle">
-        <div class="top-bar"></div>
-        <div class="bottom-bar"></div>
-      </div>
-      <h4 id="drawer-title">Your order</h4>
-      <h4>Your order</h4>
     </section>
 
     <!-- Footer -->
