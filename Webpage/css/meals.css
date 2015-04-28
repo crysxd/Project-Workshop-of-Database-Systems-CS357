@@ -1,7 +1,5 @@
 #restaurant-info {
   padding: 20px;
-  margin-bottom: 20px;
-  border-bottom: solid 1px #c1c1c1;
   min-height: 100px;
   float:left;
   width: 100%;
@@ -15,5 +13,40 @@
 
 #restaurant-info h4,
 #restaurant-info p {
+  margin: 0;
+}
+
+#meals-list th,
+#meals-list td {
+  border-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+#meals-list .table-hover>tbody>tr:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#meals-list .table>tbody>tr {
+  height: 32px;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  line-height: 32px;
+}
+
+#meals-list .table-hover > tbody > tr{
+  -webkit-transition: background-color 0.6s;
+  -moz-transition: background-color 0.6s;
+  -ms-transition: background-color 0.6s;
+  -o-transition: background-color 0.6s;
+  transition: background-color 0.6s;
+}
+
+#meals-list table {
   margin: 0;
 }

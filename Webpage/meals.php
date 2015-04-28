@@ -38,7 +38,7 @@
     <!-- meals list -->
     <section id="splash-screen">
       <div class="splash-container">
-        <h1>Meals of <span class="restaurant-name"></span></h1>
+        <h1>Meals of <span class="restaurant-name">a Restaurant</span></h1>
         <div class="splash-container-scroller">
           <div id="restaurant-info">
             <img src="imgs/icon.png" class="pull-left" alt>
@@ -47,7 +47,21 @@
             <p class="restaurant-description">A super cool restaurant close to you. Choose a cool meal to be cool.</p>
           </div>
           <div id="meals-list">
-          
+            <table class="table table-hover">
+              <thead>
+                <tr><th>Meal</th><th>Rating</th><th>Price</th><th>Order</th></tr>
+              </thead>
+              <tbody>
+                <?php for($i=0; $i<20; $i++) {?>
+                  <tr>
+                    <td>A cool meal</td>
+                    <td><span class="meal-rating-stars">☆☆☆☆☆</span>&nbsp;(<span class="meal-rating-count">395</span>)</td>
+                    <td>32€</td>
+                    <td></td>
+                  </tr>
+                <?php } ?>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
