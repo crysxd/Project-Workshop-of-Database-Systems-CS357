@@ -54,10 +54,14 @@
               <tbody>
                 <?php for($i=0; $i<20; $i++) {?>
                   <tr>
-                    <td>A cool meal</td>
-                    <td><span class="meal-rating-stars">☆☆☆☆☆</span>&nbsp;(<span class="meal-rating-count">395</span>)</td>
-                    <td>32€</td>
-                    <td></td>
+                    <td class="meal-name">A cool meal</td>
+                    <td class="meal-rating">
+                      <span class="meal-rating-stars">☆☆☆☆☆</span>
+                      &nbsp;
+                      (<span class="meal-rating-count">395</span>)
+                    </td>
+                    <td class="meal-price">32€</td>
+                    <td class="meal-options"></td>
                   </tr>
                 <?php } ?>
               </tbody>
@@ -70,7 +74,6 @@
       <?php include('shared/footer.html'); ?>
       
     </section>
-
     
   </div>
   
