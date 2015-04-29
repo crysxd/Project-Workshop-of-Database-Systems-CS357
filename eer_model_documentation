@@ -1,0 +1,32 @@
+I changed the address information to the chinese post standard
+
+I used some parts of this sql style guide http://leshazlewood.com/software-engineering/sql-style-guide/#comment_count , but not 100 percent, I am also not sure yet if I change somethings. When I am sure, I commit naming conventions for SQL.
+
+The id of the user is used as a foreign key only in two tables. So if the users changes his/her phone number we have to update every entry in "rating" and "delivery"related to his/her phone. Since any user won't have a unmanagable large amount of ratings or deliveries, the phone number won't be changed often and the joining will be easier with a natural key, we should consider to just use the phone as a key. On the other hand with a surrogate key, we do not have the trouble of updating. No business intelligence.
+http://www.databasejournal.com/features/mssql/article.php/3922066/SQL-Server-Natural-Key-Verses-Surrogate-Key.htm
+
+Since every dish has a restaurant id, we don't have to add the restaurant id to a rating
+
+Every delivery state should be uniquely defined by the delivery id and the date+time, therefore we don't need an additional surrogate key.
+
+To prevent a large amount of repetive opening hours, we create a many to many relation with a mapping table.
+
+I deleted the spicy parameter and made a tag out of it. I think this easier to handle for us and the user.
+
+Enums
+Days for opening hours:
+0 sunday
+1 monday
+...
+6 saturday
+7 only working days
+8 weekend
+9 whole week
+10 monday to saturday
+
+Tags for dishes:
+0 Vegetarian
+1 Vegan
+2 Spicy
+3 Very Spicy
+4 Pork
