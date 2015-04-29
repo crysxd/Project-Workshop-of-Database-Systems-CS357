@@ -8,11 +8,9 @@ api/1.0/resturants?center_lat=&center_long=&start=&count=
     - Answer Success:
         {
             "success": true
-            "count": 2,
-            "start": 0,
             "data": [
                 {
-                    "id": 0
+                    "id": 0,
                     "name": "Restaurant Uno",
                     "position_lat": 42.0234,
                     "position_long": 34.4545,
@@ -21,11 +19,12 @@ api/1.0/resturants?center_lat=&center_long=&start=&count=
                     "shpping_cost": 0,
                     "advertising": "The second best restaurant you will find!"
                     "min_order_value": 10.0
+                    "eta": 30,
                     "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
                     VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
                 },
                 {
-                    "id": 1
+                    "id": 1,
                     "name": "Restaurant Duo",
                     "position_lat": 42.466,
                     "position_long": 34.5464,
@@ -33,18 +32,19 @@ api/1.0/resturants?center_lat=&center_long=&start=&count=
                     "rating_count": 102,
                     "shpping_cost": 0,
                     "advertising": "The best restaurant you will find!"
-                    "min_order_value": 12.5
+                    "min_order_value": 12.5,
+                    "eta": 30,
                     "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
                     VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
                 }
             ]
         }
-        - Answer Error (general, others possible):
-            {
-                "success": false,
-                "error_code": 100,
-                "error": "Insufficient query"
-            }
+    - Answer Error (general, others possible):
+        {
+            "success": false,
+            "error_code": 100,
+            "error": "Insufficient query"
+        }
 
 --------------------------------------------------------------------------------
 api/1.0/meals?restaurant=&start=&count=&order=&direction=
@@ -56,20 +56,18 @@ api/1.0/meals?restaurant=&start=&count=&order=&direction=
         - count: Range of the limit for the current query (see SQL LIMIT)
     - Answer:
         {
-            "success": true
-            "count": 2,
-            "start": 0,
+            "success": true,
             "data": [
                 {
                     "name": "Hot Rice",
                     "desription": "A wonderful pot of rice"
                     "price": 2.5,
-                    "vegetarian": true
-                    "vegan": true
-                    "pork": false
+                    "vegetarian": true,
+                    "vegan": true,
+                    "pork": false,
+                    "spicy": 3,
                     "avg_rating": 4.8,
-                    "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
-                    VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
+                    "rating_count": 24
                 },
                 {
                     "name": "Cold Rice",
@@ -79,17 +77,16 @@ api/1.0/meals?restaurant=&start=&count=&order=&direction=
                     "vegan": true
                     "pork": false
                     "avg_rating": 1.4,
-                    "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
-                    VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
+                    "rating_count": 24
                 }
             ]
         }
-        - Answer Error (general, others possible):
-            {
-                "success": false,
-                "error_code": 100,
-                "error": "Insufficient query"
-            }
+    - Answer Error (general, others possible):
+        {
+            "success": false,
+            "error_code": 100,
+            "error": "Insufficient query"
+        }
 
 --------------------------------------------------------------------------------
 api/1.0/ratings?meal=&start=&count=
@@ -100,27 +97,29 @@ api/1.0/ratings?meal=&start=&count=
     - Answer:
         {
             "success": true
-            "count": 2,
-            "start": 0,
+            "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
+                    VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
             "data": [
                 {
-                    "composer": "cool_guy"
-                    "rating": 4.5
-                    "comment": "Best stuff!"
+                    "composer": "cool_guy",
+                    "rating": 4.0,
+                    "comment": "Best stuff!",
+                    "date": "2015-04-31"
                 },
                 {
-                    "composer": "other-guy"
-                    "rating": 4.0
-                    "comment": "Was ok!"
+                    "composer": "other-guy",
+                    "rating": 4.0,
+                    "comment": "Was ok!",
+                    "date": "2015-04-31"
                 },
             ]
         }
-        - Answer Error (general, others possible):
-            {
-                "success": false,
-                "error_code": 100,
-                "error": "Insufficient query"
-            }
+    - Answer Error (general, others possible):
+        {
+            "success": false,
+            "error_code": 100,
+            "error": "Insufficient query"
+        }
 
 --------------------------------------------------------------------------------
 api/1.0/login?user=&pw=
@@ -179,7 +178,7 @@ api/1.0/order?user=&session=&order=
 
 --------------------------------------------------------------------------------
 api/1.0/register?phone=&first_name=&sure_name=&user_name=street=&district=&city&
-pw=&session=
+pw=&nick=&session=
     - Parameter:
         - phone: The user's phone number
         - first_name: The user's first name
@@ -188,6 +187,7 @@ pw=&session=
         - district: The user's district
         - city: The user's city
         - pw: The user's password
+        - nick: The user's nick name
         - session: if session is set, the user already exists (and is logged in)
                    and the profile should be updated, not a new one created
     - Answer Sucess:
@@ -205,7 +205,7 @@ pw=&session=
 --------------------------------------------------------------------------------
 api/1.0/user_infos?user=&session=
     - Parameter:
-        - phone: The user's phone number
+        - user: The user's phone number
         - session: The session in which the user is logged in
     - Answer Sucess:
         {
