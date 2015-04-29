@@ -34,7 +34,7 @@
 
   <!-- main menu overlay -->
   <nav id="menu" class="overlay">
-    <ul>
+    <ul class="overlay-content">
       <li><a href="javascript:leaveTo('index.php')">Home</a></li>
       <li><a href="javascript:leaveTo('info.php#how-to')">How to order</a></li>
       <li><a href="javascript:leaveTo('info.php#career')">Career</a></li>
@@ -44,14 +44,14 @@
 
   <!-- loading overlay -->
   <nav id="loading-overlay" class="overlay">
-    <div>
+    <div class="overlay-content">
       <div class="loading-indicator"></div>
     </div>
   </nav>
 
   <!-- login overlay -->
-  <nav id="login-overlay" class="overlay">
-    <div>
+  <div id="login-overlay" class="overlay">
+    <div class="overlay-content">
       <div class="scroll">
         <form>
           <div id="task-login">
@@ -90,5 +90,5 @@
         </form>
       </div>
     </div>
-  </nav>
+  </div>
 </header>

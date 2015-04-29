@@ -56,8 +56,7 @@
                   <tr>
                     <td class="meal-name">A cool meal</td>
                     <td class="meal-rating">
-                      <span class="meal-rating-stars">☆☆☆☆☆</span>
-                      &nbsp;
+                      <span class="meal-rating-stars">☆☆☆☆☆ </span>
                       (<span class="meal-rating-count">395</span>)
                     </td>
                     <td class="meal-price">32€</td>
@@ -72,6 +71,16 @@
       
       <!-- Footer -->
       <?php include('shared/footer.html'); ?>
+      
+          
+      <!-- Overlay to display meal informations -->
+      <section id="meal-info-overlay" class="overlay overlay-modal">
+        <div class="overlay-close-button menu-toggle menu-toggle-open">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </section>
       
     </section>
     

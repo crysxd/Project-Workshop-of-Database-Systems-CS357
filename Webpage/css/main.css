@@ -11,12 +11,12 @@ body {
 }
 
 .noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #main-content {
@@ -289,11 +289,26 @@ body {
   background: #fff;
 }
 
-.overlay>* {
+.overlay-modal {
+  z-index: 10010;
+}
+
+.overlay>.overlay-content {
   display: table-cell; /* Center the main component in the overlay vertically */
   vertical-align: middle; 
   padding: 0;
   width: 100%;
+}
+
+.overlay-close-button {
+  position: fixed;
+  z-index: 10011;
+  right: 10px;
+  width: 30px !important;
+}
+
+.overlay-close-button .bar {
+  background: #00d4ff !important;
 }
 
 #menu {

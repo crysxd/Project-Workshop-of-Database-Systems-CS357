@@ -36,7 +36,7 @@
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  line-height: 32px;
+  vertical-align: middle;
 }
 
 .table td:first-child,
