@@ -2,6 +2,7 @@ History:
 
 -----08.05.2015-----
 Do visitor, customer and restaurant need a session id in our database?
+We would just need a session id of a visitor to save his/her shopping basket
 
 A shopping basket would be a delivery status with name 'Unsubmitted'?
 
