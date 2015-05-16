@@ -1,10 +1,29 @@
 --------------------------------------------------------------------------------
-api/1.0/resturants?center_lat=&center_long=&start=&count=
+General:
+Every answer must contain the field success. This field (boolean) 
+must either be true or false. If success is false the field error_code must 
+be provided (integer).
+
+--------------------------------------------------------------------------------
+General Error Codes:
+0:  Internal/Genral Error
+1:  Called a protected URL from invalid session
+2:  Required parameter missing
+
+--------------------------------------------------------------------------------
+api/1.0/customer/resturants?center_lat=&center_long=&start=&count=
+    - Description:
+        Returns a list of all restaurants in a set radius arround the supplied 
+        location. If no location is supplied random restaurants are returned.
+    - Method: 
+        GET
     - Parameter:
         - center_lat: Latitude of the user's current position
         - center_long: Longitude of the user's current position
         - start: Start of the limit for the current query (see SQL LIMIT)
         - count: Range of the limit for the current query (see SQL LIMIT)
+    - Errors:
+        No restaurants found: Return empty list
     - Answer Success:
         {
             "success": true
@@ -17,10 +36,9 @@ api/1.0/resturants?center_lat=&center_long=&start=&count=
                     "avg_rating": 4.5,
                     "rating_count": 102,
                     "shpping_cost": 0,
-                    "advertising": "The second best restaurant you will find!"
                     "min_order_value": 10.0
                     "eta": 30,
-                    "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
+                    "icon": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
                     VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
                 },
                 {
@@ -31,74 +49,82 @@ api/1.0/resturants?center_lat=&center_long=&start=&count=
                     "avg_rating": 4.8,
                     "rating_count": 102,
                     "shpping_cost": 0,
-                    "advertising": "The best restaurant you will find!"
                     "min_order_value": 12.5,
                     "eta": 30,
-                    "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
+                    "icon": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
                     VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
                 }
             ]
         }
-    - Answer Error (general, others possible):
-        {
-            "success": false,
-            "error_code": 100,
-            "error": "Insufficient query"
-        }
 
 --------------------------------------------------------------------------------
-api/1.0/meals?restaurant=&start=&count=&order=&direction=
+api/1.0/customer/menu?restaurant=&start=&count=&order=&direction=
+    - Description:
+        Returns the menu of the restaurant with the given id.
+    - Method:
+        GET
     - Parameter:
         - restaurant: ID of the restaurant which's meals are requetsed
         - order: The field which should be used to order the result (e.g. price)
         - direction: The direction of the order, either ASC or DESC
         - start: Start of the limit for the current query (see SQL LIMIT)
         - count: Range of the limit for the current query (see SQL LIMIT)
+    - Errors:
+        Restaurant has no meals/restaurant not found: Return empty list
     - Answer:
         {
             "success": true,
+            "description": "The best restaurant you will find!",
+            "min_order_value": 12.4,
+            "icon": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
+                    VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms=",
+            "shipping_cost": 0,
             "data": [
                 {
                     "name": "Hot Rice",
-                    "desription": "A wonderful pot of rice"
                     "price": 2.5,
-                    "vegetarian": true,
-                    "vegan": true,
-                    "pork": false,
                     "spicy": 3,
                     "avg_rating": 4.8,
                     "rating_count": 24
+                    "tags": [
+                        {"name": "Vegan", "color": "#FF0000"},
+                        {"name": "Vegetarian", "color": "#00FF00"}
+                    ]
                 },
                 {
-                    "name": "Cold Rice",
-                    "desription": "A wonderful pot of rice (cold)"
-                    "price": 1,
-                    "vegetarian": true
-                    "vegan": true
-                    "pork": false
-                    "avg_rating": 1.4,
+                    "name": "Hot Rice",
+                    "price": 2.5,
+                    "spicy": 3,
+                    "avg_rating": 4.8,
                     "rating_count": 24
+                    "tags": [
+                        {"name": "Vegan", "color": "#FF0000"},
+                        {"name": "Vegetarian", "color": "#00FF00"}
+                    ]
                 }
             ]
         }
-    - Answer Error (general, others possible):
-        {
-            "success": false,
-            "error_code": 100,
-            "error": "Insufficient query"
-        }
-
 --------------------------------------------------------------------------------
-api/1.0/ratings?meal=&start=&count=
+api/1.0/customer/dish?dish=&start=&count=
+    - Description:
+        Returns the ratings and further information for the dish with the 
+        given id.
+    - Method:
+        GET
     - Parameter:
-        - meal: The ID of the meal which's ratings are requested
+        - dish: The ID of the meal which's ratings are requested
         - start: Start of the limit for the current query (see SQL LIMIT)
         - count: Range of the limit for the current query (see SQL LIMIT)
+    - Error:
+        Meal not found: Return error code 100
     - Answer:
         {
             "success": true
             "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
-                    VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
+                    VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms=",
+            "description": "Lorem ipsum dolor sit amet",
+            "avg_rating": 4.5,
+            "rating_count": 234,
             "data": [
                 {
                     "composer": "cool_guy",
@@ -114,114 +140,502 @@ api/1.0/ratings?meal=&start=&count=
                 },
             ]
         }
-    - Answer Error (general, others possible):
-        {
-            "success": false,
-            "error_code": 100,
-            "error": "Insufficient query"
-        }
 
 --------------------------------------------------------------------------------
-api/1.0/login?user=&pw=
+api/1.0/customer/login?user=&pw=
+    - Description:
+        Creates a session for the user if the pw is correct.
+    - Method:
+        GET
     - Parameter:
         - user: The user's phone number
         - pw: The user's password
+    - Error:
+        Password or user wrong: Return error code 100
     - Answer Sucess:
         {
             "success": true,
             "session": 848395782
         }
-    - Answer Error:
-        {
-            "success": false,
-            "error_code": 1,
-            "error": "Password or user wrong!" 
-        }
-
 --------------------------------------------------------------------------------
-api/1.0/logout?user=&session=
+api/1.0/customer/logout?user=&session=
+    - Description:
+        Terminates the session if the phone number corresponses to the one saved
+        in the database
+    - Method:
+        GET
     - Parameter:
         - user: The user's phone number
-        - session: The session which  shoud be terminated
+        - session: The session which  should be terminated
+    - Errors:
+        Errors are not reported
     - Answer (fixed, errors are not reported):
         {
             "success": true,
         }
 
 --------------------------------------------------------------------------------
-api/1.0/order?user=&session=&order=
+api/1.0/customer/delivery?user=&session=&order=
+    - Description:
+        Used to place a delivery. The user and the session must be valid.
+    - Method:
+        PUT
     - Parameter:
         - user: The user's phone number
         - session: The session which is used to order
         - order: the order, encoded as following:
             {
                 "restaurant": 0,
-                "meals": [
+                "dishes": [
                     {"id": 0, "quantity": 1},
                     {"id": 5, "quantity": 1},
                     {"id": 42, "quantity": 12},
                     {"id": 1337, "quantity": 1},
                 ]
             }
+    - Errors:
+        - Dish is not available in restaurant: Return error code 100
     - Answer Success:
         {
             "success": true,
             "eta_minutes": 32,
             "restaurant_phone": 1303445439
         }
-    - Answer Error:
-        {
-            "success": false,
-            "error_code": 32,
-            "error": "You have to be logged in to place a order"
-        }
 
 --------------------------------------------------------------------------------
-api/1.0/register?phone=&first_name=&sure_name=&user_name=street=&district=&city&
-pw=&nick=&session=
+api/1.0/customer/info?phone=&first_name=&sure_name=&password=&street=&district=&city=
+&zip=&province=&pw=&nick=&session=
+    - Description:
+        Used to receive and set user informations or to create a completely new
+        user.
+    - Method:
+        GET, PUT, UPDATE
+        If PUT is used a new user is generated, therefore the new session is 
+        returned in the anser. If UPDATE or GET is used the user must be logged
+        in and the parameter session must be supplied
     - Parameter:
-        - phone: The user's phone number
-        - first_name: The user's first name
-        - sure_name: The user's sure name
-        - street: The user's street and house number
-        - district: The user's district
-        - city: The user's city
-        - pw: The user's password
-        - nick: The user's nick name
-        - session: if session is set, the user already exists (and is logged in)
-                   and the profile should be updated, not a new one created
-    - Answer Sucess:
+        - GET:
+            - session: The session which is used to update
+            - phone: The user's phone number
+        - UPDATE:     
+            - first_name: The user's first name
+            - sure_name: The user's sure name
+            - street: The user's street and house number
+            - district: The user's district
+            - postcode: The user's postal  code
+            - city: The user's city
+            - province: The user's province
+            - pw: The user's password
+            - nick: The user's nick name
+            - password: The user's password
+            - session: The session which is used to update
+        - PUT:
+            - first_name: The user's first name
+            - sure_name: The user's sure name
+            - street: The user's street and house number
+            - district: The user's district
+            - postcode: The user's postal  code
+            - city: The user's city
+            - province: The user's province
+            - pw: The user's password
+            - password: The user's password
+            - nick: The user's nick name
+    - Errors:
+        Username already exists: Return error code 100
+        Phone number already exists: Return error code 101
+        Password insufficient: Return error code 102
+    - Answer Sucess PUT:
         {
             "success": true,
             "session": 848395782
         }
-    - Answer Error:
-        {
-            "success": false,
-            "error_code": 2,
-            "error": "Phone number alreay in use" 
-        }
-
---------------------------------------------------------------------------------
-api/1.0/user_infos?user=&session=
-    - Parameter:
-        - user: The user's phone number
-        - session: The session in which the user is logged in
-    - Answer Sucess:
+    - Answer Sucess UPDATE:
         {
             "success": true,
-            "user_name": "cool_guy",
+        }
+    - Answer Sucess GET:
+        {
+            "success": true,
+            "nick": "cool_guy",
             "phone": 13032424398,
             "first_name": "Cool",
             "sure_name": "Guy",
             "street": "Dongchuan Road 500",
             "distrcit": "Minhang",
+            "postcode": "3847",
+            "province": "Shanghai",
             "city": "Shanghai",
             "pw": "my_secret"
+            "ratable_dishes": [
+                {
+                    "id": 0, 
+                    "name": "sksdfh", 
+                    "date": "2015-05-14", 
+                    "restaurant": "Cool Restaurant"
+                },
+                {
+                    "id": 1, 
+                    "name": "2sdf", 
+                    "date": "2015-05-13", 
+                    "restaurant": "Cool Restaurant"
+                },
+            ]
+            "deliveries": [
+                {
+                    "id": 2,
+                    "date": "2015-05-14",
+                    "shipping_cost": 43.3,
+                    "total_price": 345.34,
+                    "restaurant": "A cool Restaurant",
+                    "state": "Done",
+                    "dishes": [
+                        {
+                            "name": "Dish name",
+                            "amount": 3,
+                            "price_per_item": 45.5
+                        }
+                    ]
+                },
+                {
+                    "id": 3,
+                    "date": "2015-02-14",
+                    "shipping_cost": 0.0,
+                    "total_price": 345.34,
+                    "restaurant": "A cool Restaurant",
+                    "state": "Done",
+                    "dishes": [
+                        {
+                            "name": "Dish name",
+                            "amount": 3,
+                            "price_per_item": 45.5
+                        }
+                    ]
+                }
+            ]
         }
-    - Answer Error (session does not match user or user does not exist):
+
+--------------------------------------------------------------------------------
+api/1.0/customer/rate?user=&session=&meal=&rating=&comment=
+    - Description:
+        Used to rate a meal.
+    - Method:
+        PUT
+    - Errors:
+        User is not allowed to rate meal: Return error code 100
+        Comment is too long: Return error code 101
+    - Answer Success:
         {
-            "success": false,
-            "error_code": 3,
-            "error": "You are not allowed to request this information" 
+            "success": true
+        }
+
+--------------------------------------------------------------------------------
+api/1.0/restaurant/login?id=&password=
+    - Description:
+        Used to log in as restaurant
+    - Method:
+        GET
+    - Parameter:
+        - id: The restaurant's phone number
+        - pw: The restaurant's password
+    - Error:
+        Password or id wrong: Return error code 100
+    - Answer Sucess:
+        {
+            "success": true,
+            "session": 848395782
+        }
+
+--------------------------------------------------------------------------------
+api/1.0/restaurant/logout?id=&session=
+    - Description:
+        Used to log out as restaurant
+    - Method:
+        GET
+    - Parameter:
+        - id: The restaurant's id
+        - session: The session which  should be terminated
+    - Errors:
+        Errors are not reported
+    - Answer (fixed, errors are not reported):
+        {
+            "success": true,
+        }
+
+--------------------------------------------------------------------------------
+api/1.0/restaurant/info?session=&name=&min_order_value=&shipping_cost=
+&max_delivery_range&icon=&street=&postcode=&district=&city=&province=
+&position_lat=&position_long=&password=&description
+    - Description:
+        Used to receive and set informations about a restaurant or to create 
+        a completely new restaurant user.
+    - Method:
+        GET, PUT, UPDATE
+        If PUT is used a new restaurant is generated, therefore the new session 
+        is returned in the answer. If UPDATE or GET is used the restaurant
+        must be logged in and the parameter session must be supplied
+    - Parameter:
+        - GET:
+            - session: The session which is used to update
+            - id: The restaurant's id
+        - UPDATE:     
+            - name: The restaurant's name
+            - min_order_value: The restaurant's minimum order value
+            - shipping_cost: The restaurant's shipping costs
+            - max_delivery_range: The restaurant's maximum delivery range
+            - icon: The restaurant's icon
+            - street: The restaurant's street
+            - postcode: The restaurant's postal code
+            - district: The restaurant's district
+            - city: The restaurant's city
+            - province: The restaurant's province
+            - position_lat: The restaurant's latitude
+            - poisition_long: The restaurant's longitude
+            - password: The restaurant's password
+            - description: The restaurant's description text
+            - session: The session that is used to change the information
+        - PUT:
+            - name: The restaurant's name
+            - min_order_value: The restaurant's minimum order value
+            - shipping_cost: The restaurant's shipping costs
+            - max_delivery_range: The restaurant's maximum delivery range
+            - icon: The restaurant's icon
+            - street: The restaurant's street
+            - postcode: The restaurant's postal code
+            - district: The restaurant's district
+            - city: The restaurant's city
+            - province: The restaurant's province
+            - position_lat: The restaurant's latitude
+            - poisition_long: The restaurant's longitude
+            - password: The restaurant's password
+            - description: The restaurant's description text
+    - Errors:
+        restaurant name already exists: Return error code 100
+        Password insufficient: Return error code 102
+        Image too large: Return error code 103
+    - Answer Sucess PUT:
+        {
+            "success": true,
+            "session": 848395782
+        }
+    - Answer Sucess UPDATE:
+        {
+            "success": true,
+        }
+    - Answer Sucess GET:
+        {
+            "name": "A cool Restaurant",
+            "min_order_value": 45.4
+            "shipping_cost": 0.3
+            "max_delivery_range": 234 
+            "icon": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
+                    VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms=",
+            "street": "iohosd",
+            "postcode": "4543",
+            "district": "sdfsdfd"
+            "city": "dsfsdf",
+            "province": "dfssf",
+            "position_lat": 234.3,
+            "poisition_long": 23.3,
+            "description": "ksdhiohsoifdjd"
+        }
+
+--------------------------------------------------------------------------------
+api/1.0/restaurant/deliveries?session=&id=&done=&start=&count=
+    - Description:
+        Used to receive and set informations about a restaurant or to create 
+        a completely new restaurant user.
+    - Method:
+        GET
+    - Parameter:
+        - done: If true, only orders which are done should be returned, 
+                otherwise only orders which are not done should be returned
+        - session: The session which is used
+        - id: The restaurant's id
+        - start: Start of the limit for the current query (see SQL LIMIT)
+        - count: Range of the limit for the current query (see SQL LIMIT)
+    - Answer: 
+        {
+            "success": true,
+            "data": [
+               {
+                    "id": 2,
+                    "date": "2015-05-14",
+                    "shipping_cost": 43.3,
+                    "total_price": 345.34,
+                    "customer": "nick",
+                    "state": "Done",
+                    "dishes": [
+                        {
+                            "name": "Dish name",
+                            "amount": 3,
+                            "price_per_item": 45.5
+                        }
+                    ]
+                },
+                {
+                    "id": 3,
+                    "date": "2015-02-14",
+                    "shipping_cost": 0.0,
+                    "total_price": 345.34,
+                    "customer": "nick",
+                    "state": "Done",
+                    "dishes": [
+                        {
+                            "name": "Dish name",
+                            "amount": 3,
+                            "price_per_item": 45.5
+                        }
+                    ]
+                }
+            ]
+        }
+
+--------------------------------------------------------------------------------
+api/1.0/restaurant/state?session=&id=&state=
+    - Description:
+        Returnes all possible states
+    - Method:
+        GET
+    - Parameters:
+        - GET:
+            - session: The session which is used
+            - id: The restaurant's id
+        - PUT
+            - session: The session which is used
+            - id: The restaurant's id
+            - state: The new state
+            - delivery: The delivery which's state should be changed
+    - Answer GET:
+        {
+            "success": true,
+            "data": [
+                {"name": "A state", "id": 0},
+                {"name": "A other state", "id": 1}
+            ]
+        }
+    - Answer PUT:
+        {
+            "success": true,
+        }
+
+--------------------------------------------------------------------------------
+api/1.0/restaurant/state?session=&id=&state=
+    - Description:
+        Returnes all possible states
+    - Method:
+        GET
+    - Parameters:
+        - GET:
+            - session: The session which is used
+            - id: The restaurant's id
+        - PUT
+            - session: The session which is used
+            - id: The restaurant's id
+            - state: The new state
+            - delivery: The delivery which's state should be changed
+    - Answer GET:
+        {
+            "success": true,
+            "data": [
+                {"name": "A state", "id": 0},
+                {"name": "A other state", "id": 1}
+            ]
+        }
+    - Answer PUT:
+        {
+            "success": true,
+        }
+
+--------------------------------------------------------------------------------
+api/1.0/restaurant/dish?session=&id=
+    - Description: 
+        Used to get, add, change or delte dishes of the restaurant. The get 
+        methos returns only a thumbnail sized image!
+    - Mehtod:
+        GET, PUT, UPDATE, DELETE
+    - Parameters:
+        - GET: 
+            - session: The session which is used
+            - id: The restaurant's id
+        - PUT:
+            - session: The session which is used
+            - id: The restaurant's id
+            - name: The dish's name
+            - price: The dish's price
+            - description: The dish's discription
+            - tags: All Tag ids added to the dish (JSON Array)
+            - image: The image as Base64
+        - UPDATE:
+            - session: The session which is used
+            - id: The restaurant's id
+            - dish: The id of the dish which should be updated
+            - name: The dish's name
+            - price: The dish's price
+            - description: The dish's discription
+            - tags: All Tag ids added to the dish (JSON Array)
+            - image: The image as Base64
+        - DELETE
+            - session: The session which is used
+            - id: The restaurant's id
+            - dish: The id of the dish which should be deleted
+    - Answer GET:
+        {
+            "success": true,
+            "data": [
+                {
+                    "id": 0,
+                    "name": "A meal",
+                    "price": 3.4
+                    "description": "dsfsfd"
+                    "tags": [
+                        {"name": "Vegan", "color": "#FF0000"},
+                        {"name": "Vegetarian", "color": "#00FF00"}
+                    ],
+                    "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
+                    VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
+                },
+                {
+                    "id": 2,
+                    "name": "An other meal",
+                    "price": 3.4
+                    "description": "dsfsfd"
+                    "tags": [
+                        {"name": "Vegan", "color": "#FF0000"},
+                        {"name": "Vegetarian", "color": "#00FF00"}
+                    ],
+                    "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
+                    VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
+                }
+            ]
+        }
+
+    - Answer PUT:
+        {
+            "success": true,
+            "dish": 0
+        } 
+    - Answer UPDATE:
+        {
+            "success": true
+        }
+    - Answer DELETE:
+        {
+            "success": true
+        }
+
+--------------------------------------------------------------------------------
+api/1.0/restaurant/dish_image?session=&id= &dish
+    - Description:
+        Used to load a full size dish image.
+    - Method:
+        GET
+    - Parameters:
+        - session: The session which is used
+        - id: The restaurant's id
+        - dish: The id of the dish which image should be returned
+    - Answer:
+        {
+            "sucess": true,
+            "image": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
+                    VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
         }
