@@ -84,22 +84,6 @@
       <!-- Footer -->
       <?php include('shared/footer.html'); ?>
       
-          
-      <!-- Overlay to display meal informations -->
-      <section id="meal-info-overlay" class="overlay overlay-modal">
-        <div class="overlay-close-button menu-toggle menu-toggle-open">
-          <div class="bar"></div>
-          <div class="bar"></div>
-          <div class="bar"></div>
-        </div>
-        
-        <h4 class="meal-name">A cool meal</h4>
-        
-        <div class="banner">
-          <img src="imgs/splash-01.jpg" alt>        
-        </div>
-      </section>
-      
     </section>
     
   </div>
