@@ -355,6 +355,7 @@ api/1.0/customer/rate
     - Errors:
         User is not allowed to rate meal: Return error code 100
         Comment is too long: Return error code 101
+        User already rated meal: Return error code 102
     - Answer Success:
         {
             "success": true
