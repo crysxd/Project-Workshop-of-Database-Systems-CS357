@@ -51,28 +51,36 @@
               <thead>
                 <tr>
                   <th>Meal</th>
-                  <th>Rating</th>
                   <th>Price</th>
-                  <th>Order</th>
-                  <th><span class="glyphicon glyphicon-shopping-cart"></span></th>
+                  <th>Your order</th>
                 </tr>
               </thead>
               <tbody>
                 <?php for($i=0; $i<20; $i++) {?>
                   <tr>
-                    <td class="meal-name">A cool meal</td>
-                    <td class="meal-rating">
-                      <span class="meal-rating-stars">☆☆☆☆☆ </span>
-                      (<span class="meal-rating-count">395</span>)
+                    <td class="meal-name">
+                      <p>
+                        <span id="meal-name">A cool meal</span>&nbsp;
+                        <span id="meal-spicyness" class="chilli chilli-2">&nbsp;</span>
+                      </p>
+                      <p>
+                        <span class="meal-rating-stars">☆☆☆☆☆</span>&nbsp;
+                        (<span class="meal-rating-count">395</span>)&nbsp;
+                        <span id="meal-tags"><span class="label label-success">Vegan</span></span>
+                      </p>
                     </td>
                     <td class="meal-price">32€</td>
-                    <td class="meal-options">
-                      <div class="btn-group">
-                        <button class="btn btn-default"><span class="glyphicon glyphicon-minus"></span></button>
-                        <button class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
+                    <td class="meal-amount">
+                      <div class="input-group .spinner">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="button">-</button>
+                        </span>
+                        <input type="text" class="form-control" value="0">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="button">+</button>
+                        </span>
                       </div>
                     </td>
-                    <td class="meal-amount">3</td>
                   </tr>
                 <?php } ?>
               </tbody>

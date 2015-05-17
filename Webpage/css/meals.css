@@ -50,20 +50,67 @@
 }
 
 #meals-list .meal-name {
-  width: 60%;
+  width: 100%;
 }
 
-#meals-list .meal-rating {
-  width: 15%;
+#meals-list .meal-name p {
+  padding: 0;
+  margin: 0;
+  padding-bottom: 3px;
+}
+
+#meals-list .meal-name p:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.chilli {
+  background-image: url(../imgs/chilli.png);
+  background-size: auto 100%;
+  background-position: 0 0;
+  background-repeat: repeat-x;
+  height: 100%;
+  display: inline-block;
+}
+
+.chilli-0 {
+  width: 0;
+}
+
+.chilli-1 {
+  width: 7px;
+}
+
+.chilli-2 {
+  width: 14px;
+}
+
+.chilli-3 {
+  width: 21px;
+}
+
+.chilli-4 {
+  width: 28px;
+}
+
+.chilli-5 {
+  width: 35px;
 }
 
 #meals-list .meal-price {
-  width: 10%;
+  min-width: 50px;
 }
 
-#meals-list .meal-amount {
-  font-weight: bold;
+#meals-list .input-group {
+  width: 110px;
+}
+
+#meals-list .input-group input{
   text-align: center;
+}
+
+#meals-list .input-group button:focus {
+  outline: none;
 }
 
 #meals-list .table-hover > tbody > tr{
