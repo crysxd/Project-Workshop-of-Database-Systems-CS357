@@ -1,0 +1,126 @@
+#restaurant-info {
+  padding: 20px;
+  min-height: 100px;
+  float:left;
+  width: 100%;
+}
+
+#restaurant-info img {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+}
+
+#restaurant-info h4,
+#restaurant-info p {
+  margin: 0;
+}
+
+#meals-list th,
+#meals-list td {
+  border-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+#meals-list .table-hover>tbody>tr:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#meals-list .table>tbody>tr {
+  height: 32px;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  vertical-align: middle;
+}
+
+.table td:first-child,
+.table th:first-child {
+  padding-left: 20px;
+}
+
+.table td:last-child,
+.table th:last-child {
+  padding-right: 20px;
+}
+
+#meals-list .meal-name {
+  width: 100%;
+}
+
+#meals-list .meal-name p {
+  padding: 0;
+  margin: 0;
+  padding-bottom: 3px;
+}
+
+#meals-list .meal-name p:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.chilli {
+  background-image: url(../imgs/chilli.png);
+  background-size: auto 100%;
+  background-position: 0 0;
+  background-repeat: repeat-x;
+  height: 100%;
+  display: inline-block;
+}
+
+.chilli-0 {
+  width: 0;
+}
+
+.chilli-1 {
+  width: 7px;
+}
+
+.chilli-2 {
+  width: 14px;
+}
+
+.chilli-3 {
+  width: 21px;
+}
+
+.chilli-4 {
+  width: 28px;
+}
+
+.chilli-5 {
+  width: 35px;
+}
+
+#meals-list .meal-price {
+  min-width: 50px;
+}
+
+#meals-list .input-group {
+  width: 110px;
+}
+
+#meals-list .input-group input{
+  text-align: center;
+}
+
+#meals-list .input-group button:focus {
+  outline: none;
+}
+
+#meals-list .table-hover > tbody > tr{
+  -webkit-transition: background-color 0.6s;
+  -moz-transition: background-color 0.6s;
+  -ms-transition: background-color 0.6s;
+  -o-transition: background-color 0.6s;
+  transition: background-color 0.6s;
+}
+
+#meals-list table {
+  margin: 0;
+}
