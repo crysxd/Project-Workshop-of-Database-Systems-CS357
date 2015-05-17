@@ -49,22 +49,22 @@
   padding-right: 20px;
 }
 
-.meal-name {
-  width: 50%;
+#meals-list .meal-name {
+  width: 60%;
 }
 
-.meal-rating {
+#meals-list .meal-rating {
   width: 15%;
 }
 
-.meal-price {
+#meals-list .meal-price {
   width: 10%;
 }
 
-.meal-options {
-  width: 25%;
+#meals-list .meal-amount {
+  font-weight: bold;
+  text-align: center;
 }
-
 
 #meals-list .table-hover > tbody > tr{
   -webkit-transition: background-color 0.6s;

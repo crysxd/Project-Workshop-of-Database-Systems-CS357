@@ -49,7 +49,13 @@
           <div id="meals-list">
             <table class="table table-hover">
               <thead>
-                <tr><th>Meal</th><th>Rating</th><th>Price</th><th>Order</th></tr>
+                <tr>
+                  <th>Meal</th>
+                  <th>Rating</th>
+                  <th>Price</th>
+                  <th>Order</th>
+                  <th><span class="glyphicon glyphicon-shopping-cart"></span></th>
+                </tr>
               </thead>
               <tbody>
                 <?php for($i=0; $i<20; $i++) {?>
@@ -60,7 +66,13 @@
                       (<span class="meal-rating-count">395</span>)
                     </td>
                     <td class="meal-price">32€</td>
-                    <td class="meal-options"></td>
+                    <td class="meal-options">
+                      <div class="btn-group">
+                        <button class="btn btn-default"><span class="glyphicon glyphicon-minus"></span></button>
+                        <button class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
+                      </div>
+                    </td>
+                    <td class="meal-amount">3</td>
                   </tr>
                 <?php } ?>
               </tbody>
@@ -79,6 +91,12 @@
           <div class="bar"></div>
           <div class="bar"></div>
           <div class="bar"></div>
+        </div>
+        
+        <h4 class="meal-name">A cool meal</h4>
+        
+        <div class="banner">
+          <img src="imgs/splash-01.jpg" alt>        
         </div>
       </section>
       
