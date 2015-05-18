@@ -33,6 +33,10 @@
   <!-- Menus and overlays -->
   <?php  include('shared/header.html'); ?>
     
+  <!-- Toast to inform the user that he can choose the amount in the next step -->
+  <div class="alert alert-success toast" role="alert">
+    <strong>Item added to cart!</strong> You can choose the amount in the next step
+  </div>
   
   <div id="main-content">  
     <!-- meals list -->
