@@ -124,3 +124,11 @@
 #meals-list table {
   margin: 0;
 }
+
+.center {
+  text-align: center;
+}
+
+#meals-list thead th {
+  border-top: 0 !important;
+}

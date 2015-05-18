@@ -32,29 +32,46 @@
   
   <!-- Menus and overlays -->
   <?php  include('shared/header.html'); ?>
-  
-  <div id="main-content">
     
+  
+  <div id="main-content">  
     <!-- meals list -->
     <section id="splash-screen">
       <div class="splash-container">
+        <!-- Title -->
         <h1>Meals of <span class="restaurant-name">a Restaurant</span></h1>
         <div class="splash-container-scroller">
+          
+          <!-- Info box -->
           <div id="restaurant-info">
             <img src="imgs/icon.png" class="pull-left" alt>
             <h4 class="restaurant-name">A Restaurant</h4>
             <p><span class="restaurant-rating-stars">☆☆☆☆☆</span>&nbsp;(<span class="restaurant-rating-count">395</span>)</p>
             <p class="restaurant-description">A super cool restaurant close to you. Choose a cool meal to be cool.</p>
           </div>
+          
           <div id="meals-list">
+            <!-- Meals table -->
             <table class="table table-hover">
+              <!-- Table header -->
               <thead>
+                <tr>
+                  <td></td>
+                  <td colspan="2">
+                    <!-- Go to cashier button -->
+                    <div class="btn btn-success btn-block btn-shopping-cart">
+                      Order&nbsp;<span class="badge">423</span>
+                    </div>
+                  </td>
+                </tr>
                 <tr>
                   <th>Meal</th>
                   <th>Price</th>
-                  <th>Your order</th>
+                  <th class="center"><span class="glyphicon glyphicon-shopping-cart"></span></th>
                 </tr>
               </thead>
+              
+              <!-- Table body -->
               <tbody>
                 <?php for($i=0; $i<20; $i++) {?>
                   <tr>
@@ -71,15 +88,7 @@
                     </td>
                     <td class="meal-price">32€</td>
                     <td class="meal-amount">
-                      <div class="input-group .spinner">
-                        <span class="input-group-btn">
-                          <button class="btn btn-default" type="button">-</button>
-                        </span>
-                        <input type="text" class="form-control" value="0">
-                        <span class="input-group-btn">
-                          <button class="btn btn-default" type="button">+</button>
-                        </span>
-                      </div>
+                      <div class="btn btn-default btn-block"><span class="glyphicon glyphicon-shopping-cart"></span></div>
                     </td>
                   </tr>
                 <?php } ?>
