@@ -38,7 +38,7 @@
     <strong>Item added to cart!</strong> You can choose the amount in the next step
   </div>
   
-  <div id="main-content">  
+  <section id="main-content">  
     <!-- meals list -->
     <section id="splash-screen">
       <div class="splash-container">
@@ -100,7 +100,7 @@
             </table>
           </div>
         </div>
-      </div>
+      </section>
       
       <!-- Footer -->
       <?php include('shared/footer.html'); ?>
