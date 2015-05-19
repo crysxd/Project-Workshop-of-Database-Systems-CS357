@@ -9,3 +9,7 @@ $(window).on('hashchange', function() {
   }
   window.setTimeout(hideLoadingOverlay, 250);
 });
+
+$('#btn-change-address').click(function() {
+  $('#address-name').popover({content: 'Enter a valid name', placement: 'auto'}).popover('show');
+});
