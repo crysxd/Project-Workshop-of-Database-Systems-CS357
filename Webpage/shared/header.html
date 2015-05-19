@@ -1,0 +1,94 @@
+<header class="noselect">
+  <!-- menu toggle top right -->
+  <div id="top-menu-toggle" class="menu-toggle">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <!-- menu toggle top left -->
+  <div id="left-menu-toggle" class="menu-toggle">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <!-- login button top right -->
+  <a id="login-button"><span class="glyphicon glyphicon-user"></span> Login or Register</a>
+
+  <!-- menu at top -->
+  <div id="top-menu">
+    <img id="logo" src="imgs/logo.png" alt>
+  </div>
+
+  <!-- menu left -->
+  <div id="left-menu">
+    <ul>
+      <li><a class="social facebook" href="javascript:leaveTo('http://facebook.com/')"></a></li>
+      <li><a class="social github" href="javascript:leaveTo('https://github.com/crysxd/Project-Workshop-of-Database-Systems-CS357')"></a></li>
+      <li><a class="social twitter" href="javascript:leaveTo('http://twitter.com/')"></a></li>
+      <li><a class="social reddit" href="javascript:leaveTo('http://reddit.com/')"></a></li>
+      <li><a class="social share"></a></li>
+    </ul>
+  </div>
+
+  <!-- main menu overlay -->
+  <nav id="menu" class="overlay">
+    <ul class="overlay-content">
+      <li><a href="javascript:leaveTo('index.php')">Home</a></li>
+      <li><a href="javascript:leaveTo('info.php#how-to')">How to order</a></li>
+      <li><a href="javascript:leaveTo('info.php#career')">Career</a></li>
+      <li><a href="javascript:leaveTo('info.php#help')">Help & FAQ</a></li>
+    </ul>
+  </nav>
+
+  <!-- loading overlay -->
+  <nav id="loading-overlay" class="overlay">
+    <div class="overlay-content">
+      <div class="loading-indicator"></div>
+    </div>
+  </nav>
+
+  <!-- login overlay -->
+  <div id="login-overlay" class="overlay">
+    <div class="overlay-content">
+      <div class="scroll">
+        <form>
+          <div id="task-login">
+            <h4>Login</h4>
+            <input type="phone" class="form-control" id="form-phone" placeholder="Enter phone" required>
+            <input type="password" class="form-control" id="form-password" placeholder="Enter password" required>
+            <button type="submit" id="login-complete-button" class="btn btn-colored btn-block">Login</button>
+          </div>
+          <div id="task-register">
+            <h4>Register</h4>
+            <div class="form-group">
+              <label for="form-phone">Enter phone number</label>
+              <input type="phone" class="form-control" id="form-phone" placeholder="Enter phone" required>
+              <input type="phone" class="form-control" id="form-phone-control" placeholder="Confirm phone" required>
+            </div>
+            <div class="form-group">
+              <label for="form-password">Enter password</label>
+              <input type="password" class="form-control" id="form-password" placeholder="Enter password" required>
+              <input type="password" class="form-control" id="form-password-control" placeholder="Confirm password" required>
+            </div>
+            <div class="form-group">
+              <label for="form-first-name">Enter your name</label>
+              <input type="text" class="form-control" id="form-first-name" placeholder="First name" required>
+              <input type="text" class="form-control" id="form-sure-name" placeholder="Sure name" required>
+            </div>
+            <div class="form-group">
+              <label for="form-street">Enter your address</label>
+              <input type="text" class="form-control" id="form-street" placeholder="Street and number" required>
+              <input type="text" class="form-control" id="form-ditrict" placeholder="District" required>
+              <input type="text" class="form-control" id="form-city" placeholder="Zip and city" required>
+            </div>
+            <button type="submit" id="register-complete-button" class="btn btn-colored btn-block">Register now</button>
+          </div>
+          <button type="button" id="login-cancel-button" class="btn btn-danger btn-block">Cancel</button>
+          <a id="register-button">New here? Register now!</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
