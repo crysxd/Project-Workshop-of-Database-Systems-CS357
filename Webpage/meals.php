@@ -64,7 +64,7 @@
                   <td colspan="2">
                     <!-- Go to cashier button -->
                     <a class="btn btn-success btn-block btn-shopping-cart" href="javascript:leaveTo('order.php')">
-                      Order&nbsp;<span class="badge">423</span>
+                      Check out&nbsp;<span class="badge">423</span>
                     </a>
                   </td>
                 </tr>
