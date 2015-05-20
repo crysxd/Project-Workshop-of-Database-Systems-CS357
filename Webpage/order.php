@@ -102,9 +102,9 @@
               App. 402<br>
               Shanghai, 94107<br>
             </address>
-            <button class="btn btn-default" data-toggle="modal" data-target="#change-address-modal">
+            <a data-toggle="modal" data-target="#change-address-modal">
               Change address
-            </button>
+            </a>
           </div>
         </section>
 
