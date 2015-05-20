@@ -26,7 +26,7 @@
 
   <!-- Custom styles for this template -->
   <link href="css/main.css" rel="stylesheet">
-  <link href="css/info.css" rel="stylesheet">
+  <link href="css/profile.css" rel="stylesheet">
 </head>
 <body>
   
@@ -34,7 +34,41 @@
   <?php  include('shared/header.html'); ?>
   
   <div id="main-content">
+  
+    <h1><span class="user-name">Test</span>'s Profile</h1>
+    
+    <!-- User informations -->
+    <section class="panel panel-default panel-collapse">
+      <div class="panel-heading noselect">
+        <span class="pull-right collapse-trigger glyphicon"></span>
+        <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> User Information</h3>
+      </div>
+      <div class="panel-body">
+      </div>
+    </section>
 
+    <!-- Ratable meals -->
+    <section class="panel panel-default panel-collapse panel-collapsed">
+      <div class="panel-heading noselect">
+        <span class="pull-right collapse-trigger glyphicon"></span>
+        <h3 class="panel-title"><span class="glyphicon glyphicon-star"></span> Unrated Meals</h3>
+      </div>
+      <div class="panel-body">
+        
+      </div>
+    </section>
+    
+    <!-- Old orders -->
+    <section class="panel panel-default panel-collapse panel-collapsed">
+      <div class="panel-heading noselect">
+        <span class="pull-right collapse-trigger glyphicon"></span>
+        <h3 class="panel-title"><span class="glyphicon glyphicon-time"></span> Delivery History</h3>
+      </div>
+      <div class="panel-body">
+        
+      </div>
+    </section>
+    
     <!-- Footer -->
     <?php include('shared/footer.html'); ?>
     
@@ -44,6 +78,6 @@
   <script src="js/jquery-2.1.0.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/info.js"></script>
+  <script src="js/profile.js"></script>
 </body>
 </html>
