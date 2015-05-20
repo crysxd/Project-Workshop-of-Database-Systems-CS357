@@ -46,3 +46,8 @@ address {
   color: red;
   font-weight: bold;
 }
+
+.panel .panel-heading {
+  background: #fcfcfc;
+  color: #00bde3;
+}
