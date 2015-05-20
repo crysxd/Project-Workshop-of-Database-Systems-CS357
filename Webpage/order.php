@@ -79,7 +79,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-colored" id="btn-change-address">Save changes</button>
+          <button type="button" class="btn btn-success" id="btn-change-address">Save changes</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -89,6 +89,7 @@
     <h1>Your Order</h1>
     <div class="row">
       <div class="col-sm-12 col-md-4 col-lg-2">
+        
         <!-- Adress -->
         <section class="panel panel-default">
           <div class="panel-heading">
