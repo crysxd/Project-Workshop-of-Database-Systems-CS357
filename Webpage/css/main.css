@@ -372,6 +372,14 @@ body {
   display: none; /* Default hide register fields */
 }
 
+.panel .panel-heading,
+.modal .modal-header {
+  background: #fcfcfc;
+  color: #00bde3;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
 #loading-overlay {
   display: table;
   z-index: 10200; /* Highest overlay */

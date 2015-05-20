@@ -42,11 +42,3 @@ address {
   color: red;
   font-weight: bold;
 }
-
-.panel .panel-heading,
-.modal .modal-header {
-  background: #fcfcfc;
-  color: #00bde3;
-  border-top-left-radius: inherit;
-  border-top-right-radius: inherit;
-}
