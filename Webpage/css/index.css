@@ -1,21 +1,7 @@
 #splash-screen {
-  position: relative; /* Needed to center splash-center and splash-footer */
-  width: 100%;
-  height: calc(100% - 20px); /* View port height -20 px */
-  background-image: url('../imgs/splash-01.jpg');
-  background-size: cover;
-  background-position: top center;
-}
-
-#splash-screen>.splash-center {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 70px;
-  margin: auto;
+  height: calc(100% - 20px) !important; /* View port height -20 px */
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .search-box {

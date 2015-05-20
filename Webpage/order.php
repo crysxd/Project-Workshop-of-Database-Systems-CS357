@@ -9,7 +9,7 @@
   <meta name="author" content="">
   <link rel="icon" href="favicon.ico">
 
-  <title>my-burger.com | Restaurants</title>
+  <title>my-burger.com | Complete your order</title>
 
   <!-- Bootstrap core CSS -->
   <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +26,7 @@
 
   <!-- Custom styles for this template -->
   <link href="css/main.css" rel="stylesheet">
-  <link href="css/restaurants.css" rel="stylesheet">
+  <link href="css/order.css" rel="stylesheet">
 </head>
 <body>
   
@@ -35,38 +35,28 @@
   
   <div id="main-content">
     
-    <!-- Restaurants list -->
-    <section id="splash-screen">
-      <div class="splash-container">
-        <h1>Restaurants close to you</h1>
-        <div id="restaurants" class="splash-container-scroller row">
-          <?php for($i=0; $i<11; $i++) { ?>
-            <a class="item col-lg-3 col-md-4 col-sm-6 col-xs-12" href="javascript:leaveTo('meals.php')">
-              <div class="row">
-                <div class="col-xs-5 data">
-                  <img src="imgs/icon.png" alt>
-                </div>
-                <div class="col-xs-7 data">
-                  <h4 class="restaurant-name">El Davido</h4>
-                  <p><span class="rating-stars">☆☆☆☆☆</span>&nbsp;<span class="rating-count">395</span></p>
-                  <p>From: <span class="min-order-value">30¥</span></p>
-                  <p>Shipping: <span class="shipping-costs">Free</span></p>
-                  <p>ETA: <span class="eta">30min</span></p>
-                </div>
-              </div>
-            </a>
-          <?php } ?>
-          <a class="load-more-item col-lg-3 col-md-4 col-sm-6 col-xs-12">
-            <div class="data">
-              <div class="reload-icon"></div>
-              <h4>Load more</h4> 
-            </div>
-          </a>
-        </div>
-      </div>
+    <!-- How to order list -->
+    <section id="how-to">
+
+    </section>
+    
+    <!-- Help list -->
+    <section id="help">
+
+    </section>
+
+    <!-- Career list -->
+    <section id="career">
+
+    </section>
+    
+    <!-- Contact list -->
+    <section id="contact">
+
+    </section>
+
     <!-- Footer -->
     <?php include('shared/footer.html'); ?>
-    </section>
     
   </div>
   
@@ -74,6 +64,6 @@
   <script src="js/jquery-2.1.0.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/restaurants.js"></script>
+  <script src="js/order.js"></script>
 </body>
 </html>

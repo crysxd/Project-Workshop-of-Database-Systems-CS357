@@ -13,7 +13,8 @@ $('.menu-toggle').click(function() {
     $('#menu').fadeOut();
     
     /* Change all toggles from open state to closed state */
-    $('.menu-toggle').removeClass('menu-toggle-open');
+    $('#top-menu-toggle').removeClass('menu-toggle-open');
+    $('#left-menu-toggle').removeClass('menu-toggle-open');
     
     /* Remove the element value for opacity. Will fade out th
        login button if it was hidden initially and shown on menu open */
@@ -23,14 +24,15 @@ $('.menu-toggle').click(function() {
     startScrolling();
   } 
   
-  /* If the menu is not visible */
-  else {
+  /* If the menu is not visible and if no other overlay is visible */
+  else if($('.overlay:visible').length <= 0) {
     /* Fade menu in and force display table (important for centering content!) */
     $('#menu').fadeIn().css('display','table');
     
     /* Change all toggles to open state */
-    $('.menu-toggle').addClass('menu-toggle-open');
-    
+    $('#top-menu-toggle').addClass('menu-toggle-open');
+    $('#left-menu-toggle').addClass('menu-toggle-open');
+
     /* Fade login button in, might already be visible */
     $('#login-button').css('opacity', '1');
     
