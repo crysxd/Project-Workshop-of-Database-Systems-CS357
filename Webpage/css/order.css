@@ -23,10 +23,6 @@ address {
   padding-right: 0;
 }
 
-.table-order tbody td:nth-child(2) *:focus {
-  outline: none;
-}
-
 .table-order tbody td:nth-child(1),
 .table-order tbody td:nth-child(3){
   vertical-align: middle !important; 
