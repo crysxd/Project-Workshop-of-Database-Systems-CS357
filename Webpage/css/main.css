@@ -468,6 +468,10 @@ footer {
   color: white;
 }
 
+button {
+  outline: none !important;
+}
+
 @media (max-width: 1023px) {
   #left-menu {
     left: -50px; /* hide left menu */
