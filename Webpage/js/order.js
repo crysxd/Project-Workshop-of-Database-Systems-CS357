@@ -3,13 +3,6 @@ $(document).ready(function() {
   window.setTimeout(hideLoadingOverlay, 250);
 });
 
-$(window).on('hashchange', function() {
-  if($('#menu:visible').length > 0) {
-    $('#top-menu-toggle').click();
-  }
-  window.setTimeout(hideLoadingOverlay, 250);
-});
-
 $('#btn-change-address').click(function() {
   $('#address-name').popover({content: 'Enter a valid name', placement: 'auto'}).popover('show');
 });
