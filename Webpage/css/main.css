@@ -472,6 +472,11 @@ button {
   outline: none !important;
 }
 
+a[data-toggle] {
+  cursor: pointer;
+  color: #00bde3;
+}
+
 @media (max-width: 1023px) {
   #left-menu {
     left: -50px; /* hide left menu */
