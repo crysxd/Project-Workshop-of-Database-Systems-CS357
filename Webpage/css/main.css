@@ -289,7 +289,8 @@ body {
   background: #fff;
 }
 
-.overlay-modal {
+.overlay-modal,
+.modal {
   z-index: 10010;
 }
 
@@ -369,6 +370,14 @@ body {
 
 #task-register {
   display: none; /* Default hide register fields */
+}
+
+.panel .panel-heading,
+.modal .modal-header {
+  background: #fcfcfc;
+  color: #00bde3;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
 #loading-overlay {
@@ -465,6 +474,15 @@ footer {
 .btn-colored:hover {
   background-color: #00bde3; /* slightly darker theme color */
   color: white;
+}
+
+button {
+  outline: none !important;
+}
+
+a[data-toggle] {
+  cursor: pointer;
+  color: #00bde3;
 }
 
 @media (max-width: 1023px) {

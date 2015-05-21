@@ -38,7 +38,7 @@
     <strong>Item added to cart!</strong> You can choose the amount in the next step
   </div>
   
-  <div id="main-content">  
+  <section id="main-content">  
     <!-- meals list -->
     <section id="splash-screen">
       <div class="splash-container">
@@ -64,7 +64,7 @@
                   <td colspan="2">
                     <!-- Go to cashier button -->
                     <a class="btn btn-success btn-block btn-shopping-cart" href="javascript:leaveTo('order.php')">
-                      Order&nbsp;<span class="badge">423</span>
+                      Check out&nbsp;<span class="badge">423</span>
                     </a>
                   </td>
                 </tr>
@@ -100,7 +100,7 @@
             </table>
           </div>
         </div>
-      </div>
+      </section>
       
       <!-- Footer -->
       <?php include('shared/footer.html'); ?>

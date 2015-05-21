@@ -1,8 +1,9 @@
 /* When the doc is ready fade out the loading screen after 1s */
 $(document).ready(function() {
-  window.setTimeout(hideLoadingOverlay, 250);
-});
+  $('.panel-collapse .panel-heading').click(function(e) {
+    $(this).parents('.panel').toggleClass('panel-collapsed');
+  });
 
-$('#btn-change-address').click(function() {
-  $('#address-name').popover({content: 'Enter a valid name', placement: 'auto'}).popover('show');
+  window.setTimeout(hideLoadingOverlay, 250);
+
 });

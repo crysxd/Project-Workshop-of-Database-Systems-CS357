@@ -9,7 +9,7 @@
   <meta name="author" content="">
   <link rel="icon" href="favicon.ico">
 
-  <title>my-burger.com | Complete your order</title>
+  <title>my-burger.com | Check out</title>
 
   <!-- Bootstrap core CSS -->
   <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -33,28 +33,141 @@
   <!-- Menus and overlays -->
   <?php  include('shared/header.html'); ?>
   
+  <!-- Modal Dialog to change the delivery address -->
+  <div class="modal fade" id="change-address-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Change delivery address</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label for="address-name" class="col-sm-4 control-label">Name</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="address-name" placeholder="Enter your name" required="true">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address-street" class="col-sm-4 control-label">Street and Number</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="address-street" placeholder="Enter your street and number">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address-aditional" class="col-sm-4 control-label">Additional</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="address-aditional" placeholder="Enter appartment/building">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address-city" class="col-sm-4 control-label">City</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="address-city" placeholder="Enter your city">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address-postal-code" class="col-sm-4 control-label">Postal Code</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="address-postal-code" placeholder="Enter your postal code">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" id="btn-change-address">Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  
   <div id="main-content">
-    
-    <!-- How to order list -->
-    <section id="how-to">
+    <h1>Your Order</h1>
+    <div class="row">
+      <div class="col-sm-12 col-md-4 col-lg-2">
+        
+        <!-- Adress -->
+        <section class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-home"></span> Delivery Address</h3>
+          </div>
+          <div class="panel-body">
+            <address>
+              <strong>Mike Miller</strong><br>
+              500 Dongchuan Rd.<br>
+              App. 402<br>
+              Shanghai, 94107<br>
+            </address>
+            <a data-toggle="modal" data-target="#change-address-modal">
+              Change address
+            </a>
+          </div>
+        </section>
 
-    </section>
-    
-    <!-- Help list -->
-    <section id="help">
+        <!-- Information -->
+        <section class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-info-sign"></span> General Information</h3>
+          </div>
+          <div class="panel-body">
 
-    </section>
+          </div>
+        </section>
+      </div>
 
-    <!-- Career list -->
-    <section id="career">
+      <div class="col-sm-12 col-md-8 col-lg-10">
+        <!-- Shopping cart -->
+        <section class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</h3>
+          </div>
+          <table class="table table-responsive table-order">
+            <thead>
+              <tr><th>Meal</th><th>Amount</th><th></th></tr>
+            </thead>
+            <tbody>
+              <?php for($i=0; $i<20; $i++) { ?>
+                <tr class="item">
+                  <td class="item-name">
+                    A cool meal
+                  </td>
+                  <td>
+                    <div class="input-group amount-input">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">-</button>
+                      </span>
+                      <input type="text" class="form-control item-amount" value="0">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">+</button>
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="item-costs">3</span>&nbsp;元
+                  </td>
+                </tr>
+              <?php } ?>
+                <tr class="shipping-costs-row">
+                  <td>Shipping costs</td>
+                  <td></td>
+                  <td><span class="shipping-costs">3</span>&nbsp;元</td>
+                </tr>
+               <tr class="order-value-row">
+                  <td>Order value</td>
+                  <td></td>
+                  <td><span class="order-value">4</span>&nbsp;元</td>
+                </tr>
+            </tbody>
+          </table>
+        </section>
 
-    </section>
-    
-    <!-- Contact list -->
-    <section id="contact">
-
-    </section>
-
+        <button class="btn btn-block btn-success">Order now (ETA: <span class="eta">42</span> minutes)</button>
+      </div>
+    </div>
     <!-- Footer -->
     <?php include('shared/footer.html'); ?>
     
