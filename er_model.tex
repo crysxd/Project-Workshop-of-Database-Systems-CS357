@@ -1,0 +1,30 @@
+\documentclass[parskip=half, a4paper, DIV=28]{scrartcl}
+
+\usepackage[ngerman,english]{babel}
+\usepackage{helvet}
+\usepackage{graphicx}
+
+%http://de.wikibooks.org/wiki/LaTeX-W%C3%B6rterbuch:_fontfamily
+\renewcommand{\familydefault}{\sfdefault}
+\fontfamily{phv}\selectfont
+
+\begin{document}
+
+\title{Database System Project (SS 2015)}
+\subtitle{MyMeal -- ER model}
+\author{Saulo Ribeiro de Andrade -- 7120309033\\
+		Alexander Goscinski -- 7120309027\\
+		Christan Würthner -- c.wuerthner@me.com}
+\date{\today}
+\maketitle
+
+\section{Database}
+%Used database framework: MySQL ??% TODO version
+For the database of our MyFood webpage service we created the following ER model. 
+\begin{figure}[h!]
+	\centering
+		\includegraphics[scale=0.5]{er_model.png}
+	\caption{ER model of our database.}
+\end{figure}
+
+\end{document}

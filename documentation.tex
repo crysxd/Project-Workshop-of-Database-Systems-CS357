@@ -3,6 +3,7 @@
 \usepackage[ngerman,english]{babel}
 \usepackage{helvet}
 \usepackage{graphicx}
+\usepackage{enumitem}
 
 %http://de.wikibooks.org/wiki/LaTeX-W%C3%B6rterbuch:_fontfamily
 \renewcommand{\familydefault}{\sfdefault}
@@ -23,10 +24,33 @@
 
 
 \section{Database}
-Used database framework: SQLite v.3.??% TODO version
+%Used database framework: MySQL ??% TODO version
+In this chapter we introduce our database structure and explain design decisions as well as the meaning of every column.
 
-\subsection{Delivery_State}
-delivery state should be uniquely identified with the Delivery and time
+For the database of our MyFood webpage service we created the following ER model.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[scale=0.5]{er_model.png}
+	\caption{ER model of our database.}
+\end{figure}
+
+We will now explain every column for every table.
+
+	\subsection{Restaurant}
+	The restaurant table represents the data of restaurant in real world.
+
+	\setdescription{itemsep=5pt,parsep=0pt,leftmargin=0.5cm, style=sameline}
+	\begin{description}
+		\item[restaurant\_id\_pk: INT] This an automaticly generated surrogate key.
+		\item[name: VARCHAR(256)] The name of the restaurant.
+		\item[min\_order\_value: FLOAT] This value describes the minimum amount of value of a delivery so that a customer can submit a delivery.
+	\end{description}
+
+	\subsection{Delivery\_State}
+	delivery state should be uniquely identified with the Delivery and time
+
+\subsection{Dish}
+We use the same
 
 \subsection{Restaurant}
 Text
