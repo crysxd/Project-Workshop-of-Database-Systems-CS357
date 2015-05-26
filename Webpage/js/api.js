@@ -53,6 +53,14 @@ $.rest.delete = function(url, params, callback) {
   
 }
 
+/*
+ * Performs a HTTP request for the given url with the given params.
+ * @param url: The url which should be requested
+ * @param method: One of GET, POST, PUT or DELETE
+ * @param data: An array with all parameters that should be supplied as URL parameters on GET and DELETE or the POST or PUT data
+ * @param callback: A function with one parameter which will be called after complition. 
+ * The recieved data will be passed as argument.
+ */
 $.rest.send = function(url, method, data, callback) {
   $.ajax(url, {
     method: method,
