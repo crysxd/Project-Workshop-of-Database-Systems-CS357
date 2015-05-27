@@ -5,25 +5,36 @@ $('#splash-screen .search-box .btn').click(function() {
     /* Query data */
     $.rest.get('http://nominatim.openstreetmap.org/search', 
       {q: $('.search-box input').val(), format: 'jsonv2', addressdetails: 1}, function(data) {
-      console.log(data);
 
       /* Nothing found */
       if(data.length == 0) {
-        alert('Error: No hits');
-        hideLoadingOverlay();
+        showErrorOverlay('No suitable addresses found', 
+                         'There where no results for your search, try to be more specific.', 
+                         function() {
+          hideLoadingOverlay();
+        });
+
         return;
       }
       
       /* Handle errors */
       if('success' in data) {
-        alert('Error: ' + data.err_msg + ' (' + data.err_no + ')');
-        hideLoadingOverlay();
+        showErrorOverlay('Network Error', 
+                         'A network error occured while loading the results. ' +
+                         'Make sure you are connected to the internet and try again.', 
+                         function() {
+          hideLoadingOverlay();
+        });
+
         return;
       }
       
       /* Load template */
       var template = $('#address-list template').html().trim();
 
+      /* Truncate list */
+      $('#address-list>address').remove();
+      
       /* Make list */
       $(data).each(function(i, d) {
         /* Copy and fill template */
