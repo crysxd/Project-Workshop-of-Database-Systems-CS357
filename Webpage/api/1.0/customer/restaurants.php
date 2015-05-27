@@ -24,7 +24,8 @@
 
     // query all restaurants
     $result = mysql_query("SELECT * FROM restaurants WHERE 1 ORDER BY id LIMIT $start, $count");
-
+    $count = mysql_query("SELECT COUNT(*) AS item_count FROM restaurants");
+    
     // if an error occured while performing the query
     if(mysql_error()) {
       // set fields for array
@@ -39,6 +40,7 @@
     } else {
       // Everything is fine
       $answer['success'] = true;
+      $answer['item_count'] = mysql_fetch_assoc($count)['item_count'];
       $answer['data'] = array();
 
       while($result && ($row = mysql_fetch_assoc($result))) {
