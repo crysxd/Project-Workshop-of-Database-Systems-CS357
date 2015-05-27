@@ -115,3 +115,14 @@ function leaveTo(url) {
     window.location.href = url;
   });
 }
+
+/* Generates a text with ★ and ☆ corresponding the rating. Max is 5 stars */
+function generateRatingText(avg_raiting) {
+  var text = '';
+  
+  for(var i=0; i<5; i++) {
+    text += (i < Math.round(avg_raiting) ? '★' : '☆');
+  }
+    
+  return text;  
+}
