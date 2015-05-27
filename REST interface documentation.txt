@@ -26,7 +26,8 @@ api/1.0/customer/resturants
         No restaurants found: Return empty list
     - Answer Success:
         {
-            "success": true
+            "success": true,
+            "item_count": 5,
             "data": [
                 {
                     "id": 0,
