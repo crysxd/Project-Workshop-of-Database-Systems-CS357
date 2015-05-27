@@ -1,5 +1,5 @@
 /* Click handler for search box */
-$('#splash-screen .search-box').click(function() {
+$('#splash-screen .search-box .btn').click(function() {
   leaveTo('restaurants.php');
 });
 

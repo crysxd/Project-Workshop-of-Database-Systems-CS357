@@ -37,8 +37,11 @@
     <!-- Splash screen and search bar -->
     <section id="splash-screen">
       <div class="splash-center">
-        <div class="search-box noselect">
-          <p>Find restaurants close to me</p>
+        <div class="input-group search-box">
+          <input type="text" class="form-control" placeholder="Street, Number, City...">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button"></button>
+          </span>
         </div>
       </div>
       <div id="splash-footer">
