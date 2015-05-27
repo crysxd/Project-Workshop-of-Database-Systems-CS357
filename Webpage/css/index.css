@@ -153,7 +153,33 @@
 .row.equalheights {
   overflow: hidden; /* CSS tweak to match the hight of all columns */
 }
+
 .row.equalheights > [class*="col-"]{
   margin-bottom: -99999px; /* CSS tweak to match the hight of all columns */
   padding-bottom: 99999px;
+}
+
+#address-picker {
+  z-index: 10201;
+}
+
+#address-picker .overlay-content {
+  width: 100%;
+}
+
+#address-picker * {
+  text-align: center;
+}
+
+#address-picker .address p {
+  margin: 0;
+}
+
+#address-picker .address .road {
+  font-weight: bold;
+}
+
+#address-picker .address {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
