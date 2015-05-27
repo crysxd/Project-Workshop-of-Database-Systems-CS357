@@ -68,15 +68,17 @@ $.rest.send = function(url, method, data, callback) {
     cache: false,
     data: data,
     success: function(received) {
-      var answer = null;
-  
-      // Try to parse JSON, fallback is to create a new answer with an error description
-      try {
-        answer = JSON.parse(received);
-      } catch(e) {
-        answer = {success: false, err_no: -1, err_msg: e, raw: received};
-      }
+      var answer = received;
+      
+      // Try to parse JSON if not already a object, fallback is to create a new answer with an error description
+      if(typeof received !== 'object') {
+        try {
+          answer = JSON.parse(received);
+        } catch(e) {
+          answer = {success: false, err_no: -1, err_msg: e, raw: received};
+        }
 
+      }
       // Perform callback with answer
       callback(answer);
     },
