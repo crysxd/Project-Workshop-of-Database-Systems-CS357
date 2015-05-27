@@ -13,7 +13,7 @@ $('.menu-toggle').click(function() {
   /* If the menu is already visible */
   if($('#menu:visible').length > 0) {
     /* Fade menu out */
-    $('#menu').fadeOut();
+    hideOverlay($('#menu'));
     
     /* Change all toggles from open state to closed state */
     $('#top-menu-toggle').removeClass('menu-toggle-open');
@@ -22,15 +22,12 @@ $('.menu-toggle').click(function() {
     /* Remove the element value for opacity. Will fade out th
        login button if it was hidden initially and shown on menu open */
     $('#login-button').css('opacity', '');
-    
-    /* Reenable body scrolling */
-    startScrolling();
   } 
   
   /* If the menu is not visible and if no other overlay is visible */
   else if($('.overlay:visible').length <= 0) {
     /* Fade menu in and force display table (important for centering content!) */
-    $('#menu').fadeIn().css('display','table');
+    showOverlay($('#menu'));
     
     /* Change all toggles to open state */
     $('#top-menu-toggle').addClass('menu-toggle-open');
@@ -38,19 +35,16 @@ $('.menu-toggle').click(function() {
 
     /* Fade login button in, might already be visible */
     $('#login-button').css('opacity', '1');
-    
-    /* Disable scroling of body */
-    stopScrolling();
   }    
 });
 
 /* Click handler for login button */
 $('#login-button').click(function() {
   /* Fade overlay in and disable scrolling of body */
-  $('#login-overlay').fadeIn().css('display','table');
-  stopScrolling();
+  showOverlay($('#login-overlay'));
 });
 
+/* Click handler for register button */
 $('#register-button').click(function() {
   /* Fade register button out */
   $('#register-button').animate({opacity: 0});
@@ -68,15 +62,12 @@ $('#register-button').click(function() {
 /* Click handler for cancel button in login overlay */
 $('#login-cancel-button').click(function() {
   /* Fade login overlay out */
-  $('#login-overlay').fadeOut(function() {
+  hideOverlay($('#login-overlay'), function() {
     /* Reset the login overlay, hide register form and show login form */
     $('#register-button').css('opacity', 1);
     $('#task-register').hide();
     $('#task-login').show();
   });
-  
-  /* Reenable scrolling for body */
-  startScrolling();
 });
 
 /* Resize handler for window */
@@ -102,14 +93,46 @@ function startScrolling() {
 
 /* Shows the loading overlay */
 function showLoadingOverlay(callback) {
-  $('#loading-overlay').fadeIn(callback).css('display','table');
-  stopScrolling();
+  showOverlay($('#loading-overlay'), callback);
 }
 
 /* Hides the loading overlay */
 function hideLoadingOverlay(callback) {
-  $('#loading-overlay').fadeOut(callback);
-  startScrolling();
+  hideOverlay($('#loading-overlay'), callback);
+}
+
+/* Shows the error overlay */
+function showErrorOverlay(title, message, callback) {
+  $('#error-overlay .title').text(title);
+  $('#error-overlay .message').text(message);
+  showOverlay($('#error-overlay'), callback);
+}
+
+/* Click handler for ok button in error overlay */
+$('#error-overlay .btn').click(function() {
+  hideOverlay($('#error-overlay'));
+});
+
+
+/* Shows the given overlay */
+function showOverlay(overlay, callback) {
+  $(overlay).fadeIn(callback).css('display','table');
+  stopScrolling();
+}
+
+/* Hides the given overlay */
+function hideOverlay(overlay, callback) {
+  $(overlay).fadeOut(function() {
+    /* Reenable scrolling if all overlays are hidden */
+    if($('.overlay:visible').length <= 0) {
+      startScrolling();
+    }
+    
+    /* callback */
+    if(callback) {
+      callback();
+    }
+  });
 }
 
 /* Shows the loading dialog and goes to the given url */

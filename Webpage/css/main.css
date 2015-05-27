@@ -339,6 +339,8 @@ body {
 .scroll {
   overflow-y: scroll;
   max-height: 400px; /* Fix hight, change later with JS */
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 #login-overlay {
@@ -359,13 +361,16 @@ body {
 }
 
 #login-overlay form {
-  width: 300px;
-  margin: auto;
   -webkit-transition: width 0.3s;
   -moz-transition: width 0.3s;
   -ms-transition: width 0.3s;
   -o-transition: width 0.3s;
   transition: width 0.3s;
+}
+
+.narrow {
+  width: 300px;
+  margin: auto;
 }
 
 #task-register {
@@ -387,8 +392,19 @@ body {
   text-align: center;
 }
 
-#loading-overlay * {
+#loading-overlay *,
+#error-overlay {
   color: #fff;
+}
+
+#error-overlay {
+  background: #cb0f0f;
+  z-index: 11000;
+  text-align: center;
+}
+
+#error-overlay .btn {
+  margin-top: 40px;
 }
 
 .loading-indicator {

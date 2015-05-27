@@ -49,11 +49,23 @@
     </div>
   </nav>
 
+    <!-- loading overlay -->
+  <nav id="error-overlay" class="overlay">
+    <div class="overlay-content">
+      <div class="narrow">
+        <h4><span class="title"></span></h4>
+        <p class="message"></p>
+        <div class="btn btn-default btn-block">OK</div>
+      </div>
+    </div>
+  </nav>
+
+  
   <!-- login overlay -->
   <div id="login-overlay" class="overlay">
-    <div class="overlay-content">
+    <div class="overlay-content ">
       <div class="scroll">
-        <form>
+        <form class="narrow">
           <div id="task-login">
             <h4>Login</h4>
             <input type="phone" class="form-control" id="form-phone" placeholder="Enter phone" required>
