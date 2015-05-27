@@ -5,6 +5,9 @@ if(/mobile|android|iOS|iPhone|iPad/i.test(navigator.userAgent)) {
   $('#splash-screen').height($(window).height() - 20);
 }
 
+/* Init the height of .scroller elements */
+updateScrollerHeight();
+
 /* Click handler for all menu-toggles */
 $('.menu-toggle').click(function() {
   /* If the menu is already visible */
