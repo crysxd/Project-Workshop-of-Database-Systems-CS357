@@ -10,9 +10,9 @@ $(function() {
 $('#splash-screen .search-box .btn').click(function() {
   /* Show laoding overlay */
   showLoadingOverlay(function() {
-    /* If the query was not changed, use the last result */
     var delivery = getCurrentDeliveryAddress();
-    console.log("delivery");
+
+    /* If the query was not changed, use the last result */
     if(delivery != null && $('.search-box input').val() == delivery.formatted_address) {
       showRestaurantsForAddress(localStorage.getItem(localStorageDeliveryAddress));
     }
@@ -32,6 +32,14 @@ $('#splash-screen .search-box .btn').click(function() {
         return;
       }
       
+      /* Delete all results which are too coarse */
+      $(data.data.results).each(function(i, d) {
+        /* Skip if the location is too coarse */
+        if(d.geometry.location_type !== "ROOFTOP") {
+          data.data.results.splice(i, 1);
+        }
+      });
+      
       /* Nothing found */
       if(data.data.results.length == 0) {
         showErrorOverlay('No suitable addresses found', 
@@ -48,7 +56,6 @@ $('#splash-screen .search-box .btn').click(function() {
 
       /* Truncate list */
       $('#address-list>address').remove();
-              console.log(data);
 
       /* Make list */
       $(data.data.results).each(function(i, d) {
