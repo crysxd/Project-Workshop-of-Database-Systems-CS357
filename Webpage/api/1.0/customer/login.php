@@ -40,7 +40,7 @@
       $answer['success'] = true;
       
       // Log in
-      $answer['session'] = start_session($_GET['user'])
+      $answer['session'] = start_session($_GET['user']);
       
       // Query nick
       $answer['user'] = $_GET['user'];
