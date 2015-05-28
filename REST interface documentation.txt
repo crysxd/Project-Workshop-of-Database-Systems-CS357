@@ -39,6 +39,7 @@ api/1.0/customer/resturants
                     "shpping_cost": 0,
                     "min_order_value": 10.0
                     "eta": 30,
+                    "icon_mime": "image/png",
                     "icon": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
                     VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
                 },
@@ -52,6 +53,7 @@ api/1.0/customer/resturants
                     "shpping_cost": 0,
                     "min_order_value": 12.5,
                     "eta": 30,
+                    "icon_mime": "image/png",
                     "icon": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
                     VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
                 }
@@ -156,7 +158,8 @@ api/1.0/customer/login
     - Answer Sucess:
         {
             "success": true,
-            "session": 848395782
+            "session": 848395782,
+            "nick": "user"
         }
 --------------------------------------------------------------------------------
 api/1.0/customer/logout
@@ -170,9 +173,9 @@ api/1.0/customer/logout
         - session: The session which  should be terminated
     - Errors:
         Errors are not reported
-    - Answer (fixed, errors are not reported):
+    - Answer:
         {
-            "success": true,
+            "success": true
         }
 
 --------------------------------------------------------------------------------
