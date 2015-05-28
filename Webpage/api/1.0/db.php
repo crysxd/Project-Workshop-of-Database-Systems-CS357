@@ -95,5 +95,21 @@
       die($answer);
     }
   }
+
+  /****************************************************************************************************************************
+   * Starts a new session for the given user. The session id is returned
+   */
+  function start_session($user) {
+    global $db_link;
+   
+    // Generate session id
+    $session = bin2hex(openssl_random_pseudo_bytes(32));
+
+    // Put session id
+    $db_link->query("UPDATE customer SET session=\"$session\" WHERE nick=$user");
+    
+    //return
+    return $session;
+  }
 ?>
 

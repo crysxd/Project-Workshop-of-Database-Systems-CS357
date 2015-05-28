@@ -39,11 +39,8 @@
       // Login successful
       $answer['success'] = true;
       
-      // Generate session id
-      $answer['session'] = bin2hex(openssl_random_pseudo_bytes(32));
-      
-      // Put session id
-      $db_link->query("UPDATE customer SET session=\"{$answer['session']}\" WHERE nick=$user");
+      // Log in
+      $answer['session'] = start_session($_GET['user'])
       
       // Query nick
       $answer['user'] = $_GET['user'];
