@@ -8,6 +8,19 @@ $(function() {
 
 /* Click handler for search box */
 $('#splash-screen .search-box .btn').click(function() {
+  searchAddress();
+});
+
+/* Enter handler for search box */
+$('#splash-screen .search-box input').keypress(function(e) {
+  if(e.which == 13) {
+    searchAddress();
+    return false;
+  }
+});
+
+
+function searchAddress() {
   /* Show laoding overlay */
   showLoadingOverlay(function() {
     var delivery = getCurrentDeliveryAddress();
@@ -78,7 +91,7 @@ $('#splash-screen .search-box .btn').click(function() {
       showOverlay($('#address-picker'));
     });
   });
-});
+}
 
 function showRestaurantsForAddress(address) {
   /* Save search and found address */
