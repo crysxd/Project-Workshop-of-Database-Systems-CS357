@@ -245,9 +245,9 @@ api/1.0/customer/info
         Used to receive and set user informations or to create a completely new
         user.
     - Method:
-        GET, PUT, UPDATE
+        GET, PUT, POST
         If PUT is used a new user is generated, therefore the new session is 
-        returned in the anser. If UPDATE or GET is used the user must be logged
+        returned in the anser. If POST or GET is used the user must be logged
         in and the parameter session must be supplied
     - Parameter:
         - GET:
@@ -264,7 +264,7 @@ api/1.0/customer/info
             - first_name: The user's first name
             - sure_name: The user's sure name
             - pw: The user's password
-            - password: The user's password
+            - phone: The user's phone numver
             - nick: The user's nick name
     - Errors:
         Username already exists: Return error code 100
