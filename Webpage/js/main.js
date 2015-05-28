@@ -227,3 +227,8 @@ function getSession() {
 function setSession(session, nick, user) {
   localStorage.setItem(localStorageSession, JSON.stringify({session: session, nick: nick, user: user}));
 }
+
+/* Deletes the data for the current session */
+function deleteSession() {
+  localStorage.removeItem(localStorageSession);
+}
