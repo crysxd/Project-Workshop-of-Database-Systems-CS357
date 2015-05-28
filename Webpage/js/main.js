@@ -1,3 +1,5 @@
+var localStorageDeliveryAddress = 'globalDeliveryAddress';
+
 /* If we are on a mobile device we must fix the splash-screen hight,
    otehrwise the hight will jumo when the browser's navigation bar 
    is shown or hidden */
@@ -151,4 +153,15 @@ function generateRatingText(avg_raiting) {
   }
     
   return text;  
+}
+
+/* Loads the current delivery address from local storage, returns null if not available */
+function getCurrentDeliveryAddress() {
+  var loaded = localStorage.getItem(localStorageDeliveryAddress);
+  return JSON.parse(loaded);
+}
+
+/* Saves the delivery address to local storage */
+function setCurrentDeliveryAddress(address) {
+  return localStorage.setItem(localStorageDeliveryAddress, typeof address === "string" ? address : JSON.stringify(address));
 }
