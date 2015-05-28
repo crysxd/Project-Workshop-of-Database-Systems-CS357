@@ -151,7 +151,7 @@ api/1.0/customer/login
     - Method:
         GET
     - Parameter:
-        - user: The user's phone number
+        - user: The user's nick name
         - pw: The user's password
     - Error:
         Password or user wrong: Return error code 100
@@ -164,12 +164,12 @@ api/1.0/customer/login
 --------------------------------------------------------------------------------
 api/1.0/customer/logout
     - Description:
-        Terminates the session if the phone number corresponses to the one saved
+        Terminates the session if the nick name corresponses to the one saved
         in the database
     - Method:
         GET
     - Parameter:
-        - user: The user's phone number
+        - user: The user's nick name
         - session: The session which  should be terminated
     - Errors:
         Errors are not reported
@@ -185,7 +185,7 @@ api/1.0/customer/delivery
     - Method:
         PUT
     - Parameter:
-        - user: The user's phone number
+        - user: The user's nick name
         - session: The session which is used to order
         - order: the order, encoded as following:
             {
@@ -216,7 +216,7 @@ api/1.0/customer/address
     - Parameter:
         - GET:
             - session: The session which is used to update
-            - user: The user's phone number
+            - user: The user's nick name
         - PUT:
             - session: The session which is used to update
             - phone: The user's phone number
@@ -252,15 +252,10 @@ api/1.0/customer/info
     - Parameter:
         - GET:
             - session: The session which is used to update
-            - phone: The user's phone number
+            - phone: The user's nick name
         - POST:     
             - first_name: The user's first name
             - sure_name: The user's sure name
-            - street: The user's street and house number
-            - district: The user's district
-            - postcode: The user's postal  code
-            - city: The user's city
-            - province: The user's province
             - pw: The user's password
             - nick: The user's nick name
             - password: The user's password
@@ -268,11 +263,6 @@ api/1.0/customer/info
         - PUT:
             - first_name: The user's first name
             - sure_name: The user's sure name
-            - street: The user's street and house number
-            - district: The user's district
-            - postcode: The user's postal  code
-            - city: The user's city
-            - province: The user's province
             - pw: The user's password
             - password: The user's password
             - nick: The user's nick name
@@ -280,6 +270,7 @@ api/1.0/customer/info
         Username already exists: Return error code 100
         Phone number already exists: Return error code 101
         Password insufficient: Return error code 102
+        Nick already exists: Return error code 103
     - Answer Sucess PUT:
         {
             "success": true,
@@ -356,6 +347,12 @@ api/1.0/customer/rate
         Used to rate a meal.
     - Method:
         PUT
+    - Parameter:
+        meal: The meal' id
+        user: The user's  nick name
+        session: The session
+        rating: The rating (0-5)
+        comment: The user's comment
     - Errors:
         User is not allowed to rate meal: Return error code 100
         Comment is too long: Return error code 101
