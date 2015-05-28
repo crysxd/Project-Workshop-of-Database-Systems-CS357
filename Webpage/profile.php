@@ -53,9 +53,14 @@
         <span class="pull-right collapse-trigger glyphicon"></span>
         <h3 class="panel-title"><span class="glyphicon glyphicon-star"></span> Unrated Meals</h3>
       </div>
-      <div class="panel-body">
-        
-      </div>
+      <ul class="list-group">
+        <?php for($i=0; $i<4; $i++) { ?>
+          <li class="list-group-item">
+            <p class="title">A cool Meal</p>
+            <p class="detail">A cool Restaurant - 23.5.3334</p>
+          </li>
+        <?php } ?>
+      </ul>
     </section>
     
     <!-- Old orders -->
@@ -64,9 +69,14 @@
         <span class="pull-right collapse-trigger glyphicon"></span>
         <h3 class="panel-title"><span class="glyphicon glyphicon-time"></span> Delivery History</h3>
       </div>
-      <div class="panel-body">
-        
-      </div>
+      <ul class="list-group">
+        <?php for($i=0; $i<4; $i++) { ?>
+          <li class="list-group-item">
+            <p class="title">A cool Restaurant</p>
+            <p class="detail">23.5.3334</p>
+          </li>
+        <?php } ?>
+      </ul>
     </section>
     
     <!-- Footer -->
