@@ -45,14 +45,6 @@ function searchAddress() {
         return;
       }
       
-      /* Delete all results which are too coarse */
-      $(data.data.results).each(function(i, d) {
-        /* Skip if the location is too coarse */
-        if(d.geometry.location_type !== "ROOFTOP") {
-          data.data.results.splice(i, 1);
-        }
-      });
-      
       /* Nothing found */
       if(data.data.results.length == 0) {
         showErrorOverlay('No suitable addresses found', 
