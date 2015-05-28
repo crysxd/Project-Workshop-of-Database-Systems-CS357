@@ -12,7 +12,7 @@
   $answer = array();
 
   // Prepare Statements
-  $stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM customer WHERE phone_pk=? AND password=?");
+  $stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM customer WHERE nick=? AND password=?");
   $stmt->bind_param("ss", $user, $pw);
 
   // assure query parameters are clean and set parameters
@@ -43,15 +43,9 @@
       $answer['session'] = bin2hex(openssl_random_pseudo_bytes(32));
       
       // Put session id
-      $db_link->query("UPDATE customer SET session=\"{$answer['session']}\" WHERE phone_pk=$user");
+      $db_link->query("UPDATE customer SET session=\"{$answer['session']}\" WHERE nick=$user");
       
       // Query nick
-      $stmt = $db_link->prepare("SELECT nick FROM customer WHERE phone_pk=?");
-      $stmt->bind_param("s", $_GET['user']);
-      $stmt->execute();
-      $answer['nick'] = $stmt->get_result()->fetch_assoc()['nick'];
-      
-      // Add user id
       $answer['user'] = $_GET['user'];
       
     } else {

@@ -27,7 +27,7 @@ $('#btn-logout').click(function() {
     /* Load the session */
     var session = getSession();
     /* Call logout */
-    $.rest.get('api/1.0/customer/logout.php', {user: session.user, session: session.session}, function() {
+    $.rest.get('api/1.0/customer/logout.php', session, function() {
       deleteSession();
       leaveTo('index.php');
     })

@@ -76,7 +76,7 @@
     $answer = json_encode(array("success" => false, "err_no" => ERROR_UNAUTHORIZED));
 
     // Preapre query
-    if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM customer WHERE phone_pk=? AND session=?")) {
+    if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM customer WHERE nick=? AND session=?")) {
       die($answer);
     }
     

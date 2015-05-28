@@ -72,7 +72,7 @@ $('#login-complete-button').click(function() {
 
       /* If succesfull: save login data and hide login form */
       else {
-        setSession(data.session, data.nick, data.user);
+        setSession(data.session, data.user);
         updateLoginButtonState();
         hideOverlay($('#login-overlay'));
       }
@@ -121,7 +121,7 @@ function updateLoginButtonState() {
   
   /* If the user is logged in */
   if(session != null) {
-    $('#login-button .text').text(session.nick);
+    $('#login-button .text').text(session.user);
   }
   
   /* If not */
@@ -225,8 +225,8 @@ function getSession() {
 }
 
 /* Saves the data for the current session */
-function setSession(session, nick, user) {
-  localStorage.setItem(localStorageSession, JSON.stringify({session: session, nick: nick, user: user}));
+function setSession(session, user) {
+  localStorage.setItem(localStorageSession, JSON.stringify({session: session, user: user}));
 }
 
 /* Deletes the data for the current session */
