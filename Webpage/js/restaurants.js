@@ -61,8 +61,6 @@ function loadItems() {
         $('.load-more-item').hide();
       }
       
-              console.log(data);
-
       /* Iterate over all elements */
       $(data.data).each(function(i, d) {
         var e = $(template);
@@ -76,7 +74,7 @@ function loadItems() {
         e.find('.eta').text(d.eta);
         
         if(d.icon) {
-          e.find('.restaurant-icon').attr('src', 'data:image/png;base64,' + d.icon);
+          e.find('.restaurant-icon').attr('src', 'data:' + d.icon_mime + ';base64,' + d.icon);
         }
         
         $('.load-more-item').before(e);
