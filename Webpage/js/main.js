@@ -49,6 +49,7 @@ $('#login-button').click(function() {
   /* If the user is logged in, redirect to the profile page */
   if(getSession() != null) {
     leaveTo('profile.php');  
+    return;
   }
   
   /* Fade overlay in and disable scrolling of body */
