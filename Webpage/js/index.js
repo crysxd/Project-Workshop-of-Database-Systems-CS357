@@ -77,7 +77,9 @@ function showRestaurantsForAddress(address) {
   /* Save search and found address */
   setCurrentDeliveryAddress(address);
   /* Leave */
-  leaveTo('restaurants.php');
+  hideOverlay($('#address-picker'), function() {
+    leaveTo('restaurants.php');
+  });
 }
 
 /* Click handler for cancel button in address picker */
