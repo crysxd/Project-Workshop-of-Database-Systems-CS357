@@ -17,25 +17,13 @@
     //Abbrechen wenn bereits geöffnet
     if($db_link != null) {
       return;
-      
     }
     
-    $db_link = mysql_connect(DB_HOST, DB_USER, DB_PASS);
+    $db_link = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-    if (!$db_link) {
-      echo mysql_error();
-      //header("Location: error.php?error=".mysql_error());
+    if (!$db_link || $db_link->connect_error) {
+      echo $db_link->connect_error;
       die();
-
-    }
-    
-    $db = mysql_select_db(DB_NAME);
-    
-    if (!$db_link) {
-      echo mysql_error();
-      //header("Location: error.php?error=".mysql_error);
-      die();
-
     }
   }
 
@@ -46,7 +34,7 @@
     global $db_link;
     
     if($db_link != null) {
-      mysql_close($db_link);
+      $db_link->close();
       $db_link = null;
     
     } 
@@ -59,7 +47,6 @@
     foreach($params as $i => $p) {
       if(!array_key_exists ($p, $_GET)) {
         return "Required parameter \"$p\" is missing.";
-        
       }
     }
   }
