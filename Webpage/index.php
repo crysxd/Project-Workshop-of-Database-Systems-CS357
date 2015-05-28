@@ -42,9 +42,7 @@
           <template>
             <address class="address btn btn-default btn-block">
               <p class="road">Undefined</p>
-              <p class="suburb"></p>
-              <p><span class="postcode"></span> <span class="city"></span></p>
-              <p class="county"></p>
+              <p><span class="postal_code"></span> <span class="city"></span></p>
               <p class="state"></p>
               <p class="country"></p>
             </address>
