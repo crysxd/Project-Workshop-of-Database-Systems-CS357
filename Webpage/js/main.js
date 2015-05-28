@@ -1,4 +1,5 @@
 var localStorageDeliveryAddress = 'globalDeliveryAddress';
+var localStorageSession = 'globalSession';
 
 /* If we are on a mobile device we must fix the splash-screen hight,
    otehrwise the hight will jumo when the browser's navigation bar 
@@ -9,6 +10,9 @@ if(/mobile|android|iOS|iPhone|iPad/i.test(navigator.userAgent)) {
 
 /* Init the height of .scroller elements */
 updateScrollerHeight();
+
+/* Init the state of the login button */
+updateLoginButtonState();
 
 /* Click handler for all menu-toggles */
 $('.menu-toggle').click(function() {
@@ -42,8 +46,40 @@ $('.menu-toggle').click(function() {
 
 /* Click handler for login button */
 $('#login-button').click(function() {
+  /* If the user is logged in, redirect to the profile page */
+  if(getSession() != null) {
+    leaveTo('profile.php');  
+  }
+  
   /* Fade overlay in and disable scrolling of body */
   showOverlay($('#login-overlay'));
+});
+
+/* Click handler for login complete button */
+$('#login-complete-button').click(function() {
+  showLoadingOverlay(function() {
+    /* Get login data from form */
+    var user = $('#task-login #form-phone').val();
+    var pw = $('#task-login #form-password').val();
+
+    /* Start request */
+    $.rest.get('api/1.0/customer/login.php?', {user: user, pw: pw}, function(data) {
+      /* If not successful: show error */
+      if(!data.success) {
+        showErrorOverlay('Login failed', 'User or password wrong');
+      } 
+
+      /* If succesfull: save login data and hide login form */
+      else {
+        setSession(data.session, data.nick);
+        updateLoginButtonState();
+        hideOverlay($('#login-overlay'));
+      }
+      
+      /* Hide the laoding overlay to make it possible */
+      hideLoadingOverlay();
+    });
+  });
 });
 
 /* Click handler for register button */
@@ -77,6 +113,21 @@ $(window).resize(function() {
   /* Update height of .scroller elements to match new window height */
   updateScrollerHeight();
 });
+
+/* Updates the state of the login button. If the user is logged in the button shows the nick, else it shows "login" */
+function updateLoginButtonState() {
+  var session = getSession();
+  
+  /* If the user is logged in */
+  if(session != null) {
+    $('#login-button .text').text(session.nick);
+  }
+  
+  /* If not */
+  else {
+    $('#login-button .text').text("Login / Register");
+  }
+}
 
 /* Updates height of .scroller elements to match new window height */
 function updateScrollerHeight() {
@@ -164,4 +215,15 @@ function getCurrentDeliveryAddress() {
 /* Saves the delivery address to local storage */
 function setCurrentDeliveryAddress(address) {
   return localStorage.setItem(localStorageDeliveryAddress, typeof address === "string" ? address : JSON.stringify(address));
+}
+
+/* Loads the data for the current session, null if not available */
+function getSession() {
+  var loaded = localStorage.getItem(localStorageSession);
+  return JSON.parse(loaded);
+}
+
+/* Saves the data for the current session */
+function setSession(session, nick) {
+  localStorage.setItem(localStorageSession, JSON.stringify({session: session, nick: nick}));
 }
