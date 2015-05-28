@@ -1,7 +1,5 @@
 var restaurants_meal_batch_size = 12;
 var restuarants_meal_position = 0;
-var restaurants_current_lat = undefined;
-var restaurants_current_long = undefined;
 
 /* If we are on a mobile device we must fix the splash-screen height,
    otehrwise the hight will jumo when the browser's navigation bar 
@@ -13,12 +11,8 @@ if(/mobile|android|iOS|iPhone|iPad/i.test(navigator.userAgent)) {
 
 /* When the doc is ready fade out the loading screen after 1s */
 $(document).ready(function() {
-  /* Get current position */
-  navigator.geolocation.getCurrentPosition(
-    function(pos) { restaurants_current_lat = pos.coords.latitude; restaurants_current_long = pos.coords.longitude; loadItems(); }, 
-    function(err) { console.error(err); loadItems(); }, 
-    {enableHighAccuracy: true, timeout: 30000, maximumAge: 0}
-  );
+  /* Load first items */
+  loadItems();
 });
 
 
@@ -30,9 +24,12 @@ $('.load-more-item').click(function() {
 
 /* Loads the next bunch of items */
 function loadItems() {
-  /* Cancel if position is not available */
-  if(restaurants_current_lat == undefined || restaurants_current_long == undefined) {
-    alert('Error: Unable to get position.');
+  /* Load address */
+  var address = getCurrentDeliveryAddress();
+  
+  /* Cancel if address is not available and leave to index */
+  if(address == null) {
+    leaveTo('index.php');
     return;
   }
     
@@ -41,8 +38,8 @@ function loadItems() {
     'api/1.0/customer/restaurants.php', {
       start:restuarants_meal_position, 
       count:restaurants_meal_batch_size, 
-      center_lat:0, 
-      center_long:0 
+      center_lat:address.geometry.location.lat, 
+      center_long:address.geometry.location.lng 
     }, function(data) {
       /* Handle errors */
       if(!data.success) {
