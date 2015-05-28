@@ -2,14 +2,14 @@
   define("DB_HOST", "localhost");
   define("DB_USER", "root");
   define("DB_PASS", "");
-  define("DB_NAME", "test");
+  define("DB_NAME", "mydb");
   define("IMAGE_DIRECTORY", "img");
   define("ERROR_GENERAL", 0);
   define("ERROR_UNAUTHORIZED", 1);
   define("ERROR_MISSING_PARAM", 2);
 
   /****************************************************************************************************************************
-   * Öffnet die Verbindung zur Datenbank
+   * Opens a connection to the database
    */
   function db_open() {
     global $db_link;
@@ -28,7 +28,7 @@
   }
 
   /****************************************************************************************************************************
-   * Schließt die Verbindung zur Datenbank
+   * Closes the connection to the database
    */
   function db_close() {
     global $db_link;
@@ -41,7 +41,7 @@
   }  
 
   /****************************************************************************************************************************
-   * Stellt sicher das alle benötigten Parameter vorhanden sind.
+   * Assures all neeeded parameteres are availabel in $_GET
    */
   function check_parms_available($params) {    
     foreach($params as $i => $p) {
@@ -49,6 +49,20 @@
         return "Required parameter \"$p\" is missing.";
       }
     }
+  }
+
+  /****************************************************************************************************************************
+   * Returns the path to the icon file for the restaurant with the given id.
+   */
+  function get_restaurant_icon_file_name($restaurant_id) {
+    return get_image_dir()."/restaurant_".$restaurant_id;
+  }
+
+  /****************************************************************************************************************************
+   * Returns the path to the directory storing all images
+   */
+  function get_image_dir() {
+    return dirname(__FILE__)."/".IMAGE_DIRECTORY;
   }
 ?>
 
