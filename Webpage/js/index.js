@@ -1,24 +1,27 @@
+$(function() {
+  /* Load last search */
+  var delivery = getCurrentDeliveryAddress();
+  if(delivery != null) {
+    $('.search-box input').val(delivery.formatted_address);
+  }
+});
+
 /* Click handler for search box */
 $('#splash-screen .search-box .btn').click(function() {
   /* Show laoding overlay */
   showLoadingOverlay(function() {
+    /* If the query was not changed, use the last result */
+    var delivery = getCurrentDeliveryAddress();
+    console.log("delivery");
+    if(delivery != null && $('.search-box input').val() == delivery.formatted_address) {
+      showRestaurantsForAddress(localStorage.getItem(localStorageDeliveryAddress));
+    }
+    
     /* Query data */
-    $.rest.get('http://nominatim.openstreetmap.org/search', 
-      {q: $('.search-box input').val(), format: 'jsonv2', addressdetails: 1}, function(data) {
+    $.rest.get('http://www.kart4you.de/meals/geo.php', {address: $('.search-box input').val()}, function(data) {
 
-      /* Nothing found */
-      if(data.length == 0) {
-        showErrorOverlay('No suitable addresses found', 
-                         'There where no results for your search, try to be more specific.', 
-                         function() {
-          hideLoadingOverlay();
-        });
-
-        return;
-      }
-      
       /* Handle errors */
-      if('success' in data) {
+      if(!data.success || data.data.status !== "OK") {
         showErrorOverlay('Network Error', 
                          'A network error occured while loading the results. ' +
                          'Make sure you are connected to the internet and try again.', 
@@ -29,23 +32,36 @@ $('#splash-screen .search-box .btn').click(function() {
         return;
       }
       
+      /* Nothing found */
+      if(data.data.results.length == 0) {
+        showErrorOverlay('No suitable addresses found', 
+                         'There where no results for your search, try to be more specific.', 
+                         function() {
+          hideLoadingOverlay();
+        });
+
+        return;
+      }
+            
       /* Load template */
       var template = $('#address-list template').html().trim();
 
       /* Truncate list */
       $('#address-list>address').remove();
-      
+              console.log(data);
+
       /* Make list */
-      $(data).each(function(i, d) {
+      $(data.data.results).each(function(i, d) {
         /* Copy and fill template */
         var e = $(template);
-        e.find('.road').text(d.address.road);
-        e.find('.suburb').text(d.address.suburb);
-        e.find('.city').text(d.address.city);
-        e.find('.postcode').text(d.address.postcode);
-        e.find('.county').text(d.address.county);
-        e.find('.state').text(d.address.state);
-        e.find('.country').text(d.address.country);
+        e.find('.road').text(d.simple.road);
+        e.find('.city').text(d.simple.city);
+        e.find('.postal_code').text(d.simple.postal_code);
+        e.find('.state').text(d.simple.state);
+        e.find('.country').text(d.simple.country);
+        e.click(function() {
+          showRestaurantsForAddress(d);
+        })
 
         /* Append */
         $('#address-list .btn-cancel').before(e);
@@ -58,6 +74,9 @@ $('#splash-screen .search-box .btn').click(function() {
 });
 
 function showRestaurantsForAddress(address) {
+  /* Save search and found address */
+  setCurrentDeliveryAddress(address);
+  /* Leave */
   leaveTo('restaurants.php');
 }
 
