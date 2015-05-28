@@ -58,9 +58,10 @@ $('#login-button').click(function() {
 
 /* Click handler for login complete button */
 $('#login-complete-button').click(function() {
+  /* Show loading overlay */
   showLoadingOverlay(function() {
     /* Get login data from form */
-    var user = $('#task-login #form-phone').val();
+    var user = $('#task-login #form-user').val();
     var pw = $('#task-login #form-password').val();
 
     /* Start request */
