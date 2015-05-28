@@ -51,6 +51,9 @@
       $stmt->execute();
       $answer['nick'] = $stmt->get_result()->fetch_assoc()['nick'];
       
+      // Add user id
+      $answer['user'] = $_GET['user'];
+      
     } else {
       // Login unsuccessful
       $answer['success'] = false;
