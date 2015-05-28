@@ -1,4 +1,9 @@
 $(document).ready(function() {
+  /* Redirect to home if the user is not logged in */
+  if(getSession() == null) {
+    leaveTo('index.php');
+  }
+  
   /* Click handlers for panel heders */
   $('.panel-collapse .panel-heading').click(function(e) {
     /* Toggle class collpased. This will show or hide the content */
@@ -14,4 +19,17 @@ $(document).ready(function() {
   /* When the doc is ready fade out the loading screen after 250ms */
   window.setTimeout(hideLoadingOverlay, 250);
 
+});
+
+$('#btn-logout').click(function() {
+  /* Show the overlay */
+  showLoadingOverlay(function() {
+    /* Load the session */
+    var session = getSession();
+    /* Call logout */
+    $.rest.get('api/1.0/customer/logout.php', {user: session.user, session: session.session}, function() {
+      deleteSession();
+      leaveTo('index.php');
+    })
+  });
 });

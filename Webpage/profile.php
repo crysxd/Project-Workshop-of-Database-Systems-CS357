@@ -79,6 +79,9 @@
       </ul>
     </section>
     
+    <!-- Logout button -->
+    <button id="btn-logout" class="btn btn-danger btn-block">Log out</button>
+    
     <!-- Footer -->
     <?php include('shared/footer.html'); ?>
     
@@ -87,6 +90,7 @@
   <!-- Load Scripts at the end to optimize site loading time -->
   <script src="js/jquery-2.1.0.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="js/api.js"></script>
   <script src="js/main.js"></script>
   <script src="js/profile.js"></script>
 </body>
