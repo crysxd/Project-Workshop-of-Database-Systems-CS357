@@ -2,6 +2,8 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+CREATE SCHEMA IF NOT EXISTS `mymeal` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+USE `mymeal` ;
 
 -- -----------------------------------------------------
 -- Table `mymeal`.`Restaurant`
@@ -36,11 +38,6 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Customer` (
   `first_name` VARCHAR(256) NULL,
   `sure_name` VARCHAR(256) NULL,
   `nick` VARCHAR(45) NULL DEFAULT 'Name' COMMENT 'the nickname of the user\ndefault is combination of name',
-  `street` VARCHAR(256) NULL COMMENT 'with house\nnumber\n',
-  `postcode` VARCHAR(45) NULL,
-  `city` VARCHAR(256) NULL,
-  `province` VARCHAR(256) NULL,
-  `add_info` VARCHAR(256) NULL,
   `password` VARCHAR(256) NULL,
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
   PRIMARY KEY (`phone_pk`))
@@ -89,8 +86,13 @@ COMMENT = 'a restaurant may have multiple opening times';
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery` (
   `delivery_id_pk` INT NOT NULL,
-  `Restaurant_restaurant_id` INT NOT NULL,
   `Customer_phone` VARCHAR(45) NOT NULL,
+  `Restaurant_restaurant_id` INT NOT NULL,
+  `street` VARCHAR(256) NULL,
+  `postcode` VARCHAR(45) NULL,
+  `city` VARCHAR(256) NULL,
+  `province` VARCHAR(256) NULL,
+  `add_info` VARCHAR(256) NULL,
   PRIMARY KEY (`delivery_id_pk`),
   INDEX `fk_User_has_Restaurant_Restaurant1_idx` (`Restaurant_restaurant_id` ASC),
   INDEX `fk_delivery_users1_idx` (`Customer_phone` ASC),
@@ -111,16 +113,16 @@ ENGINE = InnoDB;
 -- Table `mymeal`.`Rating`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Rating` (
-  `Dish_dish_id_pk` INT NOT NULL,
+  `Meal_meal_id_pk` INT NOT NULL,
   `Customer_phone_pk` VARCHAR(45) NOT NULL,
   `date` DATETIME NULL,
   `rating` SMALLINT NULL COMMENT 'smallint because the number will not be bigger than 10',
   `comment` TEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`Customer_phone_pk`, `Dish_dish_id_pk`),
-  INDEX `fk_Rating_dish1_idx` (`Dish_dish_id_pk` ASC),
+  PRIMARY KEY (`Customer_phone_pk`, `Meal_meal_id_pk`),
+  INDEX `fk_Rating_dish1_idx` (`Meal_meal_id_pk` ASC),
   INDEX `fk_Rating_user1_idx` (`Customer_phone_pk` ASC),
   CONSTRAINT `fk_Rating_dish1`
-    FOREIGN KEY (`Dish_dish_id_pk`)
+    FOREIGN KEY (`Meal_meal_id_pk`)
     REFERENCES `mymeal`.`Meal` (`meal_id_pk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
