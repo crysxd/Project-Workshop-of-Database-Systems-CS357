@@ -17,9 +17,9 @@
     
   } else {
     // Prepare Statements
-    $stmt_result = $db_link->prepare("SELECT * FROM restaurants WHERE 1 ORDER BY id LIMIT ?, ?");
+    $stmt_result = $db_link->prepare("SELECT * FROM restaurant WHERE 1 ORDER BY restaurant_id_pk LIMIT ?, ?");
     $stmt_result->bind_param("ii", $start, $count);
-    $stmt_count = $db_link->prepare("SELECT COUNT(*) AS item_count FROM restaurants");
+    $stmt_count = $db_link->prepare("SELECT COUNT(*) AS item_count FROM restaurant");
     
     // assure query parameters are clean and set parameters
     $center_lat = mysql_real_escape_string($_GET['center_lat']);
@@ -52,7 +52,16 @@
 
       while($result && ($row = $result->fetch_assoc())) {
         // add additional fields
-        $row['random_additional_field'] = 42 + $row['id'];
+        $row['random_additional_field'] = 42 + $row['restaurant_id_pk'];
+        
+        // Test if a icon is available
+        $icon_file = get_restaurant_icon_file_name($row['restaurant_id_pk']);
+        if(file_exists($icon_file)) {
+          //Get MIME (PNG, JPEG, etc...)
+          $row['icon_mime'] = mime_content_type ($icon_file);
+          // Store icon as base64
+          $row['icon'] = base64_encode(file_get_contents($icon_file));
+        }
         
         // append row to data array
         $answer['data'][] = $row;
