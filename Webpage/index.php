@@ -58,7 +58,7 @@
     <section id="splash-screen">
       <div class="splash-center">
         <div class="input-group search-box">
-          <input type="text" class="form-control" placeholder="Street, Number, City..." value="Dongchuan Road 800 Shanghai">
+          <input type="text" class="form-control" placeholder="Street, Number, City...">
           <span class="input-group-btn">
             <button class="btn btn-default" type="button"></button>
           </span>
