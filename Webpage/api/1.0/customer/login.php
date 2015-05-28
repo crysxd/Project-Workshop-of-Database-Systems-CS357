@@ -38,8 +38,19 @@
     if($result->fetch_assoc()['ok'] == 1) {
       // Login successful
       $answer['success'] = true;
+      
+      // Generate session id
       $answer['session'] = bin2hex(openssl_random_pseudo_bytes(32));
+      
+      // Put session id
       $db_link->query("UPDATE customer SET session=\"{$answer['session']}\" WHERE phone_pk=$user");
+      
+      // Query nick
+      $stmt = $db_link->prepare("SELECT nick FROM customer WHERE phone_pk=?");
+      $stmt->bind_param("s", $_GET['user']);
+      $stmt->execute();
+      $answer['nick'] = $stmt->get_result()->fetch_assoc()['nick'];
+      
     } else {
       // Login unsuccessful
       $answer['success'] = false;
