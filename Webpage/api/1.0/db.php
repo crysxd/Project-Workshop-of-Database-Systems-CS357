@@ -4,6 +4,7 @@
   define("DB_PASS", "");
   define("DB_NAME", "mydb");
   define("IMAGE_DIRECTORY", "img");
+  define("PASSWORD_HASH_FUNCTION", "sha1");
   define("ERROR_GENERAL", 0);
   define("ERROR_UNAUTHORIZED", 1);
   define("ERROR_MISSING_PARAM", 2);
@@ -46,7 +47,7 @@
   function check_parms_available($params) {    
     foreach($params as $i => $p) {
       if(!array_key_exists ($p, $_GET)) {
-        return "Required parameter \"$p\" is missing.";
+        die(json_encode(array("success" => false, "err_no" => ERROR_MISSING_PARAM, "err_msg" => "Required parameter \"$p\" is missing.")));
       }
     }
   }
@@ -63,6 +64,36 @@
    */
   function get_image_dir() {
     return dirname(__FILE__)."/".IMAGE_DIRECTORY;
+  }
+
+  /****************************************************************************************************************************
+   * Checks if the given session is valid for the given customer. Kills the PHP script if the user is unauthorized
+   */
+  function check_customer_session($user, $session) {
+    global $db_link;
+    
+    // Create a answer for unauthorized users
+    $answer = json_encode(array("success" => false, "err_no" => ERROR_UNAUTHORIZED));
+
+    // Preapre query
+    if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM customer WHERE phone_pk=? AND session=?")) {
+      die($answer);
+    }
+    
+    // Bind params
+    if(!$stmt->bind_param("ss", $user, $session)) {
+      die($answer);
+    }
+    
+    // Execute
+    if(!$stmt->execute()) {
+      die($answer);
+    }
+    
+    // Check result
+    if($stmt->get_result()->fetch_assoc()['ok'] != 1) {
+      die($answer);
+    }
   }
 ?>
 
