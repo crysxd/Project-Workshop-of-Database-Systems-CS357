@@ -12,7 +12,7 @@
   $answer = array();
 
   // Prepare Statements
-  $stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM customer WHERE phone_pk=? AND password=?");
+  $stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM customer WHERE nick=? AND password=?");
   $stmt->bind_param("ss", $user, $pw);
 
   // assure query parameters are clean and set parameters
@@ -38,8 +38,13 @@
     if($result->fetch_assoc()['ok'] == 1) {
       // Login successful
       $answer['success'] = true;
-      $answer['session'] = bin2hex(openssl_random_pseudo_bytes(32));
-      $db_link->query("UPDATE customer SET session=\"{$answer['session']}\" WHERE phone_pk=$user");
+      
+      // Log in
+      $answer['session'] = start_session($_GET['user']);
+      
+      // Query nick
+      $answer['user'] = $_GET['user'];
+      
     } else {
       // Login unsuccessful
       $answer['success'] = false;

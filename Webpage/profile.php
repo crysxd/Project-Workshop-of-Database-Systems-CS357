@@ -53,9 +53,14 @@
         <span class="pull-right collapse-trigger glyphicon"></span>
         <h3 class="panel-title"><span class="glyphicon glyphicon-star"></span> Unrated Meals</h3>
       </div>
-      <div class="panel-body">
-        
-      </div>
+      <ul class="list-group">
+        <?php for($i=0; $i<4; $i++) { ?>
+          <li class="list-group-item">
+            <p class="title">A cool Meal</p>
+            <p class="detail">A cool Restaurant - 23.5.3334</p>
+          </li>
+        <?php } ?>
+      </ul>
     </section>
     
     <!-- Old orders -->
@@ -64,10 +69,18 @@
         <span class="pull-right collapse-trigger glyphicon"></span>
         <h3 class="panel-title"><span class="glyphicon glyphicon-time"></span> Delivery History</h3>
       </div>
-      <div class="panel-body">
-        
-      </div>
+      <ul class="list-group">
+        <?php for($i=0; $i<4; $i++) { ?>
+          <li class="list-group-item">
+            <p class="title">A cool Restaurant</p>
+            <p class="detail">23.5.3334</p>
+          </li>
+        <?php } ?>
+      </ul>
     </section>
+    
+    <!-- Logout button -->
+    <button id="btn-logout" class="btn btn-danger btn-block">Log out</button>
     
     <!-- Footer -->
     <?php include('shared/footer.html'); ?>
@@ -77,6 +90,7 @@
   <!-- Load Scripts at the end to optimize site loading time -->
   <script src="js/jquery-2.1.0.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="js/api.js"></script>
   <script src="js/main.js"></script>
   <script src="js/profile.js"></script>
 </body>

@@ -1,4 +1,5 @@
 var localStorageDeliveryAddress = 'globalDeliveryAddress';
+var localStorageSession = 'globalSession';
 
 /* If we are on a mobile device we must fix the splash-screen hight,
    otehrwise the hight will jumo when the browser's navigation bar 
@@ -9,6 +10,9 @@ if(/mobile|android|iOS|iPhone|iPad/i.test(navigator.userAgent)) {
 
 /* Init the height of .scroller elements */
 updateScrollerHeight();
+
+/* Init the state of the login button */
+updateLoginButtonState();
 
 /* Click handler for all menu-toggles */
 $('.menu-toggle').click(function() {
@@ -42,8 +46,42 @@ $('.menu-toggle').click(function() {
 
 /* Click handler for login button */
 $('#login-button').click(function() {
+  /* If the user is logged in, redirect to the profile page */
+  if(getSession() != null) {
+    leaveTo('profile.php');  
+    return;
+  }
+  
   /* Fade overlay in and disable scrolling of body */
   showOverlay($('#login-overlay'));
+});
+
+/* Click handler for login complete button */
+$('#login-complete-button').click(function() {
+  /* Show loading overlay */
+  showLoadingOverlay(function() {
+    /* Get login data from form */
+    var user = $('#task-login #form-user').val();
+    var pw = $('#task-login #form-password').val();
+
+    /* Start request */
+    $.rest.get('api/1.0/customer/login.php?', {user: user, pw: pw}, function(data) {
+      /* If not successful: show error */
+      if(!data.success) {
+        showErrorOverlay('Login failed', 'User or password wrong');
+      } 
+
+      /* If succesfull: save login data and hide login form */
+      else {
+        setSession(data.session, data.user);
+        updateLoginButtonState();
+        hideOverlay($('#login-overlay'));
+      }
+      
+      /* Hide the laoding overlay to make it possible */
+      hideLoadingOverlay();
+    });
+  });
 });
 
 /* Click handler for register button */
@@ -59,6 +97,92 @@ $('#register-button').click(function() {
   
   /* Force update the height of .scroller elements */
   updateScrollerHeight();
+});
+
+/* Hide hanler for popovers for inputs in login/register forms */
+$('#login-overlay input').on('hidden.bs.popover', function () {
+  /* Destroy popover after it is hidden */
+  $(this).popover('destroy');
+})
+
+/* Click handler for register complete button */
+$('#register-complete-button').click(function() {
+  /* Get register data from form */
+  var params = new Object();
+  params.nick = $('#task-register #form-user-name').val();
+  params.pw = $('#task-register #form-password').val();
+  var pw2 = $('#task-register #form-password-control').val();
+  params.phone = $('#task-register #form-phone').val();
+  var phone2 = $('#task-register #form-phone-control').val();
+  params.first_name = $('#task-register #form-first-name').val();
+  params.sure_name = $('#task-register #form-sure-name').val();
+  
+  /* Check that there is data in all fields */
+  var emptyFields = $('#task-register input').filter(function(){ return !this.value });
+  if(emptyFields.length > 0) {
+    $(emptyFields[0]).popover(
+      {content: 'Please fill in this field', placement: 'bottom'}).popover('show');
+    return;
+  }
+
+  /* Check if password matches with its control */
+  if(params.pw != pw2) {
+    $('#task-register #form-password-control').popover(
+      {content: 'The passwords do not match', placement: 'bottom'}).popover('show');
+    return;
+  }
+
+  /* Check if the phone matches with its control */
+  if(params.phone != phone2) {
+    $('#task-register #form-phone-control').popover(
+      {content: 'The phone numbers do not match', placement: 'bottom'}).popover('show');
+    return;
+  }
+  
+  /* Check if password is long enough */
+  if(params.pw.length < 6) {
+    $('#task-register #form-password').popover(
+      {content: 'The password must have at least 6 characters', placement: 'bottom'}).popover('show');
+    return;
+  }
+  
+  /* Show loading overlay */
+  showLoadingOverlay(function() {
+    /* Start request */
+    $.rest.put('api/1.0/customer/info.php', params, function(data) {
+      /* If not successful: show error */
+      if(!data.success) {
+        console.log(data);
+        
+        /* Error: User already exists */
+        if(data.err_no == 1000) {
+          $('#task-register #form-user-name').popover(
+            {content: 'The user name is already taken', placement: 'bottom'}).popover('show');
+        } 
+        
+        /* Error: Phone number already exists */
+        else if(data.err_no == 1001) {
+          $('#task-register #form-phone').popover(
+            {content: 'This phone number is already used by an other account', placement: 'bottom'}).popover('show');
+        } 
+        
+        /* Generic error  */
+        else {
+          showErrorOverlay('Registration failed', data.err_msg + ' [' + data.err_no + ']');
+        }
+      } 
+
+      /* If succesfull: save login data and hide login form */
+      else {
+        setSession(data.session, data.user);
+        updateLoginButtonState();
+        leaveTo('profile.php');
+      }
+      
+      /* Hide the laoding overlay to make it possible */
+      hideLoadingOverlay();
+    });
+  });
 });
 
 /* Click handler for cancel button in login overlay */
@@ -77,6 +201,21 @@ $(window).resize(function() {
   /* Update height of .scroller elements to match new window height */
   updateScrollerHeight();
 });
+
+/* Updates the state of the login button. If the user is logged in the button shows the nick, else it shows "login" */
+function updateLoginButtonState() {
+  var session = getSession();
+  
+  /* If the user is logged in */
+  if(session != null) {
+    $('#login-button .text').text(session.user);
+  }
+  
+  /* If not */
+  else {
+    $('#login-button .text').text("Login / Register");
+  }
+}
 
 /* Updates height of .scroller elements to match new window height */
 function updateScrollerHeight() {
@@ -164,4 +303,20 @@ function getCurrentDeliveryAddress() {
 /* Saves the delivery address to local storage */
 function setCurrentDeliveryAddress(address) {
   return localStorage.setItem(localStorageDeliveryAddress, typeof address === "string" ? address : JSON.stringify(address));
+}
+
+/* Loads the data for the current session, null if not available */
+function getSession() {
+  var loaded = localStorage.getItem(localStorageSession);
+  return JSON.parse(loaded);
+}
+
+/* Saves the data for the current session */
+function setSession(session, user) {
+  localStorage.setItem(localStorageSession, JSON.stringify({session: session, user: user}));
+}
+
+/* Deletes the data for the current session */
+function deleteSession() {
+  localStorage.removeItem(localStorageSession);
 }

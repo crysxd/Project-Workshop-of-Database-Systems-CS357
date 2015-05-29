@@ -14,7 +14,7 @@
   </div>
 
   <!-- login button top right -->
-  <a id="login-button"><span class="glyphicon glyphicon-user"></span> Login or Register</a>
+  <a id="login-button"><span class="glyphicon glyphicon-user"></span>&nbsp;<span class="text">Login or Register</span></a>
 
   <!-- menu at top -->
   <div id="top-menu">
@@ -49,7 +49,7 @@
     </div>
   </nav>
 
-    <!-- loading overlay -->
+    <!-- error overlay -->
   <nav id="error-overlay" class="overlay">
     <div class="overlay-content">
       <div class="narrow">
@@ -68,12 +68,16 @@
         <form class="narrow">
           <div id="task-login">
             <h4>Login</h4>
-            <input type="phone" class="form-control" id="form-phone" placeholder="Enter phone" required>
+            <input type="text" class="form-control" id="form-user" placeholder="Enter user name" required>
             <input type="password" class="form-control" id="form-password" placeholder="Enter password" required>
-            <button type="submit" id="login-complete-button" class="btn btn-colored btn-block">Login</button>
+            <button type="button" id="login-complete-button" class="btn btn-colored btn-block">Login</button>
           </div>
           <div id="task-register">
             <h4>Register</h4>
+            <div class="form-group">
+              <label for="form-first-name">Choose your user name</label>
+              <input type="text" class="form-control" id="form-user-name" placeholder="User name" required>
+            </div>
             <div class="form-group">
               <label for="form-phone">Enter phone number</label>
               <input type="phone" class="form-control" id="form-phone" placeholder="Enter phone" required>
@@ -89,13 +93,7 @@
               <input type="text" class="form-control" id="form-first-name" placeholder="First name" required>
               <input type="text" class="form-control" id="form-sure-name" placeholder="Sure name" required>
             </div>
-            <div class="form-group">
-              <label for="form-street">Enter your address</label>
-              <input type="text" class="form-control" id="form-street" placeholder="Street and number" required>
-              <input type="text" class="form-control" id="form-ditrict" placeholder="District" required>
-              <input type="text" class="form-control" id="form-city" placeholder="Zip and city" required>
-            </div>
-            <button type="submit" id="register-complete-button" class="btn btn-colored btn-block">Register now</button>
+            <button type="button" id="register-complete-button" class="btn btn-colored btn-block">Register now</button>
           </div>
           <button type="button" id="login-cancel-button" class="btn btn-danger btn-block">Cancel</button>
           <a id="register-button">New here? Register now!</a>

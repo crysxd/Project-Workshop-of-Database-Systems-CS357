@@ -34,3 +34,13 @@
 .collapse-trigger:before {
     content: "\e114";
 }   
+
+.list-group-item>.title,
+.list-group-item>.detail {
+  margin: 0;
+  padding: 0;
+}
+
+.list-group-item>.title {
+  font-weight: bold;
+}

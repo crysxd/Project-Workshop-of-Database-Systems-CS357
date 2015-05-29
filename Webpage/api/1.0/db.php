@@ -46,9 +46,13 @@
    */
   function check_parms_available($params) {    
     foreach($params as $i => $p) {
-      if(!array_key_exists ($p, $_GET)) {
+      // Check if key is available
+      if(!array_key_exists ($p, $_GET) || strlen($_GET[$p]) == 0) {
         die(json_encode(array("success" => false, "err_no" => ERROR_MISSING_PARAM, "err_msg" => "Required parameter \"$p\" is missing.")));
       }
+      
+      //escape the value
+      $_GET[$p] = htmlentities(mysql_real_escape_string($_GET[$p]));
     }
   }
 
@@ -76,7 +80,7 @@
     $answer = json_encode(array("success" => false, "err_no" => ERROR_UNAUTHORIZED));
 
     // Preapre query
-    if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM customer WHERE phone_pk=? AND session=?")) {
+    if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM customer WHERE nick=? AND session=?")) {
       die($answer);
     }
     
@@ -94,6 +98,22 @@
     if($stmt->get_result()->fetch_assoc()['ok'] != 1) {
       die($answer);
     }
+  }
+
+  /****************************************************************************************************************************
+   * Starts a new session for the given user. The session id is returned
+   */
+  function start_session($user) {
+    global $db_link;
+   
+    // Generate session id
+    $session = bin2hex(openssl_random_pseudo_bytes(32));
+
+    // Put session id
+    $db_link->query("UPDATE customer SET session=\"$session\" WHERE nick=$user");
+    
+    //return
+    return $session;
   }
 ?>
 
