@@ -44,29 +44,27 @@ ENUM GLOSSARY
 
 The day_id describes the specific day or group of days.
 day_id day/group_of_days
-0 sunday
-1 monday
+
+1 sunday
+2 monday
 ...
-6 saturday
-7 only working days
-8 weekend
-9 whole week
-10 monday to saturday
+7 saturday
+
 
 Every dish can be tagged with several tags
 tag_id meaning color
-0 Vegetarian green
-1 Vegan yellow
-2 Spicy orange
-3 Very Spicy red
-4 Pork pink
-5 cold light blue
+1 Vegetarian #22c13e ligtht green
+2 Vegan #195805 dark green
+3 Pork #f97990	 pink
+4 Cold #73b9c1 light blue
+5 Kosha #6c1547 purple
 
 Every dish can be categorized in one category, they should be disjoint
 dish_category_id category
-0 appetizer
-1 main menu
-2 desert 
+1 no category
+2 appetizer
+3 main menu
+4 desert 
 
 Delivery status
 delivery_status_id meaning
