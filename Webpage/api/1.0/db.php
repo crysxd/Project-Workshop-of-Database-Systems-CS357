@@ -47,12 +47,12 @@
   function check_parms_available($params) {    
     foreach($params as $i => $p) {
       // Check if key is available
-      if(!array_key_exists ($p, $_GET)) {
+      if(!array_key_exists ($p, $_GET) || strlen($_GET[$p]) == 0) {
         die(json_encode(array("success" => false, "err_no" => ERROR_MISSING_PARAM, "err_msg" => "Required parameter \"$p\" is missing.")));
       }
       
       //escape the value
-      $_GET[$p] = mysql_real_escape_string($_GET[$p]);
+      $_GET[$p] = htmlentities(mysql_real_escape_string($_GET[$p]));
     }
   }
 
