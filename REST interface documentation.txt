@@ -119,7 +119,7 @@ api/1.0/customer/dish
         - start: Start of the limit for the current query (see SQL LIMIT)
         - count: Range of the limit for the current query (see SQL LIMIT)
     - Error:
-        Meal not found: Return error code 100
+        Meal not found: Return error code 1000
     - Answer:
         {
             "success": true
@@ -151,10 +151,10 @@ api/1.0/customer/login
     - Method:
         GET
     - Parameter:
-        - user: The user's phone number
+        - user: The user's nick name
         - pw: The user's password
     - Error:
-        Password or user wrong: Return error code 100
+        Password or user wrong: Return error code 1000
     - Answer Sucess:
         {
             "success": true,
@@ -164,12 +164,12 @@ api/1.0/customer/login
 --------------------------------------------------------------------------------
 api/1.0/customer/logout
     - Description:
-        Terminates the session if the phone number corresponses to the one saved
+        Terminates the session if the nick name corresponses to the one saved
         in the database
     - Method:
         GET
     - Parameter:
-        - user: The user's phone number
+        - user: The user's nick name
         - session: The session which  should be terminated
     - Errors:
         Errors are not reported
@@ -185,7 +185,7 @@ api/1.0/customer/delivery
     - Method:
         PUT
     - Parameter:
-        - user: The user's phone number
+        - user: The user's nick name
         - session: The session which is used to order
         - order: the order, encoded as following:
             {
@@ -216,7 +216,7 @@ api/1.0/customer/address
     - Parameter:
         - GET:
             - session: The session which is used to update
-            - user: The user's phone number
+            - user: The user's nick name
         - PUT:
             - session: The session which is used to update
             - phone: The user's phone number
@@ -245,22 +245,17 @@ api/1.0/customer/info
         Used to receive and set user informations or to create a completely new
         user.
     - Method:
-        GET, PUT, UPDATE
+        GET, PUT, POST
         If PUT is used a new user is generated, therefore the new session is 
-        returned in the anser. If UPDATE or GET is used the user must be logged
+        returned in the anser. If POST or GET is used the user must be logged
         in and the parameter session must be supplied
     - Parameter:
         - GET:
             - session: The session which is used to update
-            - phone: The user's phone number
+            - phone: The user's nick name
         - POST:     
             - first_name: The user's first name
             - sure_name: The user's sure name
-            - street: The user's street and house number
-            - district: The user's district
-            - postcode: The user's postal  code
-            - city: The user's city
-            - province: The user's province
             - pw: The user's password
             - nick: The user's nick name
             - password: The user's password
@@ -268,18 +263,14 @@ api/1.0/customer/info
         - PUT:
             - first_name: The user's first name
             - sure_name: The user's sure name
-            - street: The user's street and house number
-            - district: The user's district
-            - postcode: The user's postal  code
-            - city: The user's city
-            - province: The user's province
             - pw: The user's password
-            - password: The user's password
+            - phone: The user's phone numver
             - nick: The user's nick name
     - Errors:
-        Username already exists: Return error code 100
-        Phone number already exists: Return error code 101
-        Password insufficient: Return error code 102
+        Username already exists: Return error code 1000
+        Phone number already exists: Return error code 1001
+        Password insufficient: Return error code 1002
+        Nick already exists: Return error code 1003
     - Answer Sucess PUT:
         {
             "success": true,
@@ -356,10 +347,16 @@ api/1.0/customer/rate
         Used to rate a meal.
     - Method:
         PUT
+    - Parameter:
+        meal: The meal' id
+        user: The user's  nick name
+        session: The session
+        rating: The rating (0-5)
+        comment: The user's comment
     - Errors:
-        User is not allowed to rate meal: Return error code 100
-        Comment is too long: Return error code 101
-        User already rated meal: Return error code 102
+        User is not allowed to rate meal: Return error code 1000
+        Comment is too long: Return error code 1001
+        User already rated meal: Return error code 1002
     - Answer Success:
         {
             "success": true
@@ -444,9 +441,9 @@ api/1.0/restaurant/info
             - password: The restaurant's password
             - description: The restaurant's description text
     - Errors:
-        restaurant name already exists: Return error code 100
-        Password insufficient: Return error code 102
-        Image too large: Return error code 103
+        restaurant name already exists: Return error code 1000
+        Password insufficient: Return error code 1002
+        Image too large: Return error code 1003
     - Answer Sucess PUT:
         {
             "success": true,
