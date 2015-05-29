@@ -44,18 +44,6 @@
       $answer['err_no'] = 1003;
       die(json_encode($answer));
     }
-       
-    // Password should not contain a \, otherwise there is an escaped character
-    if(strpos($_GET['pw'], '\\')){
-      $answer['err_no'] = 1004;
-      die(json_encode($answer));
-    }
-       
-    // User should not contain a \, otherwise there is an escaped character
-    if(strpos($_GET['nick'], '\\') || strpos($_GET['nick'], '<') || strpos($_GET['nick'], '>') ){
-      $answer['err_no'] = 1005;
-      die(json_encode($answer));
-    }
   
     // hash password
     $password = hash(PASSWORD_HASH_FUNCTION, $_GET['pw']);
