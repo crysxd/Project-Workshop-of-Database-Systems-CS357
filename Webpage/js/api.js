@@ -24,7 +24,7 @@ $.rest.get = function(url, params, callback) {
  * @param data: The data that should be send as POST data to the server
  */
 $.rest.post = function(url, params, callback, data) {
-  $.rest.send(url +  $.param(params), 'POST', data, callback);
+  $.rest.send(url + '?' + $.param(params), 'POST', data, callback);
   
 }
 
@@ -37,8 +37,7 @@ $.rest.post = function(url, params, callback, data) {
  * @param data: The data that should be send as PUT data to the server
  */
 $.rest.put = function(url, params, callback, data) {
-  console.log(params);
-  $.rest.send(url +  $.param(params), 'PUT', data, callback);
+  $.rest.send(url + '?' + $.param(params), 'PUT', data, callback);
   
 }
 
