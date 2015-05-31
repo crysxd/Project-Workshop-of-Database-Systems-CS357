@@ -36,10 +36,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Customer` (
   `customer_id_pk` INT NOT NULL AUTO_INCREMENT COMMENT 'used as identifer.\nthere may be no two users with the same number\nhas to be double because with in we just can represent 10 digits, but chinese phone numbers have 11 digits\na list as representation would take more space',
-  `region_code` VARCHAR(2) NULL COMMENT 'the region code of the phone number',
+  `region_code` VARCHAR(3) NULL COMMENT 'the region code of the phone number',
   `national_number` VARCHAR(15) NULL,
+  `last_name` VARCHAR(256) NULL,
   `first_name` VARCHAR(256) NULL,
-  `sure_name` VARCHAR(256) NULL,
   `nick` VARCHAR(45) NOT NULL DEFAULT 'Name' COMMENT 'the nickname of the user\ndefault is combination of name',
   `password` VARCHAR(256) NULL,
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Meal` (
   `Restaurant_restaurant_id` INT NOT NULL,
   `name` VARCHAR(256) NULL,
   `price` VARCHAR(45) NULL,
-  `Meal_Category_meal_category_id` INT NOT NULL,
+  `Meal_Category_meal_category_id` INT NULL,
   `description` TEXT NULL DEFAULT NULL COMMENT 'optional',
   `spiciness` TINYINT UNSIGNED NULL COMMENT 'Range 0-3',
   `icon_name` VARCHAR(256) NULL,
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Rating` (
   `Meal_meal_id_pk` INT NOT NULL,
   `Customer_customer_id_pk` INT NOT NULL,
   `date` DATETIME NULL,
-  `rating` SMALLINT NULL COMMENT 'smallint because the number will not be bigger than 10',
+  `rating` TINYINT NULL COMMENT 'not be bigger than 5',
   `comment` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`Customer_customer_id_pk`, `Meal_meal_id_pk`),
   INDEX `fk_Rating_dish1_idx` (`Meal_meal_id_pk` ASC),
@@ -273,11 +273,12 @@ COMMENT = 'A dish is never tagged twice with the same tag';
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-GRANT USAGE ON *.* TO 'mymeal_admin'@'localhost' IDENTIFIED BY PASSWORD '*6DE4750192D3DFCC67DE7BB2CF6D73031CD84C0E';
+GRANT USAGE ON *.* TO 'mymeal_admin'@'localhost' IDENTIFIED BY PASSWORD '*A90C4DA8A12927FB29B396EB67B95E7677CA6B20';
 
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `mymeal`.* TO 'mymeal_admin'@'localhost';
 USE `mymeal` ;
 
+-- created after http://www.movable-type.co.uk/scripts/latlong.html
 DROP FUNCTION IF EXISTS DISTANCE;
 DELIMITER $$
 CREATE FUNCTION DISTANCE(lat1 DOUBLE, long1 DOUBLE, lat2 DOUBLE, long2 DOUBLE)
@@ -300,6 +301,101 @@ BEGIN
 END;
 $$
 DELIMITER ;
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: May 30, 2015 at 04:22 PM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `mymeal`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Tag`
+--
+
+CREATE TABLE IF NOT EXISTS `Tag` (
+  `tag_id_pk` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `color` varchar(6) DEFAULT NULL,
+  PRIMARY KEY (`tag_id_pk`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `Tag`
+--
+
+INSERT INTO `Tag` (`tag_id_pk`, `name`, `color`) VALUES
+(1, 'Vegetarian', '195805'),
+(2, 'Vegan', '22c13e'),
+(3, 'Pork', 'f97990'),
+(4, 'Cold', '73b9c1'),
+(5, 'Kosher', '6c1547');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: May 31, 2015 at 11:55 AM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `mymeal`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Meal_Category`
+--
+
+CREATE TABLE IF NOT EXISTS `Meal_Category` (
+  `meal_category_id_pk` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`meal_category_id_pk`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `Meal_Category`
+--
+
+INSERT INTO `Meal_Category` (`meal_category_id_pk`, `name`) VALUES
+(1, 'appetizer'),
+(2, 'main menu'),
+(3, 'desert');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 -- phpMyAdmin SQL Dump
 -- version 4.0.10deb1
 -- http://www.phpmyadmin.net
@@ -366,7 +462,7 @@ INSERT INTO `Restaurant` (`restaurant_id_pk`, `name`, `min_order_value`, `shippi
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 30, 2015 at 04:22 PM
+-- Generation Time: May 31, 2015 at 04:25 PM
 -- Server version: 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.9
 
@@ -386,26 +482,155 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tag`
+-- Table structure for table `Customer`
 --
 
-CREATE TABLE IF NOT EXISTS `Tag` (
-  `tag_id_pk` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `color` varchar(6) DEFAULT NULL,
-  PRIMARY KEY (`tag_id_pk`)
+CREATE TABLE IF NOT EXISTS `Customer` (
+  `customer_id_pk` int(11) NOT NULL AUTO_INCREMENT COMMENT 'used as identifer.\nthere may be no two users with the same number\nhas to be double because with in we just can represent 10 digits, but chinese phone numbers have 11 digits\na list as representation would take more space',
+  `region_code` varchar(2) DEFAULT NULL COMMENT 'the region code of the phone number',
+  `national_number` varchar(15) DEFAULT NULL,
+  `last_name` varchar(256) DEFAULT NULL,
+  `first_name` varchar(256) DEFAULT NULL,
+  `nick` varchar(45) NOT NULL DEFAULT 'Name' COMMENT 'the nickname of the user\ndefault is combination of name',
+  `password` varchar(256) DEFAULT NULL,
+  `session_id` varchar(64) DEFAULT NULL COMMENT 'unique and truly random 256 key',
+  PRIMARY KEY (`customer_id_pk`),
+  UNIQUE KEY `nick_UNIQUE` (`nick`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `Tag`
+-- Dumping data for table `Customer`
 --
 
-INSERT INTO `Tag` (`tag_id_pk`, `name`, `color`) VALUES
-(1, 'Vegetarian', '195805'),
-(2, 'Vegan', '22c13e'),
-(3, 'Pork', 'f97990'),
-(4, 'Cold', '73b9c1'),
-(5, 'Kosher', '6c1547');
+INSERT INTO `Customer` (`customer_id_pk`, `region_code`, `national_number`, `last_name`, `first_name`, `nick`, `password`, `session_id`) VALUES
+(1, '49', '3070143434', 'Sturm', 'Gerald', 'garrythestorm', 'PASSWORD1', 'SESSIONC1'),
+(2, '86', '14324389911', 'Yao', 'Lan', 'localj', 'PASSWORD2', 'SESSIONC2'),
+(3, '86', '14232323989', 'Zhènfán', 'Lǐ', 'dragon_punch_1940', 'PASSWORD', 'SESSIONC4'),
+(4, '1', '7184572531', 'Branton', 'Gloria', 'bunnybee', 'PASSWORD', 'SESSIONC4'),
+(5, '1', '2126844814', 'John', 'Thomas H.', 'johnny', 'PASSWORD', 'SESSIONC3');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: May 31, 2015 at 11:59 AM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `mymeal`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Meal`
+--
+
+CREATE TABLE IF NOT EXISTS `Meal` (
+  `meal_id_pk` int(11) NOT NULL AUTO_INCREMENT,
+  `Restaurant_restaurant_id` int(11) NOT NULL,
+  `name` varchar(256) DEFAULT NULL,
+  `price` varchar(45) DEFAULT NULL,
+  `Meal_Category_meal_category_id` int(11) DEFAULT NULL,
+  `description` text COMMENT 'optional',
+  `spiciness` tinyint(3) unsigned DEFAULT NULL COMMENT 'Range 0-3',
+  `icon_name` varchar(256) DEFAULT NULL,
+  `offered` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`meal_id_pk`),
+  KEY `fk_Menu_Restaurant1_idx` (`Restaurant_restaurant_id`),
+  KEY `fk_Meal_Dish_Category1_idx` (`Meal_Category_meal_category_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `Meal`
+--
+
+INSERT INTO `Meal` (`meal_id_pk`, `Restaurant_restaurant_id`, `name`, `price`, `Meal_Category_meal_category_id`, `description`, `spiciness`, `icon_name`, `offered`) VALUES
+(1, 1, 'Jidan Guangbing', '8', NULL, 'Turnover filled with Jidan', 1, '', 1),
+(2, 1, 'Cai Bing without egg', '6', NULL, 'A regular Cai Bing without egg', 0, '', 1),
+(3, 1, 'Jingbing', '7', NULL, 'Jingbing with egg', 1, NULL, 1),
+(4, 2, 'Salad', '20', 1, 'Salad with tomatoes, olives and onions ', 0, NULL, 1),
+(5, 2, 'Veggie Burger', '70', 2, 'Veggie Burger with tofu and salad and pickles.', 0, NULL, 1),
+(6, 2, 'Soya Ice Cream', '30', 3, 'Ice cream made with soya instead of milk', 0, NULL, 1),
+(7, 3, 'Vegetable Kebab', '18', 2, 'Mustafas famous vegetable kebab', 1, NULL, 1);
+
+--
+-- Constraints for dumped tables
+--
+
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: May 31, 2015 at 04:25 PM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `mymeal`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Rating`
+--
+
+CREATE TABLE IF NOT EXISTS `Rating` (
+  `Meal_meal_id_pk` int(11) NOT NULL,
+  `Customer_customer_id_pk` int(11) NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `rating` smallint(6) DEFAULT NULL COMMENT 'smallint because the number will not be bigger than 10',
+  `comment` text,
+  PRIMARY KEY (`Customer_customer_id_pk`,`Meal_meal_id_pk`),
+  KEY `fk_Rating_dish1_idx` (`Meal_meal_id_pk`),
+  KEY `fk_Rating_user1_idx` (`Customer_customer_id_pk`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Every user can rate a dish just once';
+
+--
+-- Dumping data for table `Rating`
+--
+
+INSERT INTO `Rating` (`Meal_meal_id_pk`, `Customer_customer_id_pk`, `date`, `rating`, `comment`) VALUES
+(1, 1, '2015-05-07 00:00:00', 5, 'Best ever'),
+(7, 1, '2015-05-28 18:30:43', 4, 'Tasty, but overrated and crowdy'),
+(1, 2, '2015-05-01 18:43:22', 4, 'really tasty, but a bit salty'),
+(4, 2, '2015-05-05 12:14:54', 3, 'Really good, but way too expensive'),
+(6, 2, '2015-05-05 12:15:32', 5, 'Mhmmm... tasty'),
+(1, 3, '2015-05-02 20:08:56', 2, 'Really did not like the one without egg'),
+(2, 3, '2015-05-15 17:00:01', 3, 'Okeh!'),
+(3, 3, '2015-05-12 17:00:00', 4, 'Good!'),
+(4, 3, '2015-05-14 17:00:01', 5, 'Hen Good!'),
+(5, 3, '2015-05-13 17:00:00', 5, 'Good, a!');
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

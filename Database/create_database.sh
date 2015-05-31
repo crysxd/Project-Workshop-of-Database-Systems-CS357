@@ -10,7 +10,11 @@ cat ./users/mymeal_admin.sql >> mymeal_database.sql
 cat ./functions/distance.sql >> mymeal_database.sql
 
 # Tables
-cat ./tables/Restaurant.sql >> mymeal_database.sql
 cat ./tables/Tag.sql >> mymeal_database.sql
-#cat ./tables/Meal.sql >> mymeal_database.sql
+cat ./tables/Meal_Category.sql >> mymeal_database.sql
+cat ./tables/Restaurant.sql >> mymeal_database.sql
+cat ./tables/Customer.sql >> mymeal_database.sql
+cat ./tables/Meal.sql >> mymeal_database.sql
+cat ./tables/Rating.sql >> mymeal_database.sql
+
 

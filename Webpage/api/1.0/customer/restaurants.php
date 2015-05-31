@@ -1,35 +1,44 @@
 <?php
   // include main database script
   include_once("../db.php");
-
-  // assure all required parameters are available, will die if not all are available
-  check_parms_available(array("center_lat", "center_long", "start", "count"));
                       
   // open database connection
   db_open();
+
+  // assure all required parameters are available, will die if not all are available
+  check_parms_available(array("center_lat", "center_long", "start", "count"));
 
   // create answer array
   $answer = array();
 
   // Prepare Statements
-  $stmt_result = $db_link->prepare("SELECT * FROM restaurant WHERE 1 ORDER BY restaurant_id_pk LIMIT ?, ?");
-  $stmt_result->bind_param("ii", $start, $count);
-  $stmt_count = $db_link->prepare("SELECT COUNT(*) AS item_count FROM restaurant");
+  $stmt_result = $db_link->prepare("
+      SELECT r.restaurant_id_pk id, r.name, r.position_lat , r.position_long, Meal_j_Rating.avg_rating, Meal_j_Rating.rating_count, r.shipping_cost, r.min_order_value, r.icon_name icon_mime
+      FROM Restaurant r
+      INNER JOIN (
+        SELECT Meal.Restaurant_restaurant_id, AVG( Rating.rating ) avg_rating, COUNT( Rating.rating ) rating_count
+        FROM Meal
+        INNER JOIN Rating ON Meal.meal_id_pk = Rating.Meal_meal_id_pk
+        GROUP BY Meal.Restaurant_restaurant_id
+      ) Meal_j_Rating
+      ON r.restaurant_id_pk = Meal_j_Rating.Restaurant_restaurant_id
+      WHERE r.offered =1 && r.max_delivery_range >= DISTANCE( r.position_lat, r.position_long, ?, ? ) 
+    ORDER BY r.restaurant_id_pk
+LIMIT ?, ?");
+  $stmt_result->bind_param("ddii", $center_lat, $center_long, $start, $count);
 
   // assure query parameters are clean and set parameters
-  $center_lat = mysql_real_escape_string($_GET['center_lat']);
-  $center_long = mysql_real_escape_string($_GET['center_long']);
-  $start = mysql_real_escape_string($_GET['start']);
-  $count = mysql_real_escape_string($_GET['count']);
+  $center_lat = $db_link->real_escape_string($_GET['center_lat']);
+  $center_long = $db_link->real_escape_string($_GET['center_long']);
+  $start = $db_link->real_escape_string($_GET['start']);
+  $count = $db_link->real_escape_string($_GET['count']);
 
   // Execute queries
   $result = $stmt_result->execute();
   $result = $stmt_result->get_result();
-  $count = $stmt_count->execute();
-  $count = $stmt_count->get_result();
 
   // if an error occured while performing the query
-  if($db_link->errno || !$stmt_result || !$stmt_count || !$result || !$count) {
+  if($db_link->errno || !$stmt_result || !$result) {
     // set fields for array
     $answer['success'] = false;
     $answer['err_no'] = ERROR_GENERAL;
@@ -44,15 +53,14 @@
                         
   // Everything is fine
   $answer['success'] = true;
-  $answer['item_count'] = $count->fetch_assoc()['item_count'];
+  $answer['item_count'] = $result->num_rows;
   $answer['data'] = array();
 
   while($result && ($row = $result->fetch_assoc())) {
-    // add additional fields
-    $row['random_additional_field'] = 42 + $row['restaurant_id_pk'];
+    $row['eta'] = 0;
 
     // Test if a icon is available
-    $icon_file = get_restaurant_icon_file_name($row['restaurant_id_pk']);
+    $icon_file = get_restaurant_icon_file_name($row['id']);
     if(file_exists($icon_file)) {
       //Get MIME (PNG, JPEG, etc...)
       $row['icon_mime'] = mime_content_type ($icon_file);

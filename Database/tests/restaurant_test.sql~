@@ -1,5 +1,9 @@
 USE `mymeal` ;
 
+--
+-- Test class for the sql select commands in the restaurant php file
+--
+
 -- Outputs the average rating and the number of ratings for each restaurant
 SELECT
     Meal.Restaurant_restaurant_id, AVG(Rating.rating) rating, COUNT(Rating.rating) rating_count

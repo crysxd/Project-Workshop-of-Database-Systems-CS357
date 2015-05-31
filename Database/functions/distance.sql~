@@ -1,6 +1,5 @@
 USE `mymeal` ;
 
--- created after http://www.movable-type.co.uk/scripts/latlong.html
 DROP FUNCTION IF EXISTS DISTANCE;
 DELIMITER $$
 CREATE FUNCTION DISTANCE(lat1 DOUBLE, long1 DOUBLE, lat2 DOUBLE, long2 DOUBLE)

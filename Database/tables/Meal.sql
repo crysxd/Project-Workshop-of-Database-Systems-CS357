@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 30, 2015 at 12:42 AM
+-- Generation Time: May 31, 2015 at 11:59 AM
 -- Server version: 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.9
 
@@ -26,6 +26,20 @@ SET time_zone = "+00:00";
 -- Table structure for table `Meal`
 --
 
+CREATE TABLE IF NOT EXISTS `Meal` (
+  `meal_id_pk` int(11) NOT NULL AUTO_INCREMENT,
+  `Restaurant_restaurant_id` int(11) NOT NULL,
+  `name` varchar(256) DEFAULT NULL,
+  `price` varchar(45) DEFAULT NULL,
+  `Meal_Category_meal_category_id` int(11) DEFAULT NULL,
+  `description` text COMMENT 'optional',
+  `spiciness` tinyint(3) unsigned DEFAULT NULL COMMENT 'Range 0-3',
+  `icon_name` varchar(256) DEFAULT NULL,
+  `offered` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`meal_id_pk`),
+  KEY `fk_Menu_Restaurant1_idx` (`Restaurant_restaurant_id`),
+  KEY `fk_Meal_Dish_Category1_idx` (`Meal_Category_meal_category_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `Meal`
@@ -44,11 +58,6 @@ INSERT INTO `Meal` (`meal_id_pk`, `Restaurant_restaurant_id`, `name`, `price`, `
 -- Constraints for dumped tables
 --
 
---
--- Constraints for table `Meal`
---
-ALTER TABLE `Meal`
-  ADD CONSTRAINT `fk_Menu_Restaurant1` FOREIGN KEY (`Restaurant_restaurant_id`) REFERENCES `Restaurant` (`restaurant_id_pk`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
