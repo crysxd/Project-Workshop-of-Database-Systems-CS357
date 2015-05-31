@@ -61,10 +61,9 @@ tag_id meaning color
 
 Every dish can be categorized in one category, they should be disjoint
 dish_category_id category
-1 no category
-2 appetizer
-3 main menu
-4 desert 
+1 appetizer
+2 main menu
+3 desert 
 
 Delivery status
 delivery_status_id meaning
