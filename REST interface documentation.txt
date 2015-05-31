@@ -267,10 +267,9 @@ api/1.0/customer/info
             - phone: The user's phone numver
             - nick: The user's nick name
     - Errors:
-        Username already exists: Return error code 1000
-        Phone number already exists: Return error code 1001
-        Password insufficient: Return error code 1002
-        Nick already exists: Return error code 1003
+        Phone number already exists: Return error code 1000
+        Nick already exists: Return error code 1001
+        Password is too short: Return error code 1003
     - Answer Sucess PUT:
         {
             "success": true,
