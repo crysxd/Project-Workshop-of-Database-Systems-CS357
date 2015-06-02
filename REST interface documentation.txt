@@ -36,7 +36,7 @@ api/1.0/customer/resturants
                     "position_long": 34.4545,
                     "avg_rating": 4.5,
                     "rating_count": 102,
-                    "shpping_cost": 0,
+                    "shipping_cost": 0,
                     "min_order_value": 10.0
                     "eta": 30,
                     "icon_mime": "image/png",
@@ -187,7 +187,7 @@ api/1.0/customer/delivery
     - Parameter:
         - user: The user's nick name
         - session: The session which is used to order
-        - order: the order, encoded as following:
+        - delivery: the order, encoded as following:
             {
                 "restaurant": 0,
                 "dishes": [

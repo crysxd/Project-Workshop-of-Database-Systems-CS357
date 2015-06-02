@@ -67,4 +67,7 @@ dish_category_id category
 
 Delivery status
 delivery_status_id meaning
-...TODO
+1 PENDING ordered, but restaurant has not seen yet
+2 PROCESSING
+3 INDELIVERY
+
