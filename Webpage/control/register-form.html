@@ -1,0 +1,114 @@
+<script src="../js/api.js"></script>
+<script src="register.js"></script>
+
+<form>
+  <div class="form-group">
+    <label for="info-name">Restaurant Name</label>
+    <input type="email" class="form-control" id="info-name" placeholder="Enter name">
+  </div>
+  <div class="form-group">
+    <label for="info-password">Password</label>
+    <input type="password" class="form-control" id="info-password" placeholder="Enter password">
+    <input type="password" class="form-control" id="info-password-control" placeholder="Enter password again">
+  </div>
+  <div class="form-group">
+    <label for="info-range">Delivery Range</label>
+    <div class="input-group">
+      <input type="number" class="form-control" id="info-range" placeholder="Enter delivery range">
+      <span class="input-group-addon" id="basic-addon1">meters</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="info-min-value">Minimum Order Value</label>
+    <div class="input-group">
+      <input type="number" class="form-control" id="info-min-value" placeholder="Enter minimum order value">
+      <span class="input-group-addon" id="basic-addon1">元</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="info-shipping-costs">Shipping costs</label>
+    <div class="input-group">
+      <input type="number" class="form-control" id="info-shipping-costs" placeholder="Enter shipping costs">
+      <span class="input-group-addon" id="basic-addon1">元</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Address</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="info-address-search" placeholder="Number, Street, City...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" id="btn-search-address" type="button">Search address</button>
+      </span>
+    </div>   
+    <address class="well">
+      <strong>Christian Würthner</strong><br>
+      800 Dongchuan Lu<br>
+      Minhang Qu<br>
+      20123 Shanghai Shi
+    </address>
+  </div>
+  <div class="form-group">
+    <label for="info-description">Description</label>
+    <textarea type="number" class="form-control" id="info-description" placeholder="Description"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="info-icon">Icon</label>
+    <div>
+      <input type="file" id="info-icon" accept="image/x-png">
+      <p class="help-block">The icon should be squarish and have transparent background.</p>
+      <img class="well" id="info-icon-preview"src="../imgs/icon.png">
+    </div>
+  </div>
+  <div class="btn btn-primary">Save</div>
+  <div class="btn btn-default">Reset</div>
+</form>   
+
+<!-- Dialog to choose a address -->
+<div id="address-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title meal-name">Choose a address</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="modal-body-loading">
+          <img src="../imgs/loader.gif" alt="Loading...">
+        </div>
+
+        <div class="modal-body-content"> 
+          <address class="btn btn-default btn-block">
+            <strong>Christian Würthner</strong><br>
+            800 Dongchuan Lu<br>
+            Minhang Qu<br>
+            20123 Shanghai Shi              
+          </address>
+          <address class="btn btn-default btn-block">
+            <strong>Christian Würthner</strong><br>
+            800 Dongchuan Lu<br>
+            Minhang Qu<br>
+            20123 Shanghai Shi              
+          </address>
+          <address class="btn btn-default btn-block">
+            <strong>Christian Würthner</strong><br>
+            800 Dongchuan Lu<br>
+            Minhang Qu<br>
+            20123 Shanghai Shi              
+          </address>
+          <address class="btn btn-default btn-block">
+            <strong>Christian Würthner</strong><br>
+            800 Dongchuan Lu<br>
+            Minhang Qu<br>
+            20123 Shanghai Shi              
+          </address>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div id="meal-modal-cancel" class="btn btn-default" data-dismiss="modal">Cancel</div>
+      </div>
+    </div>
+  </div>
+</div><!-- address dialog -->
