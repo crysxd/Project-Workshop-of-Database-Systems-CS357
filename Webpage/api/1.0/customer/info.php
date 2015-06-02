@@ -49,8 +49,8 @@
     $password = hash(PASSWORD_HASH_FUNCTION, $_GET['pw']);
     
     // prepare statement
-    $stmt = $db_link->prepare("INSERT INTO customer(first_name, sure_name, password, nick, phone_pk) VALUES(?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $_GET['first_name'], $_GET['sure_name'], $password, $_GET['nick'], $_GET['phone']);
+    $stmt = $db_link->prepare("INSERT INTO customer(region_code, national_number, last_name, first_name, nick, password) VALUES('+86', ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $_GET['phone'], $_GET['sure_name'], $_GET['first_name'], $_GET['nick'], $password);
     
     
     // execute
