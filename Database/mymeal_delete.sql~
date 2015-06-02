@@ -1,4 +1,0 @@
--- This file cannot be imported it into phpmyadmin with regular configuration
-DROP DATABASE IF EXISTS mymeal;
---
-DROP USER mymeal_admin@localhost;
