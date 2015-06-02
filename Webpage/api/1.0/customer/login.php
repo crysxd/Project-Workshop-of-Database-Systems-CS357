@@ -2,11 +2,11 @@
   // include main database script
   include_once("../db.php");
 
-  // assure all required parameters are available, will die if not all are available
-  check_parms_available(array("user", "pw"));
-                        
   // open database connection
   db_open();
+
+  // assure all required parameters are available, will die if not all are available
+  check_parms_available(array("user", "pw"));
 
   // create answer array
   $answer = array();
