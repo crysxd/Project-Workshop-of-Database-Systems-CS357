@@ -23,8 +23,8 @@
       ) Meal_j_Rating
       ON r.restaurant_id_pk = Meal_j_Rating.Restaurant_restaurant_id
       WHERE r.offered =1 && r.max_delivery_range >= DISTANCE( r.position_lat, r.position_long, ?, ? ) 
-    ORDER BY r.restaurant_id_pk
-LIMIT ?, ?");
+      ORDER BY r.restaurant_id_pk
+      LIMIT ?, ?");
   $stmt_result->bind_param("ddii", $center_lat, $center_long, $start, $count);
 
   // assure query parameters are clean and set parameters
@@ -58,7 +58,7 @@ LIMIT ?, ?");
 
   while($result && ($row = $result->fetch_assoc())) {
     $row['eta'] = 0;
-
+    //TODO check if he gets min_order_value
     // Test if a icon is available
     $icon_file = get_restaurant_icon_file_name($row['id']);
     if(file_exists($icon_file)) {

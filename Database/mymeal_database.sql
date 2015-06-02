@@ -214,9 +214,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mymeal`.`Delivery_Dish_Map`
+-- Table `mymeal`.`Delivery_Meal_Map`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery_Dish_Map` (
+CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery_Meal_Map` (
   `Delivery_delivery_id_pk` INT NOT NULL,
   `Meal_meal_id_pk` INT NOT NULL,
   `amount` INT NULL,
@@ -392,6 +392,53 @@ INSERT INTO `Meal_Category` (`meal_category_id_pk`, `name`) VALUES
 (1, 'appetizer'),
 (2, 'main menu'),
 (3, 'desert');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jun 02, 2015 at 03:14 PM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `mymeal`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Delivery_State_Type`
+--
+
+CREATE TABLE IF NOT EXISTS `Delivery_State_Type` (
+  `delivery_status_type_id_pk` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`delivery_status_type_id_pk`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `Delivery_State_Type`
+--
+
+INSERT INTO `Delivery_State_Type` (`delivery_status_type_id_pk`, `name`) VALUES
+(1, 'Pending'),
+(2, 'Processing'),
+(3, 'In delivery'),
+(4, 'Delivered');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
@@ -628,6 +675,208 @@ INSERT INTO `Rating` (`Meal_meal_id_pk`, `Customer_customer_id_pk`, `date`, `rat
 (3, 3, '2015-05-12 17:00:00', 4, 'Good!'),
 (4, 3, '2015-05-14 17:00:01', 5, 'Hen Good!'),
 (5, 3, '2015-05-13 17:00:00', 5, 'Good, a!');
+
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jun 02, 2015 at 04:22 PM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `mymeal`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Meal_Tag_Map`
+--
+
+CREATE TABLE IF NOT EXISTS `Meal_Tag_Map` (
+  `Meal_meal_id_pk` int(11) NOT NULL,
+  `Tag_tag_id_pk` int(11) NOT NULL,
+  PRIMARY KEY (`Meal_meal_id_pk`,`Tag_tag_id_pk`),
+  KEY `fk_dish_has_tag_tag1_idx` (`Tag_tag_id_pk`),
+  KEY `fk_dish_has_tag_dish1_idx` (`Meal_meal_id_pk`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='A dish is never tagged twice with the same tag';
+
+--
+-- Dumping data for table `Meal_Tag_Map`
+--
+
+INSERT INTO `Meal_Tag_Map` (`Meal_meal_id_pk`, `Tag_tag_id_pk`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(2, 2);
+
+
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jun 02, 2015 at 08:16 PM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `mymeal`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Delivery`
+--
+
+CREATE TABLE IF NOT EXISTS `Delivery` (
+  `delivery_id_pk` int(11) NOT NULL AUTO_INCREMENT,
+  `Customer_customer_id` int(11) NOT NULL,
+  `Restaurant_restaurant_id` int(11) NOT NULL,
+  `street` varchar(256) NOT NULL,
+  `postcode` varchar(45) NOT NULL,
+  `city` varchar(256) NOT NULL,
+  `province` varchar(256) NOT NULL,
+  `add_info` varchar(256) DEFAULT NULL,
+  `comment` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`delivery_id_pk`),
+  KEY `fk_User_has_Restaurant_Restaurant1_idx` (`Restaurant_restaurant_id`),
+  KEY `fk_delivery_users1_idx` (`Customer_customer_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `Delivery`
+--
+
+INSERT INTO `Delivery` (`delivery_id_pk`, `Customer_customer_id`, `Restaurant_restaurant_id`, `street`, `postcode`, `city`, `province`, `add_info`, `comment`) VALUES
+(1, 2, 1, '723 Dongchuan Road', '', '', '', NULL, NULL);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jun 02, 2015 at 08:30 PM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `mymeal`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Delivery_State`
+--
+
+CREATE TABLE IF NOT EXISTS `Delivery_State` (
+  `Delivery_delivery_id_pk` int(11) NOT NULL,
+  `date_pk` datetime NOT NULL,
+  `Delivery_State_Type_delivery_status_type` int(11) NOT NULL,
+  `comment` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`Delivery_delivery_id_pk`,`date_pk`),
+  KEY `fk_DeliveryState_delivery1_idx` (`Delivery_delivery_id_pk`),
+  KEY `fk_delivery_state_delivery_state_type1_idx` (`Delivery_State_Type_delivery_status_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Delivery_State`
+--
+
+INSERT INTO `Delivery_State` (`Delivery_delivery_id_pk`, `date_pk`, `Delivery_State_Type_delivery_status_type`, `comment`) VALUES
+(1, '2015-05-01 18:08:10', 1, NULL);
+
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jun 02, 2015 at 08:31 PM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `mymeal`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Delivery_Meal_Map`
+--
+
+CREATE TABLE IF NOT EXISTS `Delivery_Meal_Map` (
+  `Delivery_delivery_id_pk` int(11) NOT NULL,
+  `Meal_meal_id_pk` int(11) NOT NULL,
+  `amount` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Delivery_delivery_id_pk`,`Meal_meal_id_pk`),
+  KEY `fk_delivery_has_dish_dish1_idx` (`Meal_meal_id_pk`),
+  KEY `fk_delivery_has_dish_delivery1_idx` (`Delivery_delivery_id_pk`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Delivery_Meal_Map`
+--
+
+INSERT INTO `Delivery_Meal_Map` (`Delivery_delivery_id_pk`, `Meal_meal_id_pk`, `amount`) VALUES
+(1, 1, 1),
+(1, 3, 2);
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

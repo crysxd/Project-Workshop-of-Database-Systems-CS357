@@ -61,7 +61,7 @@ WHERE
 ORDER BY
   r.restaurant_id_pk
 
--- for REST interfac
+-- for REST interface
       SELECT r.restaurant_id_pk id, r.name, r.position_lat , r.position_long, Meal_j_Rating.avg_rating, Meal_j_Rating.rating_count, r.shipping_cost, r.min_order_value, r.icon_name icon_mime
       FROM Restaurant r
       INNER JOIN (

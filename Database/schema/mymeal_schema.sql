@@ -213,9 +213,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mymeal`.`Delivery_Dish_Map`
+-- Table `mymeal`.`Delivery_Meal_Map`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery_Dish_Map` (
+CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery_Meal_Map` (
   `Delivery_delivery_id_pk` INT NOT NULL,
   `Meal_meal_id_pk` INT NOT NULL,
   `amount` INT NULL,
