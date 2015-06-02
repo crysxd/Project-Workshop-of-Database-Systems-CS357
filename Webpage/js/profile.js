@@ -1,9 +1,13 @@
 $(document).ready(function() {
   /* Redirect to home if the user is not logged in */
-  if(getSession() == null) {
+  var session = getSession();
+  if(session == null) {
     leaveTo('index.php');
   }
   
+  /* Set user name */
+  $('.user-name').html(session.user);
+    
   /* Click handlers for panel heders */
   $('.panel-collapse .panel-heading').click(function(e) {
     /* Toggle class collpased. This will show or hide the content */
@@ -32,4 +36,28 @@ $('#btn-logout').click(function() {
       leaveTo('index.php');
     })
   });
+});
+
+$('#order-list-ongoing .order').click(function() {
+  $('#order-modal').modal('show'); 
+  window.setTimeout(function() {
+    $('#order-modal .modal-body-loading').hide(); 
+    $('#order-modal .modal-body-content').show(); 
+  }, 500);
+});
+
+$('#order-list-history .order').click(function() {
+  $('#order-modal').modal('show'); 
+  window.setTimeout(function() {
+    $('#order-modal .modal-body-loading').hide(); 
+    $('#order-modal .modal-body-content').show(); 
+  }, 500);
+});
+
+$('#meal-list-ratable .meal').click(function() {
+  $('#rate-modal').modal('show'); 
+  window.setTimeout(function() {
+    $('#rate-modal .modal-body-loading').hide(); 
+    $('#rate-modal .modal-body-content').show(); 
+  }, 500);
 });
