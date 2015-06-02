@@ -1,8 +1,8 @@
 <?php
   define("DB_HOST", "localhost");
-  define("DB_USER", "root");
-  define("DB_PASS", "");
-  define("DB_NAME", "mydb");
+  define("DB_USER", "mymeal_admin");
+  define("DB_PASS", "u9wZpVbs7xbD45JR");
+  define("DB_NAME", "mymeal");
   define("IMAGE_DIRECTORY", "img");
   define("PASSWORD_HASH_FUNCTION", "sha1");
   define("ERROR_GENERAL", 0);
@@ -44,7 +44,9 @@
   /****************************************************************************************************************************
    * Assures all neeeded parameteres are availabel in $_GET
    */
-  function check_parms_available($params) {    
+  function check_parms_available($params) { 
+	global $db_link;
+	
     foreach($params as $i => $p) {
       // Check if key is available
       if(!array_key_exists ($p, $_GET) || strlen($_GET[$p]) == 0) {
@@ -52,7 +54,7 @@
       }
       
       //escape the value
-      $_GET[$p] = htmlentities(mysql_real_escape_string($_GET[$p]));
+      $_GET[$p] = htmlentities($db_link->real_escape_string($_GET[$p]));
     }
   }
 

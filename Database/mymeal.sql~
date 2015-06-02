@@ -9,20 +9,20 @@ USE `mymeal` ;
 -- Table `mymeal`.`Restaurant`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Restaurant` (
-  `restaurant_id_pk` INT NOT NULL,
-  `name` VARCHAR(256) NULL,
-  `min_order_value` FLOAT NULL,
-  `shipping_cost` FLOAT NULL COMMENT 'must be >= 0\n',
-  `max_delivery_range` FLOAT NULL COMMENT 'in kilometers, \nadditional enums like:\ncitys, districts\nin 100 meter steps',
+  `restaurant_id_pk` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(256) NOT NULL,
+  `min_order_value` FLOAT UNSIGNED NULL,
+  `shipping_cost` FLOAT UNSIGNED NULL COMMENT 'must be >= 0\n',
+  `max_delivery_range` INT NULL COMMENT 'in kilometers, \nadditional enums like:\ncitys, districts\nin 100 meter steps',
   `icon_name` VARCHAR(256) NULL DEFAULT NULL,
   `description` TEXT NULL DEFAULT NULL,
-  `street` VARCHAR(256) NULL COMMENT 'http://www.bitboost.com/ref/international-address-formats/prc-china/',
-  `postcode` VARCHAR(45) NULL,
-  `city` VARCHAR(256) NULL,
-  `province` VARCHAR(256) NULL,
+  `street` VARCHAR(256) NOT NULL COMMENT 'http://www.bitboost.com/ref/international-address-formats/prc-china/',
+  `postcode` VARCHAR(45) NOT NULL,
+  `city` VARCHAR(256) NOT NULL,
+  `province` VARCHAR(256) NOT NULL,
   `add_info` VARCHAR(256) NULL,
-  `position_lat` FLOAT NULL,
-  `position_long` FLOAT NULL,
+  `position_lat` DOUBLE NULL,
+  `position_long` DOUBLE NULL,
   `offered` TINYINT(1) NULL COMMENT 'Describes if a current restaurant an',
   `password` VARCHAR(256) NULL,
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
@@ -34,13 +34,26 @@ ENGINE = InnoDB;
 -- Table `mymeal`.`Customer`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Customer` (
-  `phone_pk` VARCHAR(45) NOT NULL COMMENT 'used as identifer.\nthere may be no two users with the same number\nhas to be double because with in we just can represent 10 digits, but chinese phone numbers have 11 digits\na list as representation would take more space',
+  `customer_id_pk` INT NOT NULL AUTO_INCREMENT COMMENT 'used as identifer.\nthere may be no two users with the same number\nhas to be double because with in we just can represent 10 digits, but chinese phone numbers have 11 digits\na list as representation would take more space',
+  `region_code` VARCHAR(2) NULL COMMENT 'the region code of the phone number',
+  `national_number` VARCHAR(15) NULL,
   `first_name` VARCHAR(256) NULL,
   `sure_name` VARCHAR(256) NULL,
-  `nick` VARCHAR(45) NULL DEFAULT 'Name' COMMENT 'the nickname of the user\ndefault is combination of name',
+  `nick` VARCHAR(45) NOT NULL DEFAULT 'Name' COMMENT 'the nickname of the user\ndefault is combination of name',
   `password` VARCHAR(256) NULL,
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
-  PRIMARY KEY (`phone_pk`))
+  PRIMARY KEY (`customer_id_pk`),
+  UNIQUE INDEX `nick_UNIQUE` (`nick` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mymeal`.`Dish_Category`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mymeal`.`Dish_Category` (
+  `dish_category_id_pk` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`dish_category_id_pk`))
 ENGINE = InnoDB;
 
 
@@ -48,20 +61,26 @@ ENGINE = InnoDB;
 -- Table `mymeal`.`Meal`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Meal` (
-  `meal_id_pk` INT NOT NULL,
+  `meal_id_pk` INT NOT NULL AUTO_INCREMENT,
   `Restaurant_restaurant_id` INT NOT NULL,
   `name` VARCHAR(256) NULL,
   `price` VARCHAR(45) NULL,
-  `dish_category_id` INT NULL,
+  `Dish_Category_dish_category_id` INT NOT NULL,
   `description` TEXT NULL DEFAULT NULL COMMENT 'optional',
-  `spiciness` INT NULL COMMENT 'Range 0-3',
+  `spiciness` TINYINT UNSIGNED NULL COMMENT 'Range 0-3',
   `icon_name` VARCHAR(256) NULL,
   `offered` TINYINT(1) NULL,
   PRIMARY KEY (`meal_id_pk`),
   INDEX `fk_Menu_Restaurant1_idx` (`Restaurant_restaurant_id` ASC),
+  INDEX `fk_Meal_Dish_Category1_idx` (`Dish_Category_dish_category_id` ASC),
   CONSTRAINT `fk_Menu_Restaurant1`
     FOREIGN KEY (`Restaurant_restaurant_id`)
     REFERENCES `mymeal`.`Restaurant` (`restaurant_id_pk`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Meal_Dish_Category1`
+    FOREIGN KEY (`Dish_Category_dish_category_id`)
+    REFERENCES `mymeal`.`Dish_Category` (`dish_category_id_pk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -71,7 +90,7 @@ ENGINE = InnoDB;
 -- Table `mymeal`.`Opening_Time`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Opening_Time` (
-  `opening_time_id_pk` INT NOT NULL,
+  `opening_time_id_pk` INT NOT NULL AUTO_INCREMENT,
   `day_id` INT NULL COMMENT 'allow enums like weekday, weekend',
   `starting_time` INT NULL COMMENT 'i would save starting time an closing time as int\nlike this representation 1030 = 10:30',
   `closing_time` INT NULL,
@@ -85,25 +104,26 @@ COMMENT = 'a restaurant may have multiple opening times';
 -- Table `mymeal`.`Delivery`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery` (
-  `delivery_id_pk` INT NOT NULL,
-  `Customer_phone` VARCHAR(45) NOT NULL,
+  `delivery_id_pk` INT NOT NULL AUTO_INCREMENT,
+  `Customer_customer_id` INT NOT NULL,
   `Restaurant_restaurant_id` INT NOT NULL,
-  `street` VARCHAR(256) NULL,
-  `postcode` VARCHAR(45) NULL,
-  `city` VARCHAR(256) NULL,
-  `province` VARCHAR(256) NULL,
+  `street` VARCHAR(256) NOT NULL,
+  `postcode` VARCHAR(45) NOT NULL,
+  `city` VARCHAR(256) NOT NULL,
+  `province` VARCHAR(256) NOT NULL,
   `add_info` VARCHAR(256) NULL,
+  `comment` VARCHAR(256) NULL,
   PRIMARY KEY (`delivery_id_pk`),
   INDEX `fk_User_has_Restaurant_Restaurant1_idx` (`Restaurant_restaurant_id` ASC),
-  INDEX `fk_delivery_users1_idx` (`Customer_phone` ASC),
+  INDEX `fk_delivery_users1_idx` (`Customer_customer_id` ASC),
   CONSTRAINT `fk_User_has_Restaurant_Restaurant1`
     FOREIGN KEY (`Restaurant_restaurant_id`)
     REFERENCES `mymeal`.`Restaurant` (`restaurant_id_pk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_delivery_users1`
-    FOREIGN KEY (`Customer_phone`)
-    REFERENCES `mymeal`.`Customer` (`phone_pk`)
+    FOREIGN KEY (`Customer_customer_id`)
+    REFERENCES `mymeal`.`Customer` (`customer_id_pk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -114,21 +134,21 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Rating` (
   `Meal_meal_id_pk` INT NOT NULL,
-  `Customer_phone_pk` VARCHAR(45) NOT NULL,
+  `Customer_customer_id_pk` INT NOT NULL,
   `date` DATETIME NULL,
   `rating` SMALLINT NULL COMMENT 'smallint because the number will not be bigger than 10',
   `comment` TEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`Customer_phone_pk`, `Meal_meal_id_pk`),
+  PRIMARY KEY (`Customer_customer_id_pk`, `Meal_meal_id_pk`),
   INDEX `fk_Rating_dish1_idx` (`Meal_meal_id_pk` ASC),
-  INDEX `fk_Rating_user1_idx` (`Customer_phone_pk` ASC),
+  INDEX `fk_Rating_user1_idx` (`Customer_customer_id_pk` ASC),
   CONSTRAINT `fk_Rating_dish1`
     FOREIGN KEY (`Meal_meal_id_pk`)
     REFERENCES `mymeal`.`Meal` (`meal_id_pk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Rating_user1`
-    FOREIGN KEY (`Customer_phone_pk`)
-    REFERENCES `mymeal`.`Customer` (`phone_pk`)
+    FOREIGN KEY (`Customer_customer_id_pk`)
+    REFERENCES `mymeal`.`Customer` (`customer_id_pk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -139,7 +159,7 @@ COMMENT = 'Every user can rate a dish just once';
 -- Table `mymeal`.`Delivery_State_Type`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery_State_Type` (
-  `delivery_status_type_id_pk` INT NOT NULL,
+  `delivery_status_type_id_pk` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(256) NULL,
   PRIMARY KEY (`delivery_status_type_id_pk`))
 ENGINE = InnoDB;
@@ -173,7 +193,7 @@ ENGINE = InnoDB;
 -- Table `mymeal`.`Restaurant_Opening_Time_Map`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Restaurant_Opening_Time_Map` (
-  `restaurant_opening_time_map_id_pk` INT NOT NULL,
+  `restaurant_opening_time_map_id_pk` INT NOT NULL AUTO_INCREMENT,
   `Restaurant_restaurant_id` INT NOT NULL,
   `Opening_Time_opening_time_id` INT NOT NULL,
   PRIMARY KEY (`restaurant_opening_time_map_id_pk`),
@@ -219,7 +239,7 @@ ENGINE = InnoDB;
 -- Table `mymeal`.`Tag`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Tag` (
-  `tag_id_pk` INT NOT NULL,
+  `tag_id_pk` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `color` VARCHAR(6) NULL,
   PRIMARY KEY (`tag_id_pk`))
@@ -252,3 +272,7 @@ COMMENT = 'A dish is never tagged twice with the same tag';
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+source Restaurant.sql
+
