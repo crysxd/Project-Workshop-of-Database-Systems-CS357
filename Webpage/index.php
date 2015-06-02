@@ -9,7 +9,7 @@
   <meta name="author" content="">
   <link rel="icon" href="favicon.ico">
 
-  <title>my-burger.com | Home</title>
+  <title>my-meal.com | Home</title>
 
   <!-- Bootstrap core CSS -->
   <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -78,7 +78,7 @@
           <div class="how-to-column">
             <div class="circle-number">1</div>
             <h4>Select your favorite food online</h4>
-            <p>Search on my-burger.com for your favorite restaurant close to you and 
+            <p>Search on my-meal.com for your favorite restaurant close to you and 
               select your meals and drinks.</p>
           </div>
         </div>
