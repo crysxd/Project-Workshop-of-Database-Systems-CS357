@@ -43,11 +43,21 @@ function loadItems() {
     }, function(data) {
       /* Handle errors */
       if(!data.success) {
-        alert('An error occured, the page can not be loaded'); 
+        showErrorOverlay('An Error occured while loading the Page', 
+                 'The page can not be displayed', 
+                 undefined, 
+                 'leaveTo("index.php")');
         console.error('An error occured while requesting data from the server:')
         console.error(data);
         return;
-
+      }
+      
+      /* Handle nothing found */
+      if(data.data.length == 0) {
+        showErrorOverlay('No Restaurants found at your Location', 
+                         'Please try an other address', 
+                         undefined, 
+                         'leaveTo("index.php")');
       }
 
       /* Load template */
