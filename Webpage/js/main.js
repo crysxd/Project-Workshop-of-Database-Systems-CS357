@@ -243,10 +243,17 @@ function hideLoadingOverlay(callback) {
 }
 
 /* Shows the error overlay */
-function showErrorOverlay(title, message, callback) {
+function showErrorOverlay(title, message, callback, okAction) {
   $('#error-overlay .title').text(title);
   $('#error-overlay .message').text(message);
   showOverlay($('#error-overlay'), callback);
+  
+  /* Set the command executed when the ok button is pressed */
+  if(okAction != undefined) {
+    $('#error-overlay .btn').attr('onclick', okAction);
+  } else {
+    $('#error-overlay .btn').attr('onclick', '');
+  }
 }
 
 /* Click handler for ok button in error overlay */
