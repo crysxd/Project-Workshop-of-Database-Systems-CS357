@@ -34,12 +34,13 @@ function searchAddress() {
     $.rest.get('http://www.kart4you.de/meals/geo.php', {address: $('.search-box input').val()}, function(data) {
 
       /* Handle errors */
-      if(!data.success || data.data.status !== "OK") {
+      if(!data.success || data.data.status !== "OK" && data.data.status !== "ZERO_RESULTS") {
         showErrorOverlay('Network Error', 
                          'A network error occured while loading the results. ' +
                          'Make sure you are connected to the internet and try again.', 
                          function() {
           hideLoadingOverlay();
+          console.log(data);
         });
 
         return;
