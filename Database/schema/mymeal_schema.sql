@@ -14,7 +14,6 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Restaurant` (
   `min_order_value` FLOAT UNSIGNED NULL,
   `shipping_cost` FLOAT UNSIGNED NULL COMMENT 'must be >= 0\n',
   `max_delivery_range` INT NULL COMMENT 'in kilometers, \nadditional enums like:\ncitys, districts\nin 100 meter steps',
-  `icon_name` VARCHAR(256) NULL DEFAULT NULL,
   `description` TEXT NULL DEFAULT NULL,
   `street` VARCHAR(256) NOT NULL COMMENT 'http://www.bitboost.com/ref/international-address-formats/prc-china/',
   `postcode` VARCHAR(45) NOT NULL,
@@ -26,6 +25,8 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Restaurant` (
   `offered` TINYINT(1) NULL COMMENT 'Describes if a current restaurant an',
   `password` VARCHAR(256) NULL,
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
+  `region_code` VARCHAR(3) NULL,
+  `national_number` VARCHAR(15) NULL,
   PRIMARY KEY (`restaurant_id_pk`))
 ENGINE = InnoDB;
 
@@ -68,7 +69,6 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Meal` (
   `Meal_Category_meal_category_id` INT NULL,
   `description` TEXT NULL DEFAULT NULL COMMENT 'optional',
   `spiciness` TINYINT UNSIGNED NULL COMMENT 'Range 0-3',
-  `icon_name` VARCHAR(256) NULL,
   `offered` TINYINT(1) NULL,
   PRIMARY KEY (`meal_id_pk`),
   INDEX `fk_Menu_Restaurant1_idx` (`Restaurant_restaurant_id` ASC),

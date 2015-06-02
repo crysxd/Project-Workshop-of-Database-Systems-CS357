@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Restaurant` (
   `min_order_value` FLOAT UNSIGNED NULL,
   `shipping_cost` FLOAT UNSIGNED NULL COMMENT 'must be >= 0\n',
   `max_delivery_range` INT NULL COMMENT 'in kilometers, \nadditional enums like:\ncitys, districts\nin 100 meter steps',
-  `icon_name` VARCHAR(256) NULL DEFAULT NULL,
   `description` TEXT NULL DEFAULT NULL,
   `street` VARCHAR(256) NOT NULL COMMENT 'http://www.bitboost.com/ref/international-address-formats/prc-china/',
   `postcode` VARCHAR(45) NOT NULL,
@@ -27,6 +26,8 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Restaurant` (
   `offered` TINYINT(1) NULL COMMENT 'Describes if a current restaurant an',
   `password` VARCHAR(256) NULL,
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
+  `region_code` VARCHAR(3) NULL,
+  `national_number` VARCHAR(15) NULL,
   PRIMARY KEY (`restaurant_id_pk`))
 ENGINE = InnoDB;
 
@@ -69,7 +70,6 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Meal` (
   `Meal_Category_meal_category_id` INT NULL,
   `description` TEXT NULL DEFAULT NULL COMMENT 'optional',
   `spiciness` TINYINT UNSIGNED NULL COMMENT 'Range 0-3',
-  `icon_name` VARCHAR(256) NULL,
   `offered` TINYINT(1) NULL,
   PRIMARY KEY (`meal_id_pk`),
   INDEX `fk_Menu_Restaurant1_idx` (`Restaurant_restaurant_id` ASC),
@@ -430,7 +430,6 @@ CREATE TABLE IF NOT EXISTS `Restaurant` (
   `min_order_value` float unsigned DEFAULT NULL,
   `shipping_cost` float unsigned DEFAULT NULL COMMENT 'must be >= 0\n',
   `max_delivery_range` float DEFAULT NULL COMMENT 'in kilometers, \nadditional enums like:\ncitys, districts\nin 100 meter steps',
-  `icon_name` varchar(256) DEFAULT NULL,
   `description` text,
   `street` varchar(256) NOT NULL COMMENT 'http://www.bitboost.com/ref/international-address-formats/prc-china/',
   `postcode` varchar(45) NOT NULL,
@@ -449,10 +448,10 @@ CREATE TABLE IF NOT EXISTS `Restaurant` (
 -- Dumping data for table `Restaurant`
 --
 
-INSERT INTO `Restaurant` (`restaurant_id_pk`, `name`, `min_order_value`, `shipping_cost`, `max_delivery_range`, `icon_name`, `description`, `street`, `postcode`, `city`, `province`, `add_info`, `position_lat`, `position_long`, `offered`, `password`, `session_id`) VALUES
-(1, 'Hualian', 10, 0, 10000, 'restaurant_0.jpg', 'Taste special Jidan Guangbing here.', '800 Dongchuan Road', '201109', 'Shanghai', 'Shanghai', 'on the campus', 31.02188, 121.43097, 1, 'GEHEIM', 'SESSION0'),
-(2, 'Veggi Palace', 25, 10, 20000, 'restaurant_1.jpg', 'The best Veggi dishes you get in Shanghai', '1954 Huashan Road', '200030', 'Shanghai', 'Shanghai', NULL, 31.19875, 121.4364, 1, 'GEHEIM1', 'SESSION1'),
-(3, 'Mustafa''s Vegetable Kebap', 0, 5, 5000, 'restaurant_2.jpg', 'Mustafa''s famous vegetable kebap only in Berlin', 'Mehringdamm 32', '10961', 'Berlin', 'Berlin', 'Next to the apartment blocks.', 52.49383, 13.38787, 1, 'GEHEIM2', 'SESSION2');
+INSERT INTO `Restaurant` (`restaurant_id_pk`, `name`, `min_order_value`, `shipping_cost`, `max_delivery_range`, `description`, `street`, `postcode`, `city`, `province`, `add_info`, `position_lat`, `position_long`, `offered`, `password`, `session_id`, `region_code`, `national_number`) VALUES
+(1, 'Hualian', 10, 0, 10000, 'Taste special Jidan Guangbing here.', '800 Dongchuan Road', '201109', 'Shanghai', 'Shanghai', 'on the campus', 31.02188, 121.43097, 1, '098f6bcd4621d373cade4e832627b4f6', '26dfe8116b93ced6cfca858f375d23f1489d3207', '86', '17336010252'),
+(2, 'Veggi Palace', 25, 10, 20000, 'The best Veggi dishes you get in Shanghai', '1954 Huashan Road', '200030', 'Shanghai', 'Shanghai', NULL, 31.19875, 121.4364, 1, 'bdc87b9c894da5168059e00ebffb9077', '4570258f13c64eefb56a26bac08093636f0fc102', '86', '17455250768'),
+(3, 'Mustafa''s Vegetable Kebap', 0, 5, 5000, 'Mustafa''s famous vegetable kebap only in Berlin', 'Mehringdamm 32', '10961', 'Berlin', 'Berlin', 'Next to the apartment blocks.', 52.49383, 13.38787, 1, '5f4dcc3b5aa765d61d8327deb882cf99', '75a2b6313ea2d41950160cc12678cf12ec461b79', '86', '14893035276');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
@@ -462,7 +461,7 @@ INSERT INTO `Restaurant` (`restaurant_id_pk`, `name`, `min_order_value`, `shippi
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 31, 2015 at 04:25 PM
+-- Generation Time: Jun 02, 2015 at 03:19 PM
 -- Server version: 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.9
 
@@ -487,7 +486,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `Customer` (
   `customer_id_pk` int(11) NOT NULL AUTO_INCREMENT COMMENT 'used as identifer.\nthere may be no two users with the same number\nhas to be double because with in we just can represent 10 digits, but chinese phone numbers have 11 digits\na list as representation would take more space',
-  `region_code` varchar(2) DEFAULT NULL COMMENT 'the region code of the phone number',
+  `region_code` varchar(3) DEFAULT NULL COMMENT 'the region code of the phone number',
   `national_number` varchar(15) DEFAULT NULL,
   `last_name` varchar(256) DEFAULT NULL,
   `first_name` varchar(256) DEFAULT NULL,
@@ -503,11 +502,11 @@ CREATE TABLE IF NOT EXISTS `Customer` (
 --
 
 INSERT INTO `Customer` (`customer_id_pk`, `region_code`, `national_number`, `last_name`, `first_name`, `nick`, `password`, `session_id`) VALUES
-(1, '49', '3070143434', 'Sturm', 'Gerald', 'garrythestorm', 'PASSWORD1', 'SESSIONC1'),
-(2, '86', '14324389911', 'Yao', 'Lan', 'localj', 'PASSWORD2', 'SESSIONC2'),
-(3, '86', '14232323989', 'Zhènfán', 'Lǐ', 'dragon_punch_1940', 'PASSWORD', 'SESSIONC4'),
-(4, '1', '7184572531', 'Branton', 'Gloria', 'bunnybee', 'PASSWORD', 'SESSIONC4'),
-(5, '1', '2126844814', 'John', 'Thomas H.', 'johnny', 'PASSWORD', 'SESSIONC3');
+(1, '49', '3070143434', 'Sturm', 'Gerald', 'garrythestorm', '6787017c44f171579326c2207f82a3da', '8aa84cf899b633d0a143780a49fa69b865417bca'),
+(2, '86', '14324389911', 'Yao', 'Lan', 'localj', '567cfce4b80d45e286dc859a5179580d', 'f71a2b3076455873248203bc1dc1cd4946972d99'),
+(3, '86', '14232323989', 'Zhènfán', 'Lǐ', 'dragon_punch_1940', '2acf35c77fff945a69c2d79a2f8713fd', '539862b13f47be78c65fbe150baf930601a1c628'),
+(4, '1', '7184572531', 'Branton', 'Gloria', 'bunnybee', '42a6b10b2c1daa800a25f3e740edb2b3', '4ef047a953b200ce3a5a58f322dcb663fe73a885'),
+(5, '1', '2126844814', 'John', 'Thomas H.', 'johnny', '229657d8b627ffd14a3bccca1a0f9b6e', '3f9004d2643b05cbc645087c65088684d1d70e79');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
@@ -548,7 +547,6 @@ CREATE TABLE IF NOT EXISTS `Meal` (
   `Meal_Category_meal_category_id` int(11) DEFAULT NULL,
   `description` text COMMENT 'optional',
   `spiciness` tinyint(3) unsigned DEFAULT NULL COMMENT 'Range 0-3',
-  `icon_name` varchar(256) DEFAULT NULL,
   `offered` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`meal_id_pk`),
   KEY `fk_Menu_Restaurant1_idx` (`Restaurant_restaurant_id`),
@@ -559,14 +557,14 @@ CREATE TABLE IF NOT EXISTS `Meal` (
 -- Dumping data for table `Meal`
 --
 
-INSERT INTO `Meal` (`meal_id_pk`, `Restaurant_restaurant_id`, `name`, `price`, `Meal_Category_meal_category_id`, `description`, `spiciness`, `icon_name`, `offered`) VALUES
-(1, 1, 'Jidan Guangbing', '8', NULL, 'Turnover filled with Jidan', 1, '', 1),
-(2, 1, 'Cai Bing without egg', '6', NULL, 'A regular Cai Bing without egg', 0, '', 1),
-(3, 1, 'Jingbing', '7', NULL, 'Jingbing with egg', 1, NULL, 1),
-(4, 2, 'Salad', '20', 1, 'Salad with tomatoes, olives and onions ', 0, NULL, 1),
-(5, 2, 'Veggie Burger', '70', 2, 'Veggie Burger with tofu and salad and pickles.', 0, NULL, 1),
-(6, 2, 'Soya Ice Cream', '30', 3, 'Ice cream made with soya instead of milk', 0, NULL, 1),
-(7, 3, 'Vegetable Kebab', '18', 2, 'Mustafas famous vegetable kebab', 1, NULL, 1);
+INSERT INTO `Meal` (`meal_id_pk`, `Restaurant_restaurant_id`, `name`, `price`, `Meal_Category_meal_category_id`, `description`, `spiciness`, `offered`) VALUES
+(1, 1, 'Jidan Guangbing', '8', NULL, 'Turnover filled with Jidan', 1, 1),
+(2, 1, 'Cai Bing without egg', '6', NULL, 'A regular Cai Bing without egg', 0, 1),
+(3, 1, 'Jingbing', '7', NULL, 'Jingbing with egg', 1, 1),
+(4, 2, 'Salad', '20', 1, 'Salad with tomatoes, olives and onions ', 0, 1),
+(5, 2, 'Veggie Burger', '70', 2, 'Veggie Burger with tofu and salad and pickles.', 0, 1),
+(6, 2, 'Soya Ice Cream', '30', 3, 'Ice cream made with soya instead of milk', 0, 1),
+(7, 3, 'Vegetable Kebab', '18', 2, 'Mustafas famous vegetable kebab', 1, 1);
 
 --
 -- Constraints for dumped tables
