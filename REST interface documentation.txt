@@ -187,7 +187,7 @@ api/1.0/customer/delivery
     - Parameter:
         - user: The user's nick name
         - session: The session which is used to order
-        - delivery: the order, encoded as following:
+        - PUT: the order, encoded as following:
             {
                 "restaurant": 0,
                 "dishes": [
@@ -195,6 +195,13 @@ api/1.0/customer/delivery
                     {"id": 5, "quantity": 1},
                     {"id": 42, "quantity": 12},
                     {"id": 1337, "quantity": 1},
+                ]
+                "address": [
+                    "number": 800,
+                    "street": "Dong Chuan Lu",
+                    "city": "Minghang Qu",
+                    "lat": 23.3434,
+                    "lang": 23.344
                 ]
             }
     - Errors:
@@ -519,34 +526,6 @@ api/1.0/restaurant/deliveries
                     ]
                 }
             ]
-        }
-
---------------------------------------------------------------------------------
-api/1.0/restaurant/state
-    - Description:
-        Returnes all possible states
-    - Method:
-        GET
-    - Parameters:
-        - GET:
-            - session: The session which is used
-            - id: The restaurant's id
-        - PUT
-            - session: The session which is used
-            - id: The restaurant's id
-            - state: The new state
-            - delivery: The delivery which's state should be changed
-    - Answer GET:
-        {
-            "success": true,
-            "data": [
-                {"name": "A state", "id": 0},
-                {"name": "A other state", "id": 1}
-            ]
-        }
-    - Answer PUT:
-        {
-            "success": true,
         }
 
 --------------------------------------------------------------------------------
