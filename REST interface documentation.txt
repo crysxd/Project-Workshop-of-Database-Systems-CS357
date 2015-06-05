@@ -72,6 +72,7 @@ api/1.0/customer/menu
         - direction: The direction of the order, either ASC or DESC
         - start: Start of the limit for the current query (see SQL LIMIT)
         - count: Range of the limit for the current query (see SQL LIMIT)
+        - search: A search string (user SQL LIKE and %seach%)
     - Errors:
         Restaurant has no meals/restaurant not found: Return empty list
     - Answer:
@@ -183,27 +184,63 @@ api/1.0/customer/delivery
     - Description:
         Used to place a delivery. The user and the session must be valid.
     - Method:
-        PUT
+        PUT, GET
     - Parameter:
-        - user: The user's nick name
-        - session: The session which is used to order
-        - delivery: the order, encoded as following:
-            {
-                "restaurant": 0,
-                "dishes": [
-                    {"id": 0, "quantity": 1},
-                    {"id": 5, "quantity": 1},
-                    {"id": 42, "quantity": 12},
-                    {"id": 1337, "quantity": 1},
-                ]
-            }
+        -PUT
+            - user: The user's nick name
+            - session: The session which is used to order
+            - PUT: the order, encoded as following:
+                {
+                    "restaurant": 0,
+                    "dishes": [
+                        {"id": 0, "quantity": 1},
+                        {"id": 5, "quantity": 1},
+                        {"id": 42, "quantity": 12},
+                        {"id": 1337, "quantity": 1},
+                    ]
+                    "address": [
+                        "number": 800,
+                        "street": "Dong Chuan Lu",
+                        "city": "Minghang Qu",
+                        "postcode": "23423",
+                        "lat": 23.3434,
+                        "lang": 23.344
+                    ]
+                }
+        - GET
+            - user: The user's nick name
+            - session: The session which is used to order
+            - delivery: The delivery's ID
     - Errors:
         - Dish is not available in restaurant: Return error code 100
-    - Answer Success:
+    - Answer PUT:
         {
             "success": true,
             "eta_minutes": 32,
             "restaurant_phone": 1303445439
+        }
+    - Answer GET:
+        {
+            "success": true,
+            "restaurant": "A cool restaurant",
+            "phone": "8347897942",
+            "shipping_costs": 34,
+            "number": 800,
+            "street": "Dong Chuan Lu",
+            "city": "Shanghai",
+            "postcode": "435435"
+            "dishes": [
+                        {"id": 0, "quantity": 1, "price": 34},
+                        {"id": 5, "quantity": 1, "price": 34},
+                        {"id": 42, "quantity": 12, "price": 34},
+                        {"id": 1337, "quantity": 1, "price": 34},
+                    ]
+            "states": [
+                        {"state": "Pending", "date": "13:23 2015-03-31",},
+                        {"state": "Processing", "date": "13:23 2015-03-31"},
+                        {"state": "In Delivery", "date": "13:23 2015-03-31"},
+                        {"state": "Done", "date": "13:23 2015-03-31"}
+            ]
         }
 
 --------------------------------------------------------------------------------
@@ -286,12 +323,6 @@ api/1.0/customer/info
             "phone": 13032424398,
             "first_name": "Cool",
             "sure_name": "Guy",
-            "street": "Dongchuan Road 500",
-            "distrcit": "Minhang",
-            "postcode": "3847",
-            "province": "Shanghai",
-            "city": "Shanghai",
-            "pw": "my_secret"
             "ratable_dishes": [
                 {
                     "id": 0, 
@@ -306,40 +337,24 @@ api/1.0/customer/info
                     "restaurant": "Cool Restaurant"
                 },
             ]
-            "deliveries": [
+            "ongoing_deliveries": [
                 {
                     "id": 2,
-                    "date": "2015-05-14",
-                    "shipping_cost": 43.3,
-                    "total_price": 345.34,
                     "restaurant": "A cool Restaurant",
-                    "state": "Done",
-                    "dishes": [
-                        {
-                            "name": "Dish name",
-                            "amount": 3,
-                            "price_per_item": 45.5
-                        }
-                    ]
-                },
+                    "state": "Processing",
+                    "state_since": "2015-05-14"
+                }
+            ],
+            "old_deliveries": [
                 {
-                    "id": 3,
-                    "date": "2015-02-14",
-                    "shipping_cost": 0.0,
-                    "total_price": 345.34,
+                    "id": 2,
                     "restaurant": "A cool Restaurant",
-                    "state": "Done",
-                    "dishes": [
-                        {
-                            "name": "Dish name",
-                            "amount": 3,
-                            "price_per_item": 45.5
-                        }
-                    ]
+                    "state": "Processing",
+                    "state_since": "2015-05-14"
                 }
             ]
         }
-
+        
 --------------------------------------------------------------------------------
 api/1.0/customer/rate
     - Description:
@@ -519,34 +534,6 @@ api/1.0/restaurant/deliveries
                     ]
                 }
             ]
-        }
-
---------------------------------------------------------------------------------
-api/1.0/restaurant/state
-    - Description:
-        Returnes all possible states
-    - Method:
-        GET
-    - Parameters:
-        - GET:
-            - session: The session which is used
-            - id: The restaurant's id
-        - PUT
-            - session: The session which is used
-            - id: The restaurant's id
-            - state: The new state
-            - delivery: The delivery which's state should be changed
-    - Answer GET:
-        {
-            "success": true,
-            "data": [
-                {"name": "A state", "id": 0},
-                {"name": "A other state", "id": 1}
-            ]
-        }
-    - Answer PUT:
-        {
-            "success": true,
         }
 
 --------------------------------------------------------------------------------
