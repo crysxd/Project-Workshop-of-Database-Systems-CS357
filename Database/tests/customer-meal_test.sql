@@ -45,7 +45,7 @@ ON
 WHERE
   Meal.offered = 1 && Meal.Restaurant_restaurant_id = 1
 GROUP BY
-  Meal.Restaurant_restaurant_id
+  Meal.meal_id_pk
 ORDER BY
   name ASC
 LIMIT
@@ -57,7 +57,7 @@ SELECT Meal.meal_id_pk meal_id, Meal.name name, Meal.price price, Meal.spiciness
 FROM Meal
 INNER JOIN Rating ON Meal.meal_id_pk = Rating.Meal_meal_id_pk
 WHERE Meal.offered =1 && Meal.Restaurant_restaurant_id =?
-GROUP BY Meal.Restaurant_restaurant_id
+GROUP BY Meal.meal_id_pk
 ORDER BY ? ?
 LIMIT ?, ?
 */

@@ -40,7 +40,7 @@ INSERT INTO `Delivery_State_Type` (`delivery_status_type_id_pk`, `name`) VALUES
 (1, 'Pending'),
 (2, 'Processing'),
 (3, 'In delivery'),
-(4, 'Delivered');
+(4, 'Done');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
