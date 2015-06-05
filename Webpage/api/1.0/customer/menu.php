@@ -31,27 +31,27 @@
   // For meal information
   $ascOrDesc = ($direction=="DESC") ? "DESC" : "ASC";
   $stmt_meal = "
-    SELECT Meal.meal_id_pk meal_id, Meal.name name, Meal.price price, Meal.spiciness spicy, AVG( Rating.rating ) rating, COUNT( Rating.rating ) rating_count
-    FROM Meal
-    INNER JOIN Rating ON Meal.meal_id_pk = Rating.Meal_meal_id_pk
-    WHERE Meal.offered = 1 && Meal.Restaurant_restaurant_id = ?
-    GROUP BY Meal.meal_id_pk
-    ORDER BY ? $ascOrDesc
-    LIMIT ?, ?";
-  $stmt_meal_result = $db_link->prepare($stmt_meal);
+      SELECT Meal.meal_id_pk meal_id, Meal.name name, Meal.price price, Meal.spiciness spicy, AVG( Rating.rating ) rating, COUNT( Rating.rating ) rating_count
+      FROM Meal
+      INNER JOIN Rating ON Meal.meal_id_pk = Rating.Meal_meal_id_pk
+      WHERE Meal.offered = 1 && Meal.Restaurant_restaurant_id = ?
+      GROUP BY Meal.meal_id_pk
+      ORDER BY ? $ascOrDesc
+      LIMIT ?, ?";
+  $stmt_meal_result = $db_link->prepare($query_meal);
   $stmt_meal_result->bind_param("isii", $restaurant, $order, $start, $count);
 
   //For tag information of meal
   $stmt_tag_result = $db_link->prepare("
-    SELECT Tag.name, Tag.color
-    FROM Tag
-    INNER JOIN (
+      SELECT Tag.name, Tag.color
+      FROM Tag
+      INNER JOIN (
 
-      SELECT Meal_Tag_Map.Tag_tag_id_pk
-      FROM Meal
-      INNER JOIN Meal_Tag_Map ON Meal.meal_id_pk = Meal_Tag_Map.Meal_meal_id_pk
-      WHERE Meal.offered =1 && Meal.Restaurant_restaurant_id = ? && Meal.meal_id_pk = ?
-    )Meal_x_Meal_Tag_Map ON Tag.tag_id_pk = Meal_x_Meal_Tag_Map.Tag_tag_id_pk");
+        SELECT Meal_Tag_Map.Tag_tag_id_pk
+        FROM Meal
+        INNER JOIN Meal_Tag_Map ON Meal.meal_id_pk = Meal_Tag_Map.Meal_meal_id_pk
+        WHERE Meal.offered =1 && Meal.Restaurant_restaurant_id = ? && Meal.meal_id_pk = ?
+      )Meal_x_Meal_Tag_Map ON Tag.tag_id_pk = Meal_x_Meal_Tag_Map.Tag_tag_id_pk");
 
   // Execute queries
   $restaurant_result = $stmt_restaurant_result->execute();
