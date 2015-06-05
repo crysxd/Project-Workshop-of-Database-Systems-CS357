@@ -189,7 +189,7 @@ api/1.0/customer/delivery
         -PUT
             - user: The user's nick name
             - session: The session which is used to order
-            - PUT: the order, encoded as following:
+            - PUT input: 
                 {
                     "restaurant": 0,
                     "dishes": [
