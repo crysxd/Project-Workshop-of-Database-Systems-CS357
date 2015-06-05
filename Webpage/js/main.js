@@ -208,12 +208,12 @@ function updateLoginButtonState() {
   
   /* If the user is logged in */
   if(session != null) {
-    $('#login-button .text').text(session.user);
+    $('#login-button .text').html(session.user);
   }
   
   /* If not */
   else {
-    $('#login-button .text').text("Login / Register");
+    $('#login-button .text').html("Login / Register");
   }
 }
 
