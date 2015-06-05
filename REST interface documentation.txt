@@ -72,6 +72,7 @@ api/1.0/customer/menu
         - direction: The direction of the order, either ASC or DESC
         - start: Start of the limit for the current query (see SQL LIMIT)
         - count: Range of the limit for the current query (see SQL LIMIT)
+        - search: A search string (user SQL LIKE and %seach%)
     - Errors:
         Restaurant has no meals/restaurant not found: Return empty list
     - Answer:
