@@ -70,6 +70,7 @@
       $answer['success'] = true;
       $answer['id'] = $id;
       $answer['session'] = start_restaurant_session($id);
+      $answer['name'] = $_GET['name'];
             
       //Load the icon
       $icon = file_get_contents("php://input");

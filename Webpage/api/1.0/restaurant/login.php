@@ -12,7 +12,7 @@
   $answer = array();
 
   // Prepare Statements
-  $stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM restaurant WHERE restaurant_id_pk=? AND password=?");
+  $stmt = $db_link->prepare("SELECT COUNT(*) AS ok, name FROM restaurant WHERE restaurant_id_pk=? AND password=?");
   $stmt->bind_param("ss", $user, $pw);
 
   // assure query parameters are clean and set parameters
@@ -35,9 +35,11 @@
     $answer['err_msg'] = "[$db_link->errno] $db_link->error";
 
   } else {
-    if($result->fetch_assoc()['ok'] == 1) {
+    $result = $result->fetch_assoc();
+    if($result['ok'] == 1) {
       // Login successful
       $answer['success'] = true;
+      $answer['name'] = $result['name'];
       
       // Log in
       $answer['session'] = start_restaurant_session($_GET['id']);
