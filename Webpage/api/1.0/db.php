@@ -82,7 +82,37 @@
     $answer = json_encode(array("success" => false, "err_no" => ERROR_UNAUTHORIZED));
 
     // Preapre query
-    if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM customer WHERE nick=? AND session=?")) {
+    if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM customer WHERE nick=? AND session_id=?")) {
+      die($answer);
+    }
+    
+    // Bind params
+    if(!$stmt->bind_param("ss", $user, $session)) {
+      die($answer);
+    }
+    
+    // Execute
+    if(!$stmt->execute()) {
+      die($answer);
+    }
+    
+    // Check result
+    if($stmt->get_result()->fetch_assoc()['ok'] != 1) {
+      die($answer);
+    }
+  }
+
+  /****************************************************************************************************************************
+   * Checks if the given session is valid for the given restaurant. Kills the PHP script if the user is unauthorized
+   */
+  function check_restaurant_session($id, $session) {
+    global $db_link;
+    
+    // Create a answer for unauthorized users
+    $answer = json_encode(array("success" => false, "err_no" => ERROR_UNAUTHORIZED));
+
+    // Preapre query
+    if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM restaurant WHERE restaurant_id_pk=? AND session_id=?")) {
       die($answer);
     }
     
@@ -105,17 +135,40 @@
   /****************************************************************************************************************************
    * Starts a new session for the given user. The session id is returned
    */
-  function start_session($user) {
+  function start_user_session($user) {
     global $db_link;
    
     // Generate session id
-    $session = bin2hex(openssl_random_pseudo_bytes(32));
+    $session = generate_session_id();
 
     // Put session id
-    $db_link->query("UPDATE customer SET session=\"$session\" WHERE nick=$user");
+    $db_link->query("UPDATE customer SET session_id=\"$session\" WHERE nick=$user");
     
     //return
     return $session;
   }
-?>
 
+  /****************************************************************************************************************************
+   * Starts a new session for the given restaurant. The session id is returned
+   */
+  function start_restaurant_session($id) {
+    global $db_link;
+   
+    // Generate session id
+    $session = generate_session_id();
+
+    // Put session id
+    $db_link->query("UPDATE restaurant SET session_id=\"$session\" WHERE restaurant_id_pk=$id");
+    
+    //return
+    return $session;
+  }
+
+  /****************************************************************************************************************************
+   * Generates a new session id and returns it
+   */
+  function generate_session_id() {
+    return bin2hex(openssl_random_pseudo_bytes(32));
+  }
+
+?>
