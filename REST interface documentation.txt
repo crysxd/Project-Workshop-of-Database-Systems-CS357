@@ -80,6 +80,9 @@ api/1.0/customer/menu
             "success": true,
             "description": "The best restaurant you will find!",
             "min_order_value": 12.4,
+            "name": "A cool Restaurant",
+            "average_rating": 2.3,
+            "rating_count": 324,
             "icon": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
                     VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms=",
             "shipping_cost": 0,
