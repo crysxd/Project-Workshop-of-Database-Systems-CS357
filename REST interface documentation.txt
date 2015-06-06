@@ -438,7 +438,7 @@ api/1.0/restaurant/info
             - province: The restaurant's province
             - position_lat: The restaurant's latitude
             - poisition_long: The restaurant's longitude
-            - password: The restaurant's password
+            - pw: The restaurant's password
             - description: The restaurant's description text
             - session: The session that is used to change the information
             - id: The restaurant's id
@@ -455,7 +455,7 @@ api/1.0/restaurant/info
             - country: The restaurant's country
             - position_lat: The restaurant's latitude
             - poisition_long: The restaurant's longitude
-            - password: The restaurant's password
+            - pw: The restaurant's password
             - description: The restaurant's description text
     - Errors:
         restaurant name already exists: Return error code 1000
