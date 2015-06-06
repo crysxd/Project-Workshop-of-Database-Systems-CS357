@@ -155,15 +155,9 @@ $('#register-complete-button').click(function() {
         console.log(data);
         
         /* Error: User already exists */
-        if(data.err_no == 1000) {
+        if(data.err_no == 1062) {
           $('#task-register #form-user-name').popover(
             {content: 'The user name is already taken', placement: 'bottom'}).popover('show');
-        } 
-        
-        /* Error: Phone number already exists */
-        else if(data.err_no == 1001) {
-          $('#task-register #form-phone').popover(
-            {content: 'This phone number is already used by an other account', placement: 'bottom'}).popover('show');
         } 
         
         /* Generic error  */
@@ -208,12 +202,12 @@ function updateLoginButtonState() {
   
   /* If the user is logged in */
   if(session != null) {
-    $('#login-button .text').text(session.user);
+    $('#login-button .text').html(session.user);
   }
   
   /* If not */
   else {
-    $('#login-button .text').text("Login / Register");
+    $('#login-button .text').html("Login / Register");
   }
 }
 

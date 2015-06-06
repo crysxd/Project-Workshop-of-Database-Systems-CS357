@@ -479,6 +479,10 @@ footer {
   padding: 20px;
   text-align: center;
   background: #dedede;
+  margin-left: -500px;
+  margin-right: -500px;
+  padding-left: 510px;
+  padding-right: 510px;
 }
 
 .btn-colored {
@@ -543,11 +547,6 @@ a[data-toggle] {
   #restaurants {
     border-radius: 0;
     margin-bottom: 0;
-  }
-  
-  footer {
-    margin-left: 0;
-    margin-right: 0;
   }
 }
   

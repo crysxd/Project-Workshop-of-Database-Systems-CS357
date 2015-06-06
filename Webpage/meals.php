@@ -9,7 +9,7 @@
   <meta name="author" content="">
   <link rel="icon" href="favicon.ico">
 
-  <title>my-burger.com | Meals</title>
+  <title>my-meal.com | Meals</title>
 
   <!-- Bootstrap core CSS -->
   <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -34,13 +34,13 @@
   <?php  include('shared/header.html'); ?>
     
   <!-- Toast to inform the user that he can choose the amount in the next step -->
-  <div class="alert alert-success toast" role="alert">
+  <div class="alert alert-success toast" role="alert" style="display:none">
     <strong>Item added to cart!</strong> You can choose the amount in the next step
   </div>
   
   <section id="main-content">  
     <!-- meals list -->
-    <section id="splash-screen">
+    <div id="splash-screen">
       <div class="splash-container">
         <!-- Title -->
         <h1>Meals of <span class="restaurant-name">a Restaurant</span></h1>
@@ -59,15 +59,6 @@
             <table class="table table-hover">
               <!-- Table header -->
               <thead>
-                <tr>
-                  <td></td>
-                  <td colspan="2">
-                    <!-- Go to cashier button -->
-                    <a class="btn btn-success btn-block btn-shopping-cart" href="javascript:leaveTo('order.php')">
-                      Check out&nbsp;<span class="badge">423</span>
-                    </a>
-                  </td>
-                </tr>
                 <tr>
                   <th>Meal</th>
                   <th>Price</th>
@@ -100,11 +91,43 @@
             </table>
           </div>
         </div>
-      </section>
+                        
+        <!-- Footer -->
+        <?php include('shared/footer.html'); ?>
+        
+      </div>
+    </section><!-- Main content -->
+    
+    <!-- Bottom Toolbar -->
+    <section id="toolbar" class="form-inline pull-right">
       
-      <!-- Footer -->
-      <?php include('shared/footer.html'); ?>
+      <!-- Order by -->
+      <div class="form-group hidden-xs">
+        <label for="meals-order-column">Order by</label>
+        <select id="meals-order-column" class="form-control">
+          <option value="price;ASC">Price</option>
+          <option value="price;DESC">Price &#9662;</option>
+          <option value="spiciness;ASC">Spiciness</option>
+          <option value="spiciness;DESC">Spiciness &#9662;</option>
+          <option value="name;ASC">Name</option>
+        </select>
+      </div>
       
+      <!-- Search and Checkout -->
+      <div class="form-group">
+        <div class="input-group">
+          <input type="text" placeholder="Search meal..." id="meals-search" class="form-control">
+          <span class="input-group-btn">
+            <a class="btn btn-default">
+              &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
+            </a>
+            <a class="btn btn-success btn-shopping-cart" href="javascript:leaveTo('order.php')">
+              Check out&nbsp;<span class="badge">423</span>
+            </a>          
+          </span>
+        </div>
+      </div>
+
     </section>
     
   </div>

@@ -58,18 +58,6 @@
       $answer['err_no'] = $db_link->errno;
       $answer['err_msg'] = "[$db_link->errno] $db_link->error";
       
-      // replace error code with specific ones
-      // Duplicate primary key means phone already in use
-      if($db_link->errno == 1062 && strpos($db_link->error, 'PRIMARY')) {
-        $answer['err_no'] = 1001;
-      }
-      
-      // Duplicate primary key means phone already in use
-      if($db_link->errno == 1062 && strpos($db_link->error, 'nick')) {
-        $answer['err_no'] = 1000;
-      }
-
-      
     } else {
       $answer['success'] = true;
       $answer['user'] = $_GET['nick'];

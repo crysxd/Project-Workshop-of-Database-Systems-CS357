@@ -133,6 +133,29 @@
   border-top: 0 !important;
 }
 
+#main-content {
+  height: calc(100% - 50px);
+}
+
+#toolbar {
+  height: 50px;
+  padding: 10px;
+  display: inline-block;
+}
+
+#toolbar .btn {
+  padding: 6px;
+}
+
+#toolbar .form-group {
+    display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle
+}
+
+select {
+  border-top-left-radius: 0;
+}
 .toast {
   position: fixed;
   left: 50%;
@@ -158,4 +181,3 @@
     transform: translateX(calc(25px - 50%));
   }
 }
-  
