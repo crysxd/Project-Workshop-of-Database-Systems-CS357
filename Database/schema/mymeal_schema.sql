@@ -14,9 +14,9 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Restaurant` (
   `min_order_value` FLOAT UNSIGNED NULL,
   `shipping_cost` FLOAT UNSIGNED NULL COMMENT 'must be >= 0\n',
   `max_delivery_range` INT NULL COMMENT 'in kilometers, \nadditional enums like:\ncitys, districts\nin 100 meter steps',
-  `icon_name` VARCHAR(256) NULL DEFAULT NULL,
   `description` TEXT NULL DEFAULT NULL,
-  `street` VARCHAR(256) NOT NULL COMMENT 'http://www.bitboost.com/ref/international-address-formats/prc-china/',
+  `street_number` VARCHAR(45) NULL,
+  `street_name` VARCHAR(256) NULL,
   `postcode` VARCHAR(45) NOT NULL,
   `city` VARCHAR(256) NOT NULL,
   `province` VARCHAR(256) NOT NULL,
@@ -26,6 +26,8 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Restaurant` (
   `offered` TINYINT(1) NULL COMMENT 'Describes if a current restaurant an',
   `password` VARCHAR(256) NULL,
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
+  `region_code` VARCHAR(3) NULL,
+  `national_number` VARCHAR(15) NULL,
   PRIMARY KEY (`restaurant_id_pk`))
 ENGINE = InnoDB;
 
@@ -68,7 +70,6 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Meal` (
   `Meal_Category_meal_category_id` INT NULL,
   `description` TEXT NULL DEFAULT NULL COMMENT 'optional',
   `spiciness` TINYINT UNSIGNED NULL COMMENT 'Range 0-3',
-  `icon_name` VARCHAR(256) NULL,
   `offered` TINYINT(1) NULL,
   PRIMARY KEY (`meal_id_pk`),
   INDEX `fk_Menu_Restaurant1_idx` (`Restaurant_restaurant_id` ASC),
@@ -106,11 +107,12 @@ COMMENT = 'a restaurant may have multiple opening times';
 CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery` (
   `delivery_id_pk` INT NOT NULL AUTO_INCREMENT,
   `Customer_customer_id` INT NOT NULL,
-  `Restaurant_restaurant_id` INT NOT NULL,
-  `street` VARCHAR(256) NOT NULL,
-  `postcode` VARCHAR(45) NOT NULL,
-  `city` VARCHAR(256) NOT NULL,
-  `province` VARCHAR(256) NOT NULL,
+  `Restaurant_restaurant_id` INT NULL,
+  `street_number` VARCHAR(45) NULL,
+  `street_name` VARCHAR(256) NULL,
+  `postcode` VARCHAR(45) NULL,
+  `city` VARCHAR(256) NULL,
+  `province` VARCHAR(256) NULL,
   `add_info` VARCHAR(256) NULL,
   `comment` VARCHAR(256) NULL,
   PRIMARY KEY (`delivery_id_pk`),
@@ -213,9 +215,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mymeal`.`Delivery_Dish_Map`
+-- Table `mymeal`.`Delivery_Meal_Map`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery_Dish_Map` (
+CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery_Meal_Map` (
   `Delivery_delivery_id_pk` INT NOT NULL,
   `Meal_meal_id_pk` INT NOT NULL,
   `amount` INT NULL,

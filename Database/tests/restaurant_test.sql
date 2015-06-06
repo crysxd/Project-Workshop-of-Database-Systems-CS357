@@ -34,7 +34,7 @@ INNER JOIN
 ON 
   r.restaurant_id_pk = Meal_j_Rating.Restaurant_restaurant_id
 WHERE
-  r.offered = 1 &&
+  r.offered = 1
 ORDER BY
   r.restaurant_id_pk
 
