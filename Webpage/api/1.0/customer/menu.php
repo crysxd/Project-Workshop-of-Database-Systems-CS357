@@ -38,7 +38,7 @@
       GROUP BY Meal.meal_id_pk
       ORDER BY ? $ascOrDesc
       LIMIT ?, ?";
-  $stmt_meal_result = $db_link->prepare($query_meal);
+  $stmt_meal_result = $db_link->prepare($stmt_meal);
   $stmt_meal_result->bind_param("isii", $restaurant, $order, $start, $count);
 
   //For tag information of meal
