@@ -61,7 +61,7 @@
     } else {
       $answer['success'] = true;
       $answer['user'] = $_GET['nick'];
-      $answer['session'] = start_session($_GET['nick']);
+      $answer['session'] = start_user_session($_GET['nick']);
       
     }
     
