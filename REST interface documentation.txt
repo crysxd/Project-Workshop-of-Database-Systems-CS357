@@ -428,36 +428,36 @@ api/1.0/restaurant/info
             - min_order_value: The restaurant's minimum order value
             - shipping_cost: The restaurant's shipping costs
             - max_delivery_range: The restaurant's maximum delivery range
-            - icon: The restaurant's icon
+            - POST data: The restaurant's icon as Base64
             - street: The restaurant's street
             - postcode: The restaurant's postal code
-            - district: The restaurant's district
+            - phone: The restaurant's phone number
             - city: The restaurant's city
+            - country: The restaurant's country
             - province: The restaurant's province
             - position_lat: The restaurant's latitude
             - poisition_long: The restaurant's longitude
             - password: The restaurant's password
             - description: The restaurant's description text
             - session: The session that is used to change the information
+            - id: The restaurant's id
         - PUT:
             - name: The restaurant's name
             - min_order_value: The restaurant's minimum order value
             - shipping_cost: The restaurant's shipping costs
             - max_delivery_range: The restaurant's maximum delivery range
-            - icon: The restaurant's icon
+            - PUT data: The restaurant's icon as Base64
             - street: The restaurant's street
             - postcode: The restaurant's postal code
-            - district: The restaurant's district
+            - phone: The restaurant's phone number
             - city: The restaurant's city
-            - province: The restaurant's province
+            - country: The restaurant's country
             - position_lat: The restaurant's latitude
             - poisition_long: The restaurant's longitude
             - password: The restaurant's password
             - description: The restaurant's description text
     - Errors:
         restaurant name already exists: Return error code 1000
-        Password insufficient: Return error code 1002
-        Image too large: Return error code 1003
     - Answer Sucess PUT:
         {
             "success": true,
@@ -493,8 +493,7 @@ api/1.0/restaurant/deliveries
     - Method:
         GET
     - Parameter:
-        - done: If true, only orders which are done should be returned, 
-                otherwise only orders which are not done should be returned
+        - state: The state all provided deliveries should have
         - session: The session which is used
         - id: The restaurant's id
         - start: Start of the limit for the current query (see SQL LIMIT)
@@ -582,7 +581,7 @@ api/1.0/restaurant/dish
             - price: The dish's price
             - description: The dish's discription
             - tags: All Tag ids added to the dish (JSON Array)
-            - image: The image as Base64
+            - PUT data: The image as Base64 
         - POST:
             - session: The session which is used
             - id: The restaurant's id
@@ -591,7 +590,7 @@ api/1.0/restaurant/dish
             - price: The dish's price
             - description: The dish's discription
             - tags: All Tag ids added to the dish (JSON Array)
-            - image: The image as Base64
+            - POST data: The image as Base64
         - DELETE
             - session: The session which is used
             - id: The restaurant's id
