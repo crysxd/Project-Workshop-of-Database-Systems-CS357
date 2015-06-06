@@ -391,6 +391,7 @@ api/1.0/restaurant/login
         {
             "success": true,
             "session": 848395782
+            "id": 2834962
         }
 
 --------------------------------------------------------------------------------
@@ -462,6 +463,7 @@ api/1.0/restaurant/info
         {
             "success": true,
             "session": 848395782
+            "id": 23482
         }
     - Answer Sucess POST:
         {
@@ -540,24 +542,12 @@ api/1.0/restaurant/state
     - Description:
         Returnes all possible states
     - Method:
-        GET
+        PUT
     - Parameters:
-        - GET:
-            - session: The session which is used
-            - id: The restaurant's id
-        - PUT
-            - session: The session which is used
-            - id: The restaurant's id
-            - state: The new state
-            - delivery: The delivery which's state should be changed
-    - Answer GET:
-        {
-            "success": true,
-            "data": [
-                {"name": "A state", "id": 0},
-                {"name": "A other state", "id": 1}
-            ]
-        }
+        - session: The session which is used
+        - id: The restaurant's id
+        - state: The new state
+        - delivery: The delivery which's state should be changed
     - Answer PUT:
         {
             "success": true,
