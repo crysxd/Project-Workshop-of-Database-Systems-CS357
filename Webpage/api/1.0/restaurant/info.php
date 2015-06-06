@@ -31,12 +31,13 @@
     global $db_link;
     
     // assure all required parameters are available, will die if not all are available
-    check_parms_available(array("first_name", "sure_name", "pw", "nick", "phone"));
+    check_parms_available(array("name", "min_order_value", "shipping_costs", "max_delivery_range", 
+                                "street", "postcode", "phone", "city", "country", "position_lat", "position_long",
+                                "pw", "description"));
         
     // create answer array
     $answer = array();
     $answer['success'] = false;
-    $answer['nick'] = $_GET['nick'];
 
     // Check if params are sufficient
     // Password should have at least 6 characters
@@ -49,8 +50,14 @@
     $password = hash(PASSWORD_HASH_FUNCTION, $_GET['pw']);
     
     // prepare statement
-    $stmt = $db_link->prepare("INSERT INTO customer(region_code, national_number, last_name, first_name, nick, password) VALUES('+86', ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $_GET['phone'], $_GET['sure_name'], $_GET['first_name'], $_GET['nick'], $password);
+    $stmt = $db_link->prepare("INSERT INTO restaurant(region_code, min_order_value, shipping_cost, max_delivery_range, name,".
+                              "street_name, postcode, national_number, city, country, position_lat, position_long, password,".
+                              "description) VALUES('+86', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    
+    // Bind parameters
+    $stmt->bind_param("iiissssssssss", $_GET['min_order_value'], $_GET['shipping_costs'], $_GET['max_delivery_range'],
+                      $_GET['name'], $_GET['street'], $_GET['postcode'], $_GET['phone'], $_GET['city'], $_GET['country'],
+                      $_GET['position_lat'], $_GET['position_long'], $password, $_GET['description']);
     
     
     // execute
@@ -59,9 +66,28 @@
       $answer['err_msg'] = "[$db_link->errno] $db_link->error";
       
     } else {
+      $id =  $db_link->insert_id;
       $answer['success'] = true;
-      $answer['user'] = $_GET['nick'];
-      $answer['session'] = start_user_session($_GET['nick']);
+      $answer['id'] = $id;
+      $answer['session'] = start_restaurant_session($id);
+      $answer['name'] = $_GET['name'];
+            
+      //Load the icon
+      $icon = file_get_contents("php://input");
+      
+      //Remove data URL
+      $start = strpos($icon, ",");
+      $icon = substr($icon, $start);
+      
+      //Decode
+      $raw = base64_decode($icon);
+      
+      //Write
+      $file = fopen(get_restaurant_icon_file_name($id), "c");
+      fwrite($file, $raw);
+      fclose($file);
+      
+      $answer['start'] = $start;
       
     }
     

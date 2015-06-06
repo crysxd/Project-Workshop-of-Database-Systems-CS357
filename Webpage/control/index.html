@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../favicon.ico">
+
+    <title>Control Panel</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="index.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="container">
+      
+      <!-- Tabs -->
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#login" data-toggle="tab">Login</a></li>
+        <li><a href="#register" data-toggle="tab">Register</a></li>
+      </ul>
+        
+      <div class="tab-content">
+        <!-- Login -->
+        <section id="login" class="tab-pane active">
+          <form>
+            <div class="form-group">
+              <label for="login-restaurant-id">Restaurant-ID</label>
+              <input type="text" class="form-control" id="login-restaurant-id" placeholder="Enter restaurant id">
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <input type="password" class="form-control" id="login-password" placeholder="Enter password">
+            </div>
+            <div id="btn-login-complete" class="btn btn-primary" data-loading-text="Loading...">Login</div>
+          </form>
+        </section>
+
+        <!-- Register -->
+        <section id="register" class="tab-pane">
+          <link href="register-form.html" rel="import" onload="this.parentNode.innerHTML=this.import.children[0].innerHTML"/>
+        </section>
+        
+      </div>
+    </div>
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery-2.1.0.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="index.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="register-form.js"></script>
+    
+  </body>
+</html>

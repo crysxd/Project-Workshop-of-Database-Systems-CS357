@@ -34,7 +34,7 @@
     <nav class="navbar navbar-custom navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <p class="navbar-brand" href="#">A cool Restaurant</p>
+          <p class="navbar-brand" href="#">Unauthorized</p>
         </div>
         <div id="navbar">
           <ul class="nav navbar-nav">
@@ -175,9 +175,6 @@
         <!-- Tab for the restaurant infotmations -->
         <div class="tab-pane padded" id="tab-info">
           <link href="register-form.html" rel="import" onload="this.parentNode.innerHTML=this.import.children[0].innerHTML"/>
-          <div style="text-align:center; padding: 50px;">
-            <img src="../imgs/loader.gif" alt="Loading...">
-          </div>
         </div>
         
       </div>
@@ -335,6 +332,8 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
     <script>
+      $('.navbar-brand').html(JSON.parse(localStorage.getItem('restaurantSession')).name);
+      
       $('.table-orders .order').click(function() {
         $('#order-modal').modal('show'); 
         window.setTimeout(function() {

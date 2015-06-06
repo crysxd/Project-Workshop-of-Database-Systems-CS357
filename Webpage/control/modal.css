@@ -1,0 +1,23 @@
+/* modal styling */
+/******************************************************************************/
+.modal-body-loading {
+  text-align: center;
+  padding: 50px;
+}
+
+.modal-body-content {
+  display: none;
+  max-height: 500px;
+  overflow-y: auto;
+  margin: -15px;
+  padding: 15px;
+}
+
+.table address {
+  margin: 0;
+}
+
+#meal-modal .modal-body-content .modal-footer {
+  margin: -15px;
+  margin-top: 0;
+}
