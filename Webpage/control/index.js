@@ -15,6 +15,8 @@ $('#btn-login-complete').click(function() {
       alert('Username or password wrong.');
       $('#btn-login-complete').button('reset');
       $('#login-password').val('');
+      console.error(data);
+      return;
     }
     
     /* Everything is ok, save session */
