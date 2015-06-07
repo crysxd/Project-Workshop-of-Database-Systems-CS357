@@ -78,6 +78,7 @@ api/1.0/customer/menu
     - Answer:
         {
             "success": true,
+            "restaurant": 1,
             "description": "The best restaurant you will find!",
             "min_order_value": 12.4,
             "name": "A cool Restaurant",
@@ -89,6 +90,7 @@ api/1.0/customer/menu
             "shipping_cost": 0,
             "data": [
                 {
+                    "id": 1
                     "name": "Hot Rice",
                     "price": 2.5,
                     "spicy": 3,
@@ -100,6 +102,7 @@ api/1.0/customer/menu
                     ]
                 },
                 {
+                    "id": 3
                     "name": "Hot Rice",
                     "price": 2.5,
                     "spicy": 3,
