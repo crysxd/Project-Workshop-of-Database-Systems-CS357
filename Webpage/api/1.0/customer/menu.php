@@ -17,6 +17,7 @@
 
   // create answer array
   $answer = array();
+  $answer['success'] = true;
 
   // Prepare Statements
 
@@ -29,7 +30,17 @@
   // $stmt_restaurant_result->close();
 
   // For meal information
-  $ascOrDesc = ($direction=="DESC") ? "DESC" : "ASC";
+  $ascOrDesc = ($direction=="DESC") ? "DESC" : null;
+  $ascOrDesc = ($direction=="ASC") ? "DESC" : $ascOrDesc;
+
+  // Cancel execution if the direction is not ASC or DESC, potential hack
+  if($ascOrDesc == null) {
+    $answer['success'] = false;
+    $answer['err_no'] = ERROR_GENERAL;
+    die(json_encode($answer));
+    
+  }
+
   $stmt_meal = "
       SELECT Meal.meal_id_pk meal_id, Meal.name name, Meal.price price, Meal.spiciness spicy, AVG( Rating.rating ) rating, COUNT( Rating.rating ) rating_count
       FROM Meal
@@ -85,6 +96,8 @@
   if(file_exists($icon_file)) {
     // Store icon as base64
     $answer['icon'] = base64_encode(file_get_contents($icon_file));
+    // Get MIME (PNG, JPEG, etc...)
+    $answer['icon_mime'] = mime_content_type ($icon_file);
   }
   // create meal data array
   $answer['data'] = array();
@@ -123,7 +136,7 @@
 
     // append row to data array
     $answer['data'][] = $fetched_meal_row;
-
+    
   }
 
   // Encode answer as json and print aka send
