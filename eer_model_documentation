@@ -70,4 +70,5 @@ delivery_status_id meaning
 1 PENDING ordered, but restaurant has not seen yet
 2 PROCESSING
 3 INDELIVERY
+4 DONE
 
