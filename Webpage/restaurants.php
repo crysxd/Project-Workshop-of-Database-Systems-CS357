@@ -47,8 +47,8 @@
                 <div>
                   <h4 class="restaurant-name">Unkown</h4>
                   <p><span class="rating-stars"></span>&nbsp;<span class="rating-count"></span></p>
-                  <p>From: <span class="min-order-value"></span>¥</p>
-                  <p>Shipping: <span class="shipping-costs"></span>¥</p>
+                  <p>From: <span class="min-order-value"></span>元</p>
+                  <p>Shipping: <span class="shipping-costs"></span>元</p>
                   <p>ETA: <span class="eta"></span>min</p>
                 </div>
               </div>
