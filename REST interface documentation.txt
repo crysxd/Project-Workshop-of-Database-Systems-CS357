@@ -85,6 +85,7 @@ api/1.0/customer/menu
             "rating_count": 324,
             "icon": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMg
                     VsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms=",
+            "icon_mime": "image/png",
             "shipping_cost": 0,
             "data": [
                 {
