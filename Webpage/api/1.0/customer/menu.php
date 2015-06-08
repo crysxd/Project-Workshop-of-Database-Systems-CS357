@@ -166,10 +166,6 @@
     
     // floats are returned as strings, so we have to transform them back
     $fetched_meal_row['rating'] = floatval($fetched_meal_row['rating']);
-
-    // Delete information of meal id
-    $fetched_meal_row['meal_id'] = 0;
-    unset($fetched_meal_row['meal_id']);
     
     // append row to data array
     $answer['data'][] = $fetched_meal_row;
