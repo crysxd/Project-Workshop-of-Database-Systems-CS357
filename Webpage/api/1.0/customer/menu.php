@@ -22,7 +22,6 @@
 
   // create answer array
   $answer = array();
-  $answer['success'] = true;
 
   // Prepare Statements
 
@@ -159,7 +158,6 @@ $stmt_tag_result = $db_link->prepare("
     
   }
 
-
   // Test if a icon is available
   $icon_file = get_restaurant_icon_file_name($restaurant);
   if(file_exists($icon_file)) {
@@ -171,6 +169,8 @@ $stmt_tag_result = $db_link->prepare("
     $answer['icon'] = "";
     $answer['icon_mime'] = "";
   }
+
+  $answer['success'] = true;
 
   // Encode answer as json and print aka send
   echo json_encode($answer);

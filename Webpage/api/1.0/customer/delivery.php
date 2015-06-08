@@ -126,7 +126,8 @@
     }
     // Getting the phone number of a restaurant
     $answer['restaurant_phone'] = "" ;
-    $stmt_select_restaurant_phone = "SELECT region_code, national_number FROM Restaurant WHERE restaurant_id_pk = ?";
+    $stmt_select_restaurant_phone = "
+        SELECT CONCAT(  '+', r.region_code, ' ', r.national_number ) restaurant_phone FROM Restaurant WHERE restaurant_id_pk = ?";
     if($stmt_select_restaurant_phone_result = $db_link->prepare($stmt_select_restaurant_phone)){
       $stmt_select_restaurant_phone_result->bind_param("i", $restaurant);
       $stmt_select_restaurant_phone_result->execute();
@@ -137,8 +138,7 @@
 
     if($select_restaurant_phone_result && $select_restaurant_phone_result->num_rows == 1
         && ($fetched_select_restaurant_phone = $select_restaurant_phone_result->fetch_assoc())){
-    $answer['restaurant_phone'] = 
-      implode(array($fetched_select_restaurant_phone['region_code'],$fetched_select_restaurant_phone['national_number']));
+      $answer['restaurant_phone'] = $fetched_select_restaurant_phone['restaurant_phone'];
     } else {
       if(!$select_restaurant_phone_result)
         db_error($answer, "Fetch Restaurant: Getting results failed. Line " . __LINE__);
@@ -164,28 +164,123 @@
     // assure all required parameters are available, will die if not all are available
     check_parms_available(array("user", "session", "delivery"));
 
-    // assure query parameters are clean and set parameters
-    $user = $db_link->real_escape_string($_GET['user']);
-    $session = $db_link->real_escape_string($_GET['session']);
-    $delivery = $db_link->real_escape_string($_GET['delivery']);
+    // assure query parameters are clean and 
+    escape_parms(array("user", "session", "delivery"));
+    
+    // set parameters
+    $user = $_GET['user'];
+    $session = $_GET['session'];
+    $delivery = $_GET['delivery'];
 
     // create answer array
     $answer = array();
+
+    // Checking if user has this session id
+    $check_session_result = "SELECT nick FROM Customer WHERE nick = ? && session_id = ?";
+    if($stmt_check_session_result = $db_link->prepare($check_session_result)){
+      $stmt_check_session_result->bind_param("ss", $user, $session);
+      $check_session_result = $stmt_check_session_result->execute();
+      $check_session_result = $stmt_check_session_result->get_result();
+    } else {
+      db_error($answer, "Line " . __LINE__);
+    }
+    // If user does not have the session id, the result will be empty
+    if($check_session_result->num_rows != 1)
+      db_error($answer, "There is no user with this name and session_id. Line ". __LINE__);
+
+    
+    //
+    $stmt_select_head_info = "
+        SELECT r.name restaurant, CONCAT(  '+', r.region_code, ' ', r.national_number ) phone , r.shipping_cost, d.number, d.street, d.city, d.postcode
+        FROM Restaurant r
+        INNER JOIN (
+
+          SELECT street_number number, street_name street, city, postcode, Restaurant_restaurant_id
+          FROM Delivery
+          WHERE delivery_id_pk = ?
+        )d ON r.restaurant_id_pk = d.Restaurant_restaurant_id";
+    
+    $stmt_select_dishes = "
+        SELECT dmm_d.id, dmm_d.quantity, m.price
+        FROM (
+
+          SELECT dmm.Meal_meal_id_pk id, dmm.amount quantity
+          FROM (
+
+            SELECT delivery_id_pk
+            FROM Delivery
+            WHERE delivery_id_pk = ?
+          )d
+          INNER JOIN Delivery_Meal_Map dmm ON dmm.Delivery_delivery_id_pk = d.delivery_id_pk
+        )dmm_d
+        INNER JOIN Meal m ON dmm_d.id = m.meal_id_pk";
+    
+    $stmt_select_states = "
+        SELECT dst.name state, ds.date_pk date
+        FROM (
+
+          SELECT Delivery_State_Type_delivery_status_type state_id, date_pk
+          FROM Delivery_State
+          WHERE Delivery_delivery_id_pk = ?
+        )ds
+        INNER JOIN Delivery_State_Type dst ON ds.state_id = dst.delivery_status_type_id_pk
+    ";
+    
     $answer['success'] = true;
 
-    // Prepare Statements
+    // Bind $stmt_select_head_info and execute
+    if($stmt_select_head_info_result = $db_link->prepare($stmt_select_head_info)){
+      $stmt_select_head_info_result->bind_param("i", $delivery);
+      $select_head_info_result = $stmt_select_head_info_result->execute();
+      $select_head_info_result = $stmt_select_head_info_result->get_result();
+    } else {
+      db_error($answer, "Line " . __LINE__);
+    }
+    
+    if($select_head_info_result && $select_head_info_result->num_rows == 1
+      && ($fetched_select_head_info_row = $select_head_info_result->fetch_assoc())){
+      $answer['restaurant'] = $fetched_select_head_info_row['restaurant'];
+      $answer['phone'] = $fetched_select_head_info_row['phone'];
+      $answer['shipping_cost'] = $fetched_select_head_info_row['shipping_cost'];
+      $answer['number'] = $fetched_select_head_info_row['number'];
+      $answer['street'] = $fetched_select_head_info_row['street'];
+      $answer['city'] = $fetched_select_head_info_row['city'];
+      $answer['postcode'] = $fetched_select_head_info_row['postcode'];
+    } else {
+      db_error($answer, "Line " . __LINE__);
+    }
+    
+    // Bind and execute $stmt_select_dishes
+    $answer['dishes'] = array();
+       
+    if($stmt_select_dishes_result = $db_link->prepare($stmt_select_dishes)){
+      $stmt_select_dishes_result->bind_param("i", $delivery);
+      $select_dishes_result = $stmt_select_dishes_result->execute();
+      $select_dishes_result = $stmt_select_dishes_result->get_result();
+    } else {
+      db_error($answer, "Line " . __LINE__);
+    }
 
-    //// Checking if user has this session id
-    $stmt_check_session_result = $db_link->prepare("SELECT nick FROM Customer WHERE nick = ? && session_id = ?");
-    $stmt_check_session_result->bind_param("ss", $user, $session);
-    $check_session_result = $stmt_check_session_result->execute();
-    $check_session_result = $stmt_check_session_result->get_result();
+    while($select_dishes_result && ($fetched_select_dishes_row = $select_dishes_result->fetch_assoc()))
+      $answer['dishes'][] = $fetched_select_dishes_row;
+    
+    
+    // Bind and execute $stmt_select_states
+    $answer['states'] = array();
+      
+    if($stmt_select_states_result = $db_link->prepare($stmt_select_states)){
+      $stmt_select_states_result->bind_param("i", $delivery);
+      $select_states_result = $stmt_select_states_result->execute();
+      $select_states_result = $stmt_select_states_result->get_result();
+    } else {
+      db_error($answer, "Line " . __LINE__);
+    }
 
-    //// If user does not have the session id, the result will be empty
-    if($check_session_result->num_rows() != 1)
-      db_error($answer, "There is no user with this name and session_id");
-
-    ///------
+    while($select_states_result && ($fetched_select_states_row = $select_states_result->fetch_assoc()))
+      $answer['states'][] = $fetched_select_states_row;
+    
+    echo json_encode($answer);
+    db_close();
   }
 
 
