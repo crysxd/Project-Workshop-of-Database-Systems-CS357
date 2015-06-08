@@ -13,7 +13,7 @@
 
   // Prepare Statements
   $stmt_result = $db_link->prepare("
-      SELECT r.restaurant_id_pk id, r.name, r.position_lat , r.position_long, Meal_j_Rating.avg_rating, Meal_j_Rating.rating_count, r.shipping_cost, r.min_order_value
+      SELECT r.restaurant_id_pk restaurant, r.name, r.position_lat , r.position_long, Meal_j_Rating.avg_rating, Meal_j_Rating.rating_count, r.shipping_cost, r.min_order_value
       FROM Restaurant r
       INNER JOIN (
         SELECT Meal.Restaurant_restaurant_id, AVG( Rating.rating ) avg_rating, COUNT( Rating.rating ) rating_count
@@ -68,6 +68,9 @@
       $row['icon'] = base64_encode(file_get_contents($icon_file));
     }
 
+    // the avg rating is returned as string, so we have to transform it back
+    $row['avg_rating'] = floatval($row['avg_rating']);
+    
     // append row to data array
     $answer['data'][] = $row;
 
