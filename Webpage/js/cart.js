@@ -135,7 +135,7 @@ cart.getOverview = function(restaurantId, onsuccess) {
   /* Query for the number of items */
   cart.db.transaction(function (tx) {
     tx.executeSql(
-      'SELECT * FROM cart WHERE restaurant = ?', 
+      'SELECT * FROM cart WHERE restaurant = ? ORDER BY id DESC', 
       [restaurantId],
       function(tx, results) {
         onsuccess(results);
