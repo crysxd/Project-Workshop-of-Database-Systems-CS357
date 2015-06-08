@@ -71,17 +71,35 @@ cart.setAmount = function(restaurantId, meal, amount, onsuccess) {
     
   }
   
-  /* Insert in cart if not in cart yet, will do nothing if the meal is already in the cart */
-  cart.db.transaction(function (tx) {
-    tx.executeSql(
-      'INSERT OR REPLACE INTO cart(id, amount, restaurant, price, data) VALUES(?, ?, ?, ?, ?)',
-      [meal.meal_id, amount, restaurantId, meal.price, JSON.stringify(meal)],
-      function(tx, results) {
-        cart.getAmount(restaurant, meal, onsuccess);
-        
-      }
-    );
-  });
+  /* If the amount is negative, delte item from cart */
+  if(amount <= 0) {
+    /* Insert in cart if not in cart yet, will do nothing if the meal is already in the cart */
+    cart.db.transaction(function (tx) {
+      tx.executeSql(
+        'DELETE FROM cart WHERE restaurant = ? AND id = ?',
+        [restaurantId, meal.meal_id],
+        function(tx, results) {
+          cart.getAmount(restaurant, meal, onsuccess);
+
+        }
+      );
+    });
+  }
+  
+  /* If the amount is positive*/
+  else {
+    /* Insert in cart if not in cart yet, will do nothing if the meal is already in the cart */
+    cart.db.transaction(function (tx) {
+      tx.executeSql(
+        'INSERT OR REPLACE INTO cart(id, amount, restaurant, price, data) VALUES(?, ?, ?, ?, ?)',
+        [meal.meal_id, amount, restaurantId, meal.price, JSON.stringify(meal)],
+        function(tx, results) {
+          cart.getAmount(restaurant, meal, onsuccess);
+
+        }
+      );
+    }); 
+  }
 }
 
 /* Querys the number of different items in the cart. The number is passed to onsuccess as parameter */
