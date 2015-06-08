@@ -102,11 +102,22 @@
 }
 
 #meals-list .input-group {
-  width: 110px;
+  width: 100px;
+  margin: auto;
 }
 
-#meals-list .input-group input{
+#meals-list .input-group input {
   text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#meals-list .input-group>.input-group-btn:first-child>.btn {
+  margin-right: -2px;
+}
+
+#meals-list .input-group>.input-group-btn:last-child>.btn {
+  margin-left: -2px;
 }
 
 #meals-list .input-group button:focus {
