@@ -49,9 +49,11 @@
           <!-- Info box -->
           <div id="restaurant-info">
             <img src="imgs/icon.png" class="pull-left" alt>
-            <h4 class="restaurant-name">A Restaurant</h4>
-            <p><span class="restaurant-rating-stars">☆☆☆☆☆</span>&nbsp;(<span class="restaurant-rating-count">395</span>)</p>
-            <p class="restaurant-description">A super cool restaurant close to you. Choose a cool meal to be cool.</p>
+            <h4 class="restaurant-name">undefined</h4>
+            <p><span class="restaurant-rating-stars">☆☆☆☆☆</span>&nbsp;(<span class="restaurant-rating-count">undefined</span>)</p>
+            <p>Minimum order value:&nbsp;<span class="restaurant-min-order-value">undefined</span>元</p>
+            <p>Shipping costs:&nbsp;<span class="restaurant-shipping-costs">undefined</span>元</p>
+            <p class="restaurant-description">undefined</p>
           </div>
           
           <div id="meals-list">
@@ -68,25 +70,34 @@
               
               <!-- Table body -->
               <tbody>
-                <?php for($i=0; $i<20; $i++) {?>
-                  <tr>
-                    <td class="meal-name">
+                <template>
+                  <tr class="meal">
+                    <td>
                       <p>
-                        <span id="meal-name">A cool meal</span>&nbsp;
-                        <span id="meal-spicyness" class="chilli chilli-2">&nbsp;</span>
+                        <span class="meal-name">undefined</span>&nbsp;
+                        <span class="meal-spiciness chilli">&nbsp;</span>
                       </p>
                       <p>
                         <span class="meal-rating-stars">☆☆☆☆☆</span>&nbsp;
-                        (<span class="meal-rating-count">395</span>)&nbsp;
-                        <span id="meal-tags"><span class="label label-success">Vegan</span></span>
+                        (<span class="meal-rating-count">undefined</span>)&nbsp;
+                        <span class="meal-tags"></span>
                       </p>
                     </td>
-                    <td class="meal-price">32€</td>
-                    <td class="meal-amount">
-                      <div class="btn btn-default btn-block"><span class="glyphicon glyphicon-shopping-cart"></span></div>
+                    <td><span class="meal-price">undefined</span>元</td>
+                    <td>
+                      <span class="input-group">
+                        <span class="input-group-btn">
+                          <div class="btn btn-default meal-cart-minus">-</div>
+                        </span>
+                        <input type="text" class="form-control meal-cart-amount" value="0">
+                        <span class="input-group-btn meal-cart-plus">
+                          <div class="btn btn-default">+</div>
+                        </span>
+                      </span>
                     </td>
                   </tr>
-                <?php } ?>
+                  
+                </template>
               </tbody>
             </table>
           </div>
@@ -118,11 +129,11 @@
         <div class="input-group">
           <input type="text" placeholder="Search meal..." id="meals-search" class="form-control">
           <span class="input-group-btn">
-            <a class="btn btn-default">
+            <a id="meals-search-complete" class="btn btn-default">
               &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
             </a>
-            <a class="btn btn-success btn-shopping-cart" href="javascript:leaveTo('order.php')">
-              Check out&nbsp;<span class="badge">423</span>
+            <a class="btn btn-success btn-checkout" href="javascript:leaveTo('order.php')">
+              Check out&nbsp;<span class="badge"><span class="cart-value"></span>元</span>
             </a>          
           </span>
         </div>
@@ -137,6 +148,7 @@
   <script src="bootstrap/js/bootstrap.min.js"></script>
   <script src="js/api.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
   <script src="js/meals.js"></script>
 </body>
 </html>
