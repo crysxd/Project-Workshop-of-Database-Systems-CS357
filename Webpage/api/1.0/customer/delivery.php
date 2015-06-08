@@ -1,8 +1,4 @@
 <?php
-  //http://www.ehow.com/how_8424199_remove-rows-array-php.html
-  //http://stackoverflow.com/questions/12490028/delete-selected-row-from-table-in-php
-  // http://php.net/manual/en/control-structures.foreach.php
-
   // include main database script
   include_once("../db.php");
 
