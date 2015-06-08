@@ -111,3 +111,17 @@ cart.getCartValue = function(restaurantId, onsuccess) {
     });
   });  
 }
+  
+/* Querys an overview over the entire cart for the given restaurant */
+cart.getOverview = function(restaurantId, onsuccess) {
+  /* Query for the number of items */
+  cart.db.transaction(function (tx) {
+    tx.executeSql(
+      'SELECT * FROM cart WHERE restaurant = ?', 
+      [restaurantId],
+      function(tx, results) {
+        onsuccess(results);
+        
+    });
+  });  
+}
