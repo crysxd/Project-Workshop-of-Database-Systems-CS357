@@ -321,3 +321,22 @@ function setSession(session, user) {
 function deleteSession() {
   localStorage.removeItem(localStorageSession);
 }
+
+/* Returns the value of the url parameter with the given name
+   Source: http://stackoverflow.com/a/25359264/3763626 (modified) */
+function getUrlParam(name){
+  /* Fetch the param */
+  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  
+  /* Return null if param is not available */
+  if (results == null){
+    return null;
+    
+  }
+  
+  /* Return the value */
+  else{
+    return results[1] || 0;
+    
+  }
+}
