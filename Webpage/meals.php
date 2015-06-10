@@ -43,12 +43,12 @@
     <div id="splash-screen">
       <div class="splash-container">
         <!-- Title -->
-        <h1>Meals of <span class="restaurant-name">a Restaurant</span></h1>
+        <h1>Meals of <span class="restaurant-name">undefined</span></h1>
         <div class="splash-container-scroller">
           
           <!-- Info box -->
           <div id="restaurant-info">
-            <img src="imgs/icon.png" class="pull-left" alt>
+            <img src="imgs/placeholder.png" class="pull-left" alt>
             <h4 class="restaurant-name">undefined</h4>
             <p><span class="restaurant-rating-stars">☆☆☆☆☆</span>&nbsp;(<span class="restaurant-rating-count">undefined</span>)</p>
             <p>Minimum order value:&nbsp;<span class="restaurant-min-order-value">undefined</span>元</p>
