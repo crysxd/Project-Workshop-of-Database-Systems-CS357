@@ -206,10 +206,11 @@ api/1.0/customer/delivery
                         {"id": 1337, "quantity": 1},
                     ]
                     "address": [
-                        "number": 800,
-                        "street": "Dong Chuan Lu",
+                        "road": "800 Dong Chuan Lu",
                         "city": "Minghang Qu",
-                        "postcode": "23423",
+                        "postal_code": "23423",
+                        "state": "Shanghai Shi",
+                        "country": "China",
                         "lat": 23.3434,
                         "lang": 23.344
                     ]
