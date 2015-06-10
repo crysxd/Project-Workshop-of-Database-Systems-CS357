@@ -221,9 +221,26 @@
     
     if($stmt_result = $db_link->prepare($stmt)){
       $arguments_for_binding = array_merge(array($stmt_result, $string_input), $arguments);
+      //var_dump($arguments_for_binding);
       call_user_func_array('mysqli_stmt_bind_param', $arguments_for_binding);
       $result = $stmt_result->execute();
       return $stmt_result->get_result();
+    } else {
+      return null ;
+    }
+  }
+
+ /****************************************************************************************************************************
+   * Pushes an statement $stmt with the input parameters to the database, executes it and return the result. The type of the parameters are specified by $string_input. This is special case for inserting data. Unlike in push_stmt(), we don't grab a result because there is no resultw when doing an insert
+   */
+  function push_stmt_insert($stmt, $string_input, $arguments){
+    global $db_link;
+    
+    if($stmt_result = $db_link->prepare($stmt)){
+      $arguments_for_binding = array_merge(array($stmt_result, $string_input), $arguments);
+      //var_dump($arguments_for_binding);
+      call_user_func_array('mysqli_stmt_bind_param', $arguments_for_binding);
+      return $stmt_result->execute();
     } else {
       return null ;
     }

@@ -45,8 +45,8 @@ CREATE TABLE IF NOT EXISTS `Customer` (
 
 INSERT INTO `Customer` (`customer_id_pk`, `region_code`, `national_number`, `last_name`, `first_name`, `nick`, `password`, `session_id`) VALUES
 (1, '49', '3070143434', 'Sturm', 'Gerald', 'garrythestorm', '6787017c44f171579326c2207f82a3da', '8aa84cf899b633d0a143780a49fa69b865417bca'),
-(2, '86', '14324389911', 'Yao', 'Lan', 'localj', '567cfce4b80d45e286dc859a5179580d', 'f71a2b3076455873248203bc1dc1cd4946972d99'),
-(3, '86', '14232323989', 'Zhènfán', 'Lǐ', 'dragon_punch_1940', '2acf35c77fff945a69c2d79a2f8713fd', '539862b13f47be78c65fbe150baf930601a1c628'),
+(2, '86', '14324389911', 'Yao', 'Lan', 'user', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'f71a2b3076455873248203bc1dc1cd4946972d99'),
+(3, '86', '14232323989', 'Zhenfán', 'Li', 'dragonpunch', '2acf35c77fff945a69c2d79a2f8713fd', '539862b13f47be78c65fbe150baf930601a1c628'),
 (4, '1', '7184572531', 'Branton', 'Gloria', 'bunnybee', '42a6b10b2c1daa800a25f3e740edb2b3', '4ef047a953b200ce3a5a58f322dcb663fe73a885'),
 (5, '1', '2126844814', 'John', 'Thomas H.', 'johnny', '229657d8b627ffd14a3bccca1a0f9b6e', '3f9004d2643b05cbc645087c65088684d1d70e79');
 

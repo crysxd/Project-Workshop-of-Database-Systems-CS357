@@ -41,7 +41,11 @@ CREATE TABLE IF NOT EXISTS `Delivery_Meal_Map` (
 
 INSERT INTO `Delivery_Meal_Map` (`Delivery_delivery_id_pk`, `Meal_meal_id_pk`, `amount`) VALUES
 (1, 1, 1),
-(1, 3, 2);
+(1, 2, 2),
+(1, 3, 2),
+(2, 5, 1),
+(2, 6, 2),
+(3, 5, 3);
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
