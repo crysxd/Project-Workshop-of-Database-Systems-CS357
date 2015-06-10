@@ -157,7 +157,7 @@
     ";
 
     $stmt_select_old_deliveries = "
-      SELECT cxd.delivery_id_pk id, cxd.Restaurant_restaurant_id, 'DONE', ds.date_pk state_since
+      SELECT cxd.delivery_id_pk id, cxd.Restaurant_restaurant_id, 'state', ds.date_pk state_since
       FROM (
 
         SELECT d.delivery_id_pk, d.Restaurant_restaurant_id
