@@ -33,12 +33,35 @@
   <!-- Menus and overlays -->
   <?php  include('shared/header.html'); ?>
   
+  <!-- Additional Overlays -->
+  <div id="address-picker" class="overlay">
+    <div class="overlay-content">
+      <div class="scroll">
+        <h4>Select the Address</h4>
+        <div id="address-list" class="narrow">
+          <template>
+            <address class="address btn btn-default btn-block">
+              <p class="road">Undefined</p>
+              <p><span class="postal_code"></span> <span class="city"></span></p>
+              <p class="state"></p>
+              <p class="country"></p>
+            </address>
+          </template>
+          <button class="btn btn-danger btn-cancel btn-block">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <div id="main-content">
     <!-- Splash screen and search bar -->
     <section id="splash-screen">
       <div class="splash-center">
-        <div class="search-box noselect">
-          <p>Find restaurants close to me</p>
+        <div class="input-group search-box">
+          <input type="text" class="form-control" placeholder="Street, Number, City...">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button"></button>
+          </span>
         </div>
       </div>
       <div id="splash-footer">
@@ -96,6 +119,7 @@
   <script src="js/jquery-2.1.0.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/api.js"></script>
   <script src="js/index.js"></script>
 </body>
 </html>

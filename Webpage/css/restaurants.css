@@ -1,3 +1,107 @@
 #restaurants {
-  padding-top: 50px;
+  margin: 0;
+}
+
+#restaurants>* {
+  padding: 0;
+  margin: 0;
+}
+
+#restaurants>.item,
+#restaurants>.load-more-item {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  -webkit-transition: background-color 0.6s;
+  -moz-transition: background-color 0.6s;
+  -ms-transition: background-color 0.6s;
+  -o-transition: background-color 0.6s;
+  transition: background-color 0.6s;
+}
+
+#restaurants>.item:hover,
+#restaurants>.load-more-item:hover {
+  background: rgba(0, 0, 0, 0.1); /* Light hover */
+}
+
+#restaurants>.load-more-item {
+  text-align: center;
+  color: inherit;
+}
+
+.reload-icon {
+  height: 64px;
+  background-image: url(../imgs/reload.svg);
+  background-position: center center;
+  background-size: 48px 48px;
+  background-repeat: no-repeat;
+  width: 100%;
+}
+
+#restaurants .restaurant-icon {
+  max-width: 100%;
+  max-height: 125px;
+}
+
+#restaurants .data {
+  margin: 10px;
+  min-height: 125px;
+}
+
+#restaurants .data * {
+  margin: 0;
+  padding: 0;
+  color: #434343;
+}
+
+#restaurants .restaurant-icon {
+  margin-right: 10px;
+}
+
+#restaurants .data h4 {
+  margin-bottom: 4px;
+  color: black;
+}
+
+.restaurant-rankings-count {
+  margin: 0;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+#restaurants>.item:nth-child(-n+5) .data * {
+  color: white;
+}
+
+#restaurants>.col-md-4:nth-child(2) {
+  background: #00586a; /* Background first column */
+}
+
+#restaurants>.col-md-4:nth-child(3) {
+  background: #00829d; /* Background second column */
+}
+
+#restaurants>.col-md-4:nth-child(4) {
+  background: #0595b2; /* Background third column */
+}
+
+#restaurants>.col-md-4:nth-child(5) {
+  background: #00d4ff; /* Background forth column */
+}
+
+#restaurants>.col-md-4:nth-child(2):hover {
+  background: #014958; /* Background first column */
+}
+
+#restaurants>.col-md-4:nth-child(3):hover {
+  background: #00748d; /* Background second column */
+}
+
+#restaurants>.col-md-4:nth-child(4):hover {
+  background: #0387a2; /* Background third column */
+}
+
+#restaurants>.col-md-4:nth-child(5):hover {
+  background: #01c5ed; /* Background forth column */
 }

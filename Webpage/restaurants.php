@@ -36,18 +36,42 @@
   <div id="main-content">
     
     <!-- Restaurants list -->
-    <section id="restaurants">
-
-    </section>
-
+    <section id="splash-screen">
+      <div class="splash-container">
+        <h1>Restaurants close to you</h1>
+        <div id="restaurants" class="splash-container-scroller row">
+          <template>
+            <a class="item col-lg-3 col-md-4 col-sm-6 col-xs-12" href="javascript:leaveTo('meals.php')">
+              <div class="data">
+                <img class="restaurant-icon pull-left" src="imgs/placeholder.png" alt>
+                <div>
+                  <h4 class="restaurant-name">Unkown</h4>
+                  <p><span class="rating-stars"></span>&nbsp;<span class="rating-count"></span></p>
+                  <p>From: <span class="min-order-value"></span>¥</p>
+                  <p>Shipping: <span class="shipping-costs"></span>¥</p>
+                  <p>ETA: <span class="eta"></span>min</p>
+                </div>
+              </div>
+            </a>
+          </template>
+          <a class="load-more-item col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <div class="data">
+              <div class="reload-icon"></div>
+              <h4>Load more</h4> 
+            </div>
+          </a>
+        </div>
+      </div>
     <!-- Footer -->
     <?php include('shared/footer.html'); ?>
+    </section>
     
   </div>
   
   <!-- Load Scripts at the end to optimize site loading time -->
   <script src="js/jquery-2.1.0.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="js/api.js"></script>
   <script src="js/main.js"></script>
   <script src="js/restaurants.js"></script>
 </body>
