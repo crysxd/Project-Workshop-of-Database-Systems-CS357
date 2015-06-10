@@ -29,32 +29,46 @@
 
     // gets a timestamp for the insert to the delivery state
     $order_time = date ("Y-m-d H:i:s");
-    // create answer array
-    $answer = array();
+    
+    $input = file_get_contents("php://input");
+    $input = json_decode($input,true);
 
-    // assure all required parameters are available, will die if not all are available
-    check_parms_available(array("user", "session", "restaurant", "dishes", "address"));
-    // assure query parameters are clean and set parameters
-    escape_parms(array("user", "session", "restaurant"));
+    $args_str = array("user", "session");
+    $args_put_str = array('restaurant', 'dishes', 'address');
+    $args_address_str = array('road', 'city', 'postal_code', 'state', 'country', 'lat', 'long');
+    $args_dish_str = array('id', 'quantity');
 
-    $user = $_GET['user'];
-    $session = $_GET['session'];
-    $restaurant = $_GET['restaurant'];
-    // Add brackets so it is recognized as json code
-    $dishes = json_decode($_GET['dishes'],true);
-    $address = json_decode($_GET['address'],true);
-
-    // The array could not be decoded, potential attack
-    if ($dishes == NULL || $address == NULL)
-      db_error($answer, "Dish or address is null. Line " . __LINE__);
-
-    // escapes the content of the arrays
-    array_walk_recursive($dishes, 'mysqli_real_escape_string_asso_array');
-    array_walk_recursive($address, 'mysqli_real_escape_string_asso_array');  
+    check_parms_available($args_str);    
+    check_parms_available_in_array($args_put_str, $input);
+    
+    foreach ($input['dishes'] as $dish)
+      check_parms_available_in_array($args_dish_str, $dish);
+    
+    var_dump($input['address']);
+    check_parms_available_in_array($args_address_str, $input['address']);
+    
+    escape_parms($args_str);
+    
+    $args = array();
+    
+    foreach ($args_str as $arg_str)
+      $args[$arg_str] = $_GET[$arg_str];
 
     // Checking if user has this session id
-    check_customer_session($user, $session);
+    check_customer_session($args['user'], $args['session']);
+
     
+    // escapes restaurant of put parameter
+    $args['restaurant'] = htmlentities($db_link->real_escape_string($input['restaurant']));
+    
+
+    // escapes the content of the arrays
+    //array_walk_recursive($args['dishes'], 'mysqli_real_escape_string_asso_array');
+    //array_walk_recursive($args['address'], 'mysqli_real_escape_string_asso_array'); 
+        
+    $answer = array();
+
+    $answer['succes'] = true;
     // Prepare Statements
 
     //// TODO Check thread safety: Two threads both fetch the next auto_increment value, so both get the same one
@@ -62,22 +76,31 @@
     $stmt_status_result = $db_link->query("SHOW TABLE STATUS LIKE 'Delivery'");
     $fetched_row_status = $stmt_status_result->fetch_assoc();
     $next_delivery_id = intval($fetched_row_status['Auto_increment']);
-
+    
+    var_dump($args);
+    die();
     //// Insert into Delivery table
     $stmt_insert_delivery = "
-        INSERT INTO `Delivery` (`delivery_id_pk`, `Customer_customer_id`, `Restaurant_restaurant_id`, `street_number`, `street_name`, `postcode`, `city`, `add_info`, `comment`) 
+        INSERT INTO `Delivery` (`delivery_id_pk`, `Customer_customer_id`, 
+            `Restaurant_restaurant_id`, `street_number`, `street_name`, `postcode`, `city`, `add_info`, `comment`) 
         VALUES ($next_delivery_id, ?, ?, ?, ?, ?, ?, NULL, NULL)";
+  
+    if(!($select_user_result = push_stmt($stmt_insert_delivery, "iissss", array(&$args['user'], &$args['restaurant'], ))))
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
+    
     if ($stmt_insert_delivery_result =  $db_link->prepare($stmt_insert_delivery)){
       $stmt_insert_delivery_result->bind_param("iissss", $fetched_row_check_session['customer_id'], $restaurant, $address['number'],
                                                 $address['street'], $address['city'], $address['postcode']);
       $insert_delivery_result = $stmt_insert_delivery_result->execute();
     }else {
-      db_error($answer, "Line " . __LINE__);
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     }
 
     if($db_link->errno || !$insert_delivery_result)
-      db_error($answer, "Line " . __LINE__);
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
 
+    var_dump(args);
+    die();               
     //// Insert into Delivery_State table
     $stmt_delivery_state = "
         INSERT INTO `Delivery_State` (`Delivery_delivery_id_pk`, `date_pk`, `Delivery_State_Type_delivery_status_type`, `comment`) 
@@ -96,6 +119,10 @@
     $stmt_insert_delivery_meal_map_result = $db_link->prepare($stmt_delivery_meal_map);
 
     foreach ($dishes as $dish){
+      
+          foreach ($args_put_str as $arg_put_str)
+      $args[$arg_put_str] = htmlentities($db_link->real_escape_string($input[$arg_put_str]));
+      
       //check_parms_available(array("id", "quantity"),$dish); TODO create such a function for two arrays
       $stmt_insert_delivery_meal_map_result->bind_param("ii", $dish['id'], $dish['quantity']);
       $insert_delivery_meal_map_result = $stmt_insert_delivery_meal_map_result->execute();
@@ -144,9 +171,6 @@
 
     // assure all required parameters are available, will die if not all are available
     check_parms_available(array("user", "session", "delivery"));
-
-    // assure query parameters are clean and 
-    escape_parms(array("user", "session", "delivery"));
     
     // set parameters
     $user = $_GET['user'];
@@ -162,7 +186,7 @@
     
     //
     $stmt_select_head_info = "
-        SELECT r.name restaurant, CONCAT(  '+', r.region_code, ' ', r.national_number ) phone , r.shipping_cost, d.number, d.street, d.city, d.postcode
+        SELECT r.name restaurant, CONCAT(  '+', r.region_code, ' ', r.national_number ) phone , r.shipping_cost, CONCAT(d.number,' ' ,d.street) street, d.city, d.postcode
         FROM Restaurant r
         INNER JOIN (
 
@@ -172,7 +196,7 @@
         )d ON r.restaurant_id_pk = d.Restaurant_restaurant_id";
     
     $stmt_select_dishes = "
-        SELECT dmm_d.id, dmm_d.quantity, m.price
+        SELECT dmm_d.id, m.name, dmm_d.quantity, m.price
         FROM (
 
           SELECT dmm.Meal_meal_id_pk id, dmm.amount quantity
@@ -204,7 +228,7 @@
       db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     
     if(!(add_answer($answer, $select_head_info_result, 
-                    array('restaurant', 'phone', 'shipping_cost', 'number', 'street', 'city', 'postcode'))))
+                    array('restaurant', 'phone', 'shipping_cost', 'street', 'city', 'postcode'))))
       db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     
     
