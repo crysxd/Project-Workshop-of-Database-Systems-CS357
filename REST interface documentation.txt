@@ -11,7 +11,7 @@ General Error Codes:
 2:  Required parameter missing
 
 --------------------------------------------------------------------------------
-api/1.0/customer/resturants
+api/1.0/customer/restaurants
     - Description:
         Returns a list of all restaurants in a set radius arround the supplied 
         location. If no location is supplied random restaurants are returned.
@@ -273,9 +273,8 @@ api/1.0/customer/address
         {
             "success": true,
             "street": "Dongchuan Road 500",
-            "distrcit": "Minhang",
+            "district": "Minhang",
             "postcode": "3847",
-            "province": "Shanghai",
             "city": "Shanghai"
         }
     - Answer PUT:
