@@ -72,11 +72,8 @@
     // Load image if exists
     $file = get_meal_image_file_name($_GET['meal']);
     if(file_exists($file)) {
-      // Load image
-      $answer['image'] = base64_encode(file_get_contents($file));
-      
-      //Get MIME (PNG, JPEG, etc...)
-      $answer['image_mime'] = mime_content_type ($file);
+      // Load image (stored as data url)
+      $answer['image'] = file_get_contents($file);
 
     }
     
@@ -91,26 +88,9 @@
   function rest_put() {
     global $db_link;
     
-    // Load the icon
-    $icon = file_get_contents("php://input");
-
-    // Remove data URL
-    $start = strpos($icon, ",");
-    $icon = substr($icon, $start);
-
-    // Decode
-    $raw = base64_decode($icon);
-
-    // Open stream and handle errors
-    $file_path = get_meal_image_file_name($_GET['meal']);
-    $file = fopen($file_path, "w");
-    if(!$file) {
-      db_error(array(), "Unable to open output file: \"$file_path\"");
-    }
-    
-    // Write
-    fwrite($file, $raw);
-    fclose($file);
+    // Get path and copy
+    $file = get_meal_image_file_name($_GET['meal']);
+    save_image_from_input($file);
       
     echo json_encode(array("success" => true));
 
