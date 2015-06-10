@@ -252,39 +252,6 @@ api/1.0/customer/delivery
         }
 
 --------------------------------------------------------------------------------
-api/1.0/customer/address
-&zip=&province=
-    - Description:
-        Used to receive and set the user's address
-    - Method:
-        GET, UPDATE
-    - Parameter:
-        - GET:
-            - session: The session which is used to update
-            - user: The user's nick name
-        - PUT:
-            - session: The session which is used to update
-            - phone: The user's phone number
-            - street: The user's street and house number
-            - district: The user's district
-            - postcode: The user's postal  code
-            - city: The user's city
-            - province: The user's province
-    - Answer GET:
-        {
-            "success": true,
-            "street": "Dongchuan Road 500",
-            "distrcit": "Minhang",
-            "postcode": "3847",
-            "province": "Shanghai",
-            "city": "Shanghai"
-        }
-    - Answer PUT:
-        {
-            "success": true
-        }
-    
---------------------------------------------------------------------------------
 api/1.0/customer/info
     - Description:
         Used to receive and set user informations or to create a completely new
