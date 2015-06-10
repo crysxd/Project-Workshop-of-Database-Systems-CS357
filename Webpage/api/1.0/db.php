@@ -83,6 +83,13 @@
   }
 
   /****************************************************************************************************************************
+   * Returns the path to the image file for the meal with the given id.
+   */
+  function get_meal_image_file_name($restaurant_id) {
+    return get_image_dir()."/meal_".$restaurant_id;
+  }
+
+  /****************************************************************************************************************************
    * Returns the path to the directory storing all images
    */
   function get_image_dir() {
@@ -134,7 +141,7 @@
     }
     
     // Bind params
-    if(!$stmt->bind_param("ss", $user, $session)) {
+    if(!$stmt->bind_param("ss", $id, $session)) {
       db_error($answer, "Unauthorized", ERROR_UNAUTHORIZED);
     }
     
