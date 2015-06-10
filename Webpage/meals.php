@@ -116,6 +116,7 @@
       <div class="form-group hidden-xs">
         <label for="meals-order-column">Order by</label>
         <select id="meals-order-column" class="form-control">
+          <option value="avg_rating;DESC">Raiting</option>
           <option value="price;ASC">Price</option>
           <option value="price;DESC">Price &#9662;</option>
           <option value="spiciness;ASC">Spiciness</option>
