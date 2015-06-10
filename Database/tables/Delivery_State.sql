@@ -41,7 +41,19 @@ CREATE TABLE IF NOT EXISTS `Delivery_State` (
 --
 
 INSERT INTO `Delivery_State` (`Delivery_delivery_id_pk`, `date_pk`, `Delivery_State_Type_delivery_status_type`, `comment`) VALUES
-(1, '2015-05-01 18:08:10', 1, NULL);
+(1, '2015-05-01 18:08:10', 1, NULL),
+(1, '2015-05-01 18:10:12', 2, NULL),
+(1, '2015-05-01 18:25:44', 3, NULL),
+(1, '2015-05-01 18:43:38', 4, NULL),
+(2, '2015-05-24 12:08:10', 1, NULL),
+(2, '2015-05-24 13:10:21', 2, NULL),
+(2, '2015-05-24 13:45:56', 3, NULL),
+(2, '2015-05-24 14:20:43', 4, NULL),
+(3, '2015-06-10 17:08:42', 1, NULL),
+(3, '2015-06-10 18:10:23', 2, NULL),
+(3, '2015-06-10 18:55:44', 3, NULL);
+
+
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

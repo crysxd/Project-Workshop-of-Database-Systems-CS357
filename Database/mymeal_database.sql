@@ -16,14 +16,16 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Restaurant` (
   `shipping_cost` FLOAT UNSIGNED NULL COMMENT 'must be >= 0\n',
   `max_delivery_range` INT NULL COMMENT 'in kilometers, \nadditional enums like:\ncitys, districts\nin 100 meter steps',
   `description` TEXT NULL DEFAULT NULL,
-  `street_number` VARCHAR(45) NULL,
+  `country` VARCHAR(256) NULL,
+  `postcode` VARCHAR(45) NULL,
+  `city` VARCHAR(256) NULL,
+  `district` VARCHAR(45) NULL,
   `street_name` VARCHAR(256) NULL,
-  `postcode` VARCHAR(45) NOT NULL,
-  `city` VARCHAR(256) NOT NULL,
+  `street_number` VARCHAR(45) NULL,
   `add_info` VARCHAR(256) NULL,
   `position_lat` DOUBLE NULL,
   `position_long` DOUBLE NULL,
-  `offered` TINYINT(1) NULL COMMENT 'Describes if a current restaurant an',
+  `offered` TINYINT(1) NULL DEFAULT 1 COMMENT 'Describes if a current restaurant an',
   `password` VARCHAR(256) NULL,
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
   `region_code` VARCHAR(3) NULL,
@@ -70,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Meal` (
   `Meal_Category_meal_category_id` INT NULL,
   `description` TEXT NULL DEFAULT NULL COMMENT 'optional',
   `spiciness` TINYINT UNSIGNED NULL COMMENT 'Range 0-3',
-  `offered` TINYINT(1) NULL,
+  `offered` TINYINT(1) NULL DEFAULT 1,
   PRIMARY KEY (`meal_id_pk`),
   INDEX `fk_Menu_Restaurant1_idx` (`Restaurant_restaurant_id` ASC),
   INDEX `fk_Meal_Dish_Category1_idx` (`Meal_Category_meal_category_id` ASC),
@@ -107,11 +109,13 @@ COMMENT = 'a restaurant may have multiple opening times';
 CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery` (
   `delivery_id_pk` INT NOT NULL AUTO_INCREMENT,
   `Customer_customer_id` INT NOT NULL,
-  `Restaurant_restaurant_id` INT NULL,
-  `street_number` VARCHAR(45) NULL,
-  `street_name` VARCHAR(256) NULL,
+  `Restaurant_restaurant_id` INT NOT NULL,
+  `country` VARCHAR(256) NULL,
   `postcode` VARCHAR(45) NULL,
   `city` VARCHAR(256) NULL,
+  `district` VARCHAR(45) NULL,
+  `street_name` VARCHAR(256) NULL,
+  `street_number` VARCHAR(45) NULL,
   `add_info` VARCHAR(256) NULL,
   `comment` VARCHAR(256) NULL,
   PRIMARY KEY (`delivery_id_pk`),
@@ -136,7 +140,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mymeal`.`Rating` (
   `Meal_meal_id_pk` INT NOT NULL,
   `Customer_customer_id_pk` INT NOT NULL,
-  `date` DATETIME NULL,
+  `date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `rating` TINYINT NULL COMMENT 'not be bigger than 5',
   `comment` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`Customer_customer_id_pk`, `Meal_meal_id_pk`),
@@ -171,7 +175,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery_State` (
   `Delivery_delivery_id_pk` INT NOT NULL,
-  `date_pk` DATETIME NOT NULL,
+  `date_pk` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Delivery_State_Type_delivery_status_type` INT NOT NULL,
   `comment` VARCHAR(256) NULL,
   PRIMARY KEY (`Delivery_delivery_id_pk`, `date_pk`),
@@ -494,10 +498,10 @@ CREATE TABLE IF NOT EXISTS `Restaurant` (
 -- Dumping data for table `Restaurant`
 --
 
-INSERT INTO `Restaurant` (`restaurant_id_pk`, `name`, `min_order_value`, `shipping_cost`, `max_delivery_range`, `description`, `street_number`, `street_name`, `postcode`, `city`, `add_info`, `position_lat`, `position_long`, `offered`, `password`, `session_id`, `region_code`, `national_number`) VALUES
-(1, 'Hualian', 10, 0, 10000, 'Taste special Jidan Guangbing here.', '800', 'Dongchuan Road', '201109', 'Shanghai', 'Shanghai', 31.02188, 121.43097, 1, '098f6bcd4621d373cade4e832627b4f6', '26dfe8116b93ced6cfca858f375d23f1489d3207', '86', '17336010252'),
-(2, 'Veggi Palace', 25, 10, 20000, 'The best Veggi dishes you get in Shanghai', '1954', 'Huashan Road', '200030', 'Shanghai', NULL, 31.19875, 121.4364, 1, 'bdc87b9c894da5168059e00ebffb9077', '4570258f13c64eefb56a26bac08093636f0fc102', '86', '17455250768'),
-(3, 'Mustafa''s Vegetable Kebap', 0, 5, 5000, 'Mustafa''s famous vegetable kebap only in Berlin', '32', 'Mehringdamm', '10961','Berlin', 'Next to the apartment blocks.', 52.49383, 13.38787, 1, '5f4dcc3b5aa765d61d8327deb882cf99', '75a2b6313ea2d41950160cc12678cf12ec461b79', '86', '14893035276');
+INSERT INTO `Restaurant` (`restaurant_id_pk`, `name`, `min_order_value`, `shipping_cost`, `max_delivery_range`, `description`, `street_number`, `street_name`, `postcode`, `city`,  `country`, `district`, `add_info`, `position_lat`, `position_long`, `offered`, `password`, `session_id`, `region_code`, `national_number`) VALUES
+(1, 'Hualian', 10, 0, 10000, 'Taste special Jidan Guangbing here.', '800', 'Dongchuan Road', '201109', 'Shanghai', 'China', 'Minhang', NULL, 31.02188, 121.43097, 1, '098f6bcd4621d373cade4e832627b4f6', '26dfe8116b93ced6cfca858f375d23f1489d3207', '86', '17336010252'),
+(2, 'Veggi Palace', 25, 10, 20000, 'The best Veggi dishes you get in Shanghai', '1954', 'Huashan Road', '200030', 'Shanghai', 'China', 'Xuhui', NULL, 31.19875, 121.4364, 1, 'bdc87b9c894da5168059e00ebffb9077', '4570258f13c64eefb56a26bac08093636f0fc102', '86', '17455250768'),
+(3, 'Mustafa''s Vegetable Kebap', 0, 5, 5000, 'Mustafa''s famous vegetable kebap only in Berlin', '32', 'Mehringdamm', '10961','Berlin',  'Deutschland', 'Schoeneberg', 'Next to the apartment blocks.', 52.49383, 13.38787, 1, '5f4dcc3b5aa765d61d8327deb882cf99', '75a2b6313ea2d41950160cc12678cf12ec461b79', '86', '14893035276');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
@@ -549,8 +553,8 @@ CREATE TABLE IF NOT EXISTS `Customer` (
 
 INSERT INTO `Customer` (`customer_id_pk`, `region_code`, `national_number`, `last_name`, `first_name`, `nick`, `password`, `session_id`) VALUES
 (1, '49', '3070143434', 'Sturm', 'Gerald', 'garrythestorm', '6787017c44f171579326c2207f82a3da', '8aa84cf899b633d0a143780a49fa69b865417bca'),
-(2, '86', '14324389911', 'Yao', 'Lan', 'localj', '567cfce4b80d45e286dc859a5179580d', 'f71a2b3076455873248203bc1dc1cd4946972d99'),
-(3, '86', '14232323989', 'Zhènfán', 'Lǐ', 'dragon_punch_1940', '2acf35c77fff945a69c2d79a2f8713fd', '539862b13f47be78c65fbe150baf930601a1c628'),
+(2, '86', '14324389911', 'Yao', 'Lan', 'user', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'f71a2b3076455873248203bc1dc1cd4946972d99'),
+(3, '86', '14232323989', 'Zhenfan', 'Li', 'dragonpunch1940', '2acf35c77fff945a69c2d79a2f8713fd', '539862b13f47be78c65fbe150baf930601a1c628'),
 (4, '1', '7184572531', 'Branton', 'Gloria', 'bunnybee', '42a6b10b2c1daa800a25f3e740edb2b3', '4ef047a953b200ce3a5a58f322dcb663fe73a885'),
 (5, '1', '2126844814', 'John', 'Thomas H.', 'johnny', '229657d8b627ffd14a3bccca1a0f9b6e', '3f9004d2643b05cbc645087c65088684d1d70e79');
 
@@ -615,65 +619,6 @@ INSERT INTO `Meal` (`meal_id_pk`, `Restaurant_restaurant_id`, `name`, `price`, `
 --
 -- Constraints for dumped tables
 --
-
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
--- phpMyAdmin SQL Dump
--- version 4.0.10deb1
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: May 31, 2015 at 04:25 PM
--- Server version: 5.5.43-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4.9
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
---
--- Database: `mymeal`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Rating`
---
-
-CREATE TABLE IF NOT EXISTS `Rating` (
-  `Meal_meal_id_pk` int(11) NOT NULL,
-  `Customer_customer_id_pk` int(11) NOT NULL,
-  `date` datetime DEFAULT NULL,
-  `rating` smallint(6) DEFAULT NULL COMMENT 'smallint because the number will not be bigger than 10',
-  `comment` text,
-  PRIMARY KEY (`Customer_customer_id_pk`,`Meal_meal_id_pk`),
-  KEY `fk_Rating_dish1_idx` (`Meal_meal_id_pk`),
-  KEY `fk_Rating_user1_idx` (`Customer_customer_id_pk`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Every user can rate a dish just once';
-
---
--- Dumping data for table `Rating`
---
-
-INSERT INTO `Rating` (`Meal_meal_id_pk`, `Customer_customer_id_pk`, `date`, `rating`, `comment`) VALUES
-(1, 1, '2015-05-07 00:00:00', 5, 'Best ever'),
-(7, 1, '2015-05-28 18:30:43', 4, 'Tasty, but overrated and crowdy'),
-(1, 2, '2015-05-01 18:43:22', 4, 'really tasty, but a bit salty'),
-(4, 2, '2015-05-05 12:14:54', 3, 'Really good, but way too expensive'),
-(6, 2, '2015-05-05 12:15:32', 5, 'Mhmmm... tasty'),
-(1, 3, '2015-05-02 20:08:56', 2, 'Really did not like the one without egg'),
-(2, 3, '2015-05-15 17:00:01', 3, 'Okeh!'),
-(3, 3, '2015-05-12 17:00:00', 4, 'Good!'),
-(4, 3, '2015-05-14 17:00:01', 5, 'Hen Good!'),
-(5, 3, '2015-05-13 17:00:00', 5, 'Good, a!');
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
@@ -776,8 +721,10 @@ CREATE TABLE IF NOT EXISTS `Delivery` (
 -- Dumping data for table `Delivery`
 --
 
-INSERT INTO `Delivery` (`delivery_id_pk`, `Customer_customer_id`, `Restaurant_restaurant_id`, `street_number`, `street_name`, `postcode`, `city`, `add_info`, `comment`) VALUES
-(1, 2, 1, '723', 'Dongchuan Road', '200030', 'Shanghai', NULL, NULL);
+INSERT INTO `Delivery` (`delivery_id_pk`, `Customer_customer_id`, `Restaurant_restaurant_id`, `country`, `postcode`, `city`, `district`, `street_name`, `street_number`, `add_info`, `comment`) VALUES
+(1, 2, 1, 'China', '200030',  'Shanghai', 'Minhang', 'Dongchuan Road', '723', NULL, NULL),
+(2, 3, 2, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '654', NULL, NULL),
+(3, 2, 2, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '723', NULL, NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
@@ -825,7 +772,19 @@ CREATE TABLE IF NOT EXISTS `Delivery_State` (
 --
 
 INSERT INTO `Delivery_State` (`Delivery_delivery_id_pk`, `date_pk`, `Delivery_State_Type_delivery_status_type`, `comment`) VALUES
-(1, '2015-05-01 18:08:10', 1, NULL);
+(1, '2015-05-01 18:08:10', 1, NULL),
+(1, '2015-05-01 18:10:12', 2, NULL),
+(1, '2015-05-01 18:25:44', 3, NULL),
+(1, '2015-05-01 18:43:38', 4, NULL),
+(2, '2015-05-24 12:08:10', 1, NULL),
+(2, '2015-05-24 13:10:21', 2, NULL),
+(2, '2015-05-24 13:45:56', 3, NULL),
+(2, '2015-05-24 14:20:43', 4, NULL),
+(3, '2015-06-10 17:08:42', 1, NULL),
+(3, '2015-06-10 18:10:23', 2, NULL),
+(3, '2015-06-10 18:55:44', 3, NULL);
+
+
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
@@ -874,8 +833,75 @@ CREATE TABLE IF NOT EXISTS `Delivery_Meal_Map` (
 
 INSERT INTO `Delivery_Meal_Map` (`Delivery_delivery_id_pk`, `Meal_meal_id_pk`, `amount`) VALUES
 (1, 1, 1),
-(1, 3, 2);
+(1, 2, 2),
+(1, 3, 2),
+(2, 5, 1),
+(2, 6, 2),
+(3, 5, 3);
 
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: May 31, 2015 at 04:25 PM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `mymeal`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Rating`
+--
+
+CREATE TABLE IF NOT EXISTS `Rating` (
+  `Meal_meal_id_pk` int(11) NOT NULL,
+  `Customer_customer_id_pk` int(11) NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `rating` smallint(6) DEFAULT NULL COMMENT 'smallint because the number will not be bigger than 10',
+  `comment` text,
+  PRIMARY KEY (`Customer_customer_id_pk`,`Meal_meal_id_pk`),
+  KEY `fk_Rating_dish1_idx` (`Meal_meal_id_pk`),
+  KEY `fk_Rating_user1_idx` (`Customer_customer_id_pk`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Every user can rate a dish just once';
+
+--
+-- Dumping data for table `Rating`
+--
+
+INSERT INTO `Rating` (`Meal_meal_id_pk`, `Customer_customer_id_pk`, `date`, `rating`, `comment`) VALUES
+(1, 2, '2015-05-01 18:43:22', 4, 'really tasty, but a bit salty'),
+(3, 2, '2015-05-05 12:14:54', 3, 'Really good, but way too expensive'),
+(5, 3, '2015-05-13 17:00:00', 5, 'Good, a!'),
+(6, 3, '2015-05-24 17:00:04', 5, 'Hen Good!');
+
+/*
+(1, 2, '2015-05-05 18:43:22', 4, 'really tasty, but a bit salty'),
+(4, 2, '2015-05-10 12:14:54', 3, 'Really good, but way too expensive'),
+(6, 2, '2015-05-05 12:15:32', 5, 'Mhmmm... tasty'),
+(1, 3, '2015-05-02 20:08:56', 2, 'Really did not like the one without egg'),
+(2, 3, '2015-05-15 17:00:01', 3, 'Okeh!'),
+(3, 3, '2015-05-12 17:00:00', 4, 'Good!'),
+(4, 3, '2015-05-14 17:00:01', 5, 'Hen Good!'),
+(5, 3, '2015-05-13 17:00:00', 5, 'Good, a!');
+*/
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

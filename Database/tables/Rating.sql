@@ -42,17 +42,21 @@ CREATE TABLE IF NOT EXISTS `Rating` (
 --
 
 INSERT INTO `Rating` (`Meal_meal_id_pk`, `Customer_customer_id_pk`, `date`, `rating`, `comment`) VALUES
-(1, 1, '2015-05-07 00:00:00', 5, 'Best ever'),
-(7, 1, '2015-05-28 18:30:43', 4, 'Tasty, but overrated and crowdy'),
 (1, 2, '2015-05-01 18:43:22', 4, 'really tasty, but a bit salty'),
-(4, 2, '2015-05-05 12:14:54', 3, 'Really good, but way too expensive'),
+(3, 2, '2015-05-05 12:14:54', 3, 'Really good, but way too expensive'),
+(5, 3, '2015-05-13 17:00:00', 5, 'Good, a!'),
+(6, 3, '2015-05-24 17:00:04', 5, 'Hen Good!');
+
+/*
+(1, 2, '2015-05-05 18:43:22', 4, 'really tasty, but a bit salty'),
+(4, 2, '2015-05-10 12:14:54', 3, 'Really good, but way too expensive'),
 (6, 2, '2015-05-05 12:15:32', 5, 'Mhmmm... tasty'),
 (1, 3, '2015-05-02 20:08:56', 2, 'Really did not like the one without egg'),
 (2, 3, '2015-05-15 17:00:01', 3, 'Okeh!'),
 (3, 3, '2015-05-12 17:00:00', 4, 'Good!'),
 (4, 3, '2015-05-14 17:00:01', 5, 'Hen Good!'),
 (5, 3, '2015-05-13 17:00:00', 5, 'Good, a!');
-
+*/
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

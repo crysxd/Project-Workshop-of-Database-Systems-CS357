@@ -107,17 +107,16 @@
       FROM Customer
       WHERE nick = ?";
     
+    // hier fehlt distinct damit meals nicht öfter auftreten
     $stmt_select_ratable_dishes = "
-      SELECT dmm.Meal_meal_id_pk id, w.Restaurant_restaurant_id, w.name state, w.date_pk state_since
-        FROM 
-(SELECT cxdxds.delivery_id_pk, cxdxds.Restaurant_restaurant_id, dst.name, cxdxds.date_pk
-        FROM (
+      SELECT m.meal_id_pk id, restaurant, m.name, bought_on from (
+ 
+		SELECT * from (
 
-          SELECT cxd.delivery_id_pk, cxd.Restaurant_restaurant_id, ds.date_pk, ds.Delivery_State_Type_delivery_status_type
-          type 
+          SELECT cdds.delivery_id_pk , r.name restaurant, cdds.date_pk bought_on
           FROM (
 
-            SELECT d.delivery_id_pk, d.Restaurant_restaurant_id
+            SELECT d.delivery_id_pk, d.Restaurant_restaurant_id, ds.date_pk, ds.Delivery_State_Type_delivery_status_type type
             FROM (
 
               SELECT customer_id_pk
@@ -125,23 +124,27 @@
               WHERE nick =  ?
             )c
             INNER JOIN Delivery d ON c.customer_id_pk = d.Customer_customer_id
-          )cxd
-          INNER JOIN Delivery_State ds ON cxd.delivery_id_pk = ds.Delivery_delivery_id_pk
-          WHERE ds.Delivery_State_Type_delivery_status_type !=4
-        )cxdxds
-        INNER JOIN Delivery_State_Type dst ON cxdxds.type = dst.delivery_status_type_id_pk)w    
-      INNER JOIN Delivery_Meal_Map dmm ON w.delivery_id_pk = dmm.Delivery_delivery_id_pk
+            INNER JOIN Delivery_State ds ON d.delivery_id_pk = ds.Delivery_delivery_id_pk
+            WHERE ds.Delivery_State_Type_delivery_status_type = 4
+          )cdds
+          INNER JOIN Delivery_State_Type dst ON cdds.type = dst.delivery_status_type_id_pk
+          INNER JOIN Restaurant r ON cdds.Restaurant_restaurant_id = r.restaurant_id_pk
+          ORDER BY bought_on ASC
+        )cddsr
+        GROUP BY cddsr.delivery_id_pk) cddsrg 
+		INNER JOIN Delivery_Meal_Map dmm ON cddsrg.delivery_id_pk = dmm.Delivery_delivery_id_pk
+		INNER JOIN Meal m ON dmm.Meal_meal_id_pk = m.meal_id_pk
     ";
     
     $stmt_select_ongoing_deliveries = "
-        SELECT cxdxds.delivery_id_pk id, cxdxds.Restaurant_restaurant_id, dst.name state, cxdxds.date_pk state_since
+        SELECT * 
         FROM (
 
-          SELECT cxd.delivery_id_pk, cxd.Restaurant_restaurant_id, ds.date_pk, ds.Delivery_State_Type_delivery_status_type
-          type 
+          SELECT cdds.delivery_id_pk id, r.name restaurant, dst.name state, cdds.date_pk state_since
           FROM (
 
-            SELECT d.delivery_id_pk, d.Restaurant_restaurant_id
+            SELECT d.delivery_id_pk, d.Restaurant_restaurant_id, ds.date_pk, ds.Delivery_State_Type_delivery_status_type
+            TYPE 
             FROM (
 
               SELECT customer_id_pk
@@ -149,28 +152,50 @@
               WHERE nick =  ?
             )c
             INNER JOIN Delivery d ON c.customer_id_pk = d.Customer_customer_id
-          )cxd
-          INNER JOIN Delivery_State ds ON cxd.delivery_id_pk = ds.Delivery_delivery_id_pk
-          WHERE ds.Delivery_State_Type_delivery_status_type !=4
-        )cxdxds
-        INNER JOIN Delivery_State_Type dst ON cxdxds.type = dst.delivery_status_type_id_pk
+            INNER JOIN Delivery_State ds ON d.delivery_id_pk = ds.Delivery_delivery_id_pk
+            WHERE d.delivery_id_pk != ( 
+              SELECT d.delivery_id_pk
+              FROM (
+
+                SELECT customer_id_pk
+                FROM Customer
+                WHERE nick =  ?
+              )c
+              INNER JOIN Delivery d ON c.customer_id_pk = d.Customer_customer_id
+              INNER JOIN Delivery_State ds ON d.delivery_id_pk = ds.Delivery_delivery_id_pk
+              WHERE ds.Delivery_State_Type_delivery_status_type = 4 ) 
+
+          )cdds
+          INNER JOIN Delivery_State_Type dst ON cdds.type = dst.delivery_status_type_id_pk
+          INNER JOIN Restaurant r ON cdds.Restaurant_restaurant_id = r.restaurant_id_pk
+          ORDER BY state_since DESC
+        )cddsr
+        GROUP BY cddsr.id
     ";
 
     $stmt_select_old_deliveries = "
-      SELECT cxd.delivery_id_pk id, cxd.Restaurant_restaurant_id, 'DONE', ds.date_pk state_since
-      FROM (
-
-        SELECT d.delivery_id_pk, d.Restaurant_restaurant_id
+        SELECT * 
         FROM (
 
-          SELECT customer_id_pk
-          FROM Customer
-          WHERE nick =  ?
-        )c
-        INNER JOIN Delivery d ON c.customer_id_pk = d.Customer_customer_id
-      )cxd
-      INNER JOIN Delivery_State ds ON cxd.delivery_id_pk = ds.Delivery_delivery_id_pk
-      WHERE ds.Delivery_State_Type_delivery_status_type = 4
+          SELECT cdds.delivery_id_pk id, r.name restaurant, dst.name state, cdds.date_pk state_since
+          FROM (
+
+            SELECT d.delivery_id_pk, d.Restaurant_restaurant_id, ds.date_pk, ds.Delivery_State_Type_delivery_status_type type
+            FROM (
+
+              SELECT customer_id_pk
+              FROM Customer
+              WHERE nick =  ?
+            )c
+            INNER JOIN Delivery d ON c.customer_id_pk = d.Customer_customer_id
+            INNER JOIN Delivery_State ds ON d.delivery_id_pk = ds.Delivery_delivery_id_pk
+            WHERE ds.Delivery_State_Type_delivery_status_type = 4
+          )cdds
+          INNER JOIN Delivery_State_Type dst ON cdds.type = dst.delivery_status_type_id_pk
+          INNER JOIN Restaurant r ON cdds.Restaurant_restaurant_id = r.restaurant_id_pk
+          ORDER BY state_since DESC
+        )cddsr
+        GROUP BY cddsr.id
     ";
     
     $answer['success'] = true;
@@ -193,7 +218,7 @@
     
     $answer['ongoing_deliveries'] = array();
     //
-    if(!($select_ongoing_deliveries_result = push_stmt($stmt_select_ongoing_deliveries, "s", array(&$args['user']))))
+    if(!($select_ongoing_deliveries_result = push_stmt($stmt_select_ongoing_deliveries, "ss", array(&$args['user'], &$args['user']))))
       db_error($answer);
     
     while($select_ongoing_deliveries_result && ($fetched_ongoing_deliveries_dishes_row = $select_ongoing_deliveries_result->fetch_assoc()))
@@ -206,11 +231,9 @@
     
     while($select_select_old_deliveries_result && ($fetched_select_old_deliveries_row = $select_select_old_deliveries_result->fetch_assoc()))
       $answer['old_deliveries'][] = $fetched_select_old_deliveries_row;  
-
-    // Encode answer as json and print aka send
-    if (!($encoded_answer = json_encode($answer)))
-      db_error($answer);
-    echo $encoded_answer;
+    
+    // Encode answer as json and print aka send, When there is no return the encoding returned NULL
+    echo json_encode($answer);
   }
 
 
