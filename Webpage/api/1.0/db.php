@@ -99,23 +99,23 @@
     $answer = json_encode(array("success" => false, "err_no" => ERROR_UNAUTHORIZED));
 
     // Preapre query
-    if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM customer WHERE nick=? AND session_id=?")) {
-      die($answer);
+    if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM Customer WHERE nick=? AND session_id=?")) {
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     }
     
     // Bind params
     if(!$stmt->bind_param("ss", $user, $session)) {
-      die($answer);
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     }
     
     // Execute
     if(!$stmt->execute()) {
-      die($answer);
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     }
     
     // Check result
     if($stmt->get_result()->fetch_assoc()['ok'] != 1) {
-      die($answer);
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     }
   }
 
@@ -129,23 +129,23 @@
     $answer = json_encode(array("success" => false, "err_no" => ERROR_UNAUTHORIZED));
 
     // Preapre query
-    if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM restaurant WHERE restaurant_id_pk=? AND session_id=?")) {
-      die($answer);
+    if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM Restaurant WHERE restaurant_id_pk=? AND session_id=?")) {
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     }
     
     // Bind params
     if(!$stmt->bind_param("ss", $user, $session)) {
-      die($answer);
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     }
     
     // Execute
     if(!$stmt->execute()) {
-      die($answer);
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     }
     
     // Check result
     if($stmt->get_result()->fetch_assoc()['ok'] != 1) {
-      die($answer);
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     }
   }
 
@@ -159,7 +159,7 @@
     $session = generate_session_id();
 
     // Put session id
-    $db_link->query("UPDATE customer SET session_id=\"$session\" WHERE nick=$user");
+    $db_link->query("UPDATE Customer SET session_id=\"$session\" WHERE nick=$user");
     
     //return
     return $session;
@@ -175,7 +175,7 @@
     $session = generate_session_id();
 
     // Put session id
-    $db_link->query("UPDATE restaurant SET session_id=\"$session\" WHERE restaurant_id_pk=$id");
+    $db_link->query("UPDATE Restaurant SET session_id=\"$session\" WHERE restaurant_id_pk=$id");
     
     //return
     return $session;
@@ -188,10 +188,41 @@
     return bin2hex(openssl_random_pseudo_bytes(32));
   }
 
+ /****************************************************************************************************************************
+   * Pushes an statement $stmt with the input parameters to the database, executes it and return the result. The type of the parameters are specified by $string_input
+   */
+  function push_stmt($stmt, $string_input, $arguments){
+    global $db_link;
+    
+    if($stmt_result = $db_link->prepare($stmt)){
+      $arguments_for_binding = array_merge(array($stmt_result, $string_input), $arguments);
+      call_user_func_array('mysqli_stmt_bind_param', $arguments_for_binding);
+      $result = $stmt_result->execute();
+      return $stmt_result->get_result();
+    } else {
+      return null ;
+    }
+  }
+
+  /****************************************************************************************************************************
+   * Gets the pointer of the answer $answer, and the parameters $parms which should be added from the result into the answer
+   */ 
+  function add_answer(&$answer, &$result, $parms){
+    if(!($result && ($fetched_row = $result->fetch_assoc())))
+      return 0;
+    
+    foreach ($parms as $parm) {
+        $answer[$parm] = $fetched_row[$parm];
+
+    }
+    return 1;
+  }
+       
+
   /****************************************************************************************************************************
    * Creates an Error message and kills the process
    */
-  function db_error($puffer_answer, $info=""){
+  function db_error($puffer_answer=null, $info=""){
     global $db_link;
     $answer['success'] = false;
     $answer['err_no'] = ERROR_GENERAL;
@@ -208,4 +239,4 @@
 
 
 
-?>
+?>l

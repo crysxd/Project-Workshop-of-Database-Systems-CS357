@@ -1,4 +1,5 @@
 <?php
+  
   // include main database script
   include_once("../db.php");
 
@@ -51,26 +52,10 @@
     array_walk_recursive($dishes, 'mysqli_real_escape_string_asso_array');
     array_walk_recursive($address, 'mysqli_real_escape_string_asso_array');  
 
-
+    // Checking if user has this session id
+    check_customer_session($user, $session);
+    
     // Prepare Statements
-
-    //// Checking if user has this session id
-    $stmt_check_session = "SELECT customer_id_pk customer_id FROM Customer WHERE nick = ? && session_id = ?";
-    if ($stmt_check_session_result = $db_link->prepare($stmt_check_session)){
-      $stmt_check_session_result->bind_param("ss", $user, $session);
-      $check_session_result = $stmt_check_session_result->execute();
-      $check_session_result = $stmt_check_session_result->get_result();
-    } else {
-      db_error($answer, "Select: Customer with nick: $user; and session_id: $session. Line " . __LINE__);
-    }
-
-    //// If user does not have the session id, the result will be empty
-    if($check_session_result && $check_session_result->num_rows == 1 
-        && ($fetched_row_check_session = $check_session_result->fetch_assoc())){
-    } else {
-      db_error($answer, "Line " . __LINE__);
-    } 
-
 
     //// TODO Check thread safety: Two threads both fetch the next auto_increment value, so both get the same one
     //// Get the next avaible id for a new delivery
@@ -117,7 +102,7 @@
 
       if($db_link->errno || !$insert_delivery_meal_map_result ){
         $dish_id = $dish['id'];
-        db_error($answer, "Insert: Dish failed with id, $dish_id. Line " . __LINE__);
+        db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ . "Insert: Dish failed with id, $dish_id.");
       }
     }
     // Getting the phone number of a restaurant
@@ -172,17 +157,7 @@
     $answer = array();
 
     // Checking if user has this session id
-    $check_session_result = "SELECT nick FROM Customer WHERE nick = ? && session_id = ?";
-    if($stmt_check_session_result = $db_link->prepare($check_session_result)){
-      $stmt_check_session_result->bind_param("ss", $user, $session);
-      $check_session_result = $stmt_check_session_result->execute();
-      $check_session_result = $stmt_check_session_result->get_result();
-    } else {
-      db_error($answer, "Line " . __LINE__);
-    }
-    // If user does not have the session id, the result will be empty
-    if($check_session_result->num_rows != 1)
-      db_error($answer, "There is no user with this name and session_id. Line ". __LINE__);
+    check_customer_session($user, $session);
 
     
     //
@@ -224,27 +199,11 @@
     
     $answer['success'] = true;
 
-    // Bind $stmt_select_head_info and execute
-    if($stmt_select_head_info_result = $db_link->prepare($stmt_select_head_info)){
-      $stmt_select_head_info_result->bind_param("i", $delivery);
-      $select_head_info_result = $stmt_select_head_info_result->execute();
-      $select_head_info_result = $stmt_select_head_info_result->get_result();
-    } else {
-      db_error($answer, "Line " . __LINE__);
-    }
+    if(!($result = push_stmt($stmt_select_head_info, "i", array(&$delivery))))
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     
-    if($select_head_info_result && $select_head_info_result->num_rows == 1
-      && ($fetched_select_head_info_row = $select_head_info_result->fetch_assoc())){
-      $answer['restaurant'] = $fetched_select_head_info_row['restaurant'];
-      $answer['phone'] = $fetched_select_head_info_row['phone'];
-      $answer['shipping_cost'] = $fetched_select_head_info_row['shipping_cost'];
-      $answer['number'] = $fetched_select_head_info_row['number'];
-      $answer['street'] = $fetched_select_head_info_row['street'];
-      $answer['city'] = $fetched_select_head_info_row['city'];
-      $answer['postcode'] = $fetched_select_head_info_row['postcode'];
-    } else {
-      db_error($answer, "Line " . __LINE__);
-    }
+    if(!(add_answer($answer, $result, array('restaurant', 'phone', 'shipping_cost', 'number', 'street', 'city', 'postcode'))))
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     
     // Bind and execute $stmt_select_dishes
     $answer['dishes'] = array();
@@ -254,7 +213,7 @@
       $select_dishes_result = $stmt_select_dishes_result->execute();
       $select_dishes_result = $stmt_select_dishes_result->get_result();
     } else {
-      db_error($answer, "Line " . __LINE__);
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     }
 
     while($select_dishes_result && ($fetched_select_dishes_row = $select_dishes_result->fetch_assoc()))
@@ -269,7 +228,7 @@
       $select_states_result = $stmt_select_states_result->execute();
       $select_states_result = $stmt_select_states_result->get_result();
     } else {
-      db_error($answer, "Line " . __LINE__);
+      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     }
 
     while($select_states_result && ($fetched_select_states_row = $select_states_result->fetch_assoc()))
