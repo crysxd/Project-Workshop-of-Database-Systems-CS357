@@ -181,8 +181,20 @@
     // Generate session id
     $session = generate_session_id();
 
-    // Put session id
-    $db_link->query("UPDATE Customer SET session_id=\"$session\" WHERE nick=$user");
+    // Prepare
+    $stmt = $db_link->prepare("UPDATE Customer SET session_id=? WHERE nick=?");
+    if(!$stmt) {
+      db_error();
+    }
+    
+    // Bind and execute
+    $stmt->bind_param("ss", $session, $user);
+    $stmt->execute();
+    
+    // Check for error
+    if($db_link->error) {
+      db_error();
+    }
     
     //return
     return $session;
@@ -197,9 +209,21 @@
     // Generate session id
     $session = generate_session_id();
 
-    // Put session id
-    $db_link->query("UPDATE Restaurant SET session_id=\"$session\" WHERE restaurant_id_pk=$id");
+    // Prepare
+    $stmt = $db_link->prepare("UPDATE Restaurant SET session_id=? WHERE restaurant_id_pk=?");
+    if(!$stmt) {
+      db_error();
+    }
     
+    // Bind and execute
+    $stmt->bind_param("ss", $session, $id);
+    $stmt->execute();
+    
+    // Check for error
+    if($db_link->error) {
+      db_error();
+    }
+
     //return
     return $session;
   }
