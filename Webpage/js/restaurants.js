@@ -80,11 +80,11 @@ function loadItems() {
         e.find('.rating-stars').text(generateRatingText(d.avg_rating));
         e.find('.rating-count').text(d.rating_count);
         e.find('.min-order-value').text(d.min_order_value);
-        e.find('.shipping-costs').text(d.shipping_costs);
+        e.find('.shipping-costs').text(d.shipping_cost);
         e.find('.eta').text(d.eta);
         
         if(d.icon) {
-          e.find('.restaurant-icon').attr('src', 'data:' + d.icon_mime + ';base64,' + d.icon);
+          e.find('.restaurant-icon').attr('src', d.icon);
         }
         
         $('.load-more-item').before(e);
