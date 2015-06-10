@@ -66,7 +66,7 @@ function loadMenu() {
       $('.restaurant-rating-count').html(data.rating_count);
       $('.restaurant-description').html(data.description);
       $('.restaurant-min-order-value').html(data.min_order_value);
-      $('.restaurant-shipping-costs').html(data.shipping_costs);
+      $('.restaurant-shipping-costs').html(data.shipping_cost);
       $('.restaurant-icon').attr('src', 'data:' + data.icon_mime + ',' + data.icon);
 
       /* Empty table, but not delete the template */
