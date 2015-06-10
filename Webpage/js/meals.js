@@ -83,7 +83,7 @@ function loadMenu() {
         /* Set all infos */
         e.find('.meal-name').html(d.name);
         e.find('.meal-spiciness').addClass('chilli-' + d.spicy)
-        e.find('.meal-rating-stars').html(generateRatingText(d.raiting));
+        e.find('.meal-rating-stars').html(generateRatingText(d.avg_rating));
         e.find('.meal-rating-count').html(d.rating_count);
         e.find('.meal-price').html(d.price);
 
