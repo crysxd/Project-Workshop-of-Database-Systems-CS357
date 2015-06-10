@@ -160,15 +160,11 @@ $stmt_tag_result = $db_link->prepare("
 
   // Test if a icon is available
   $icon_file = get_restaurant_icon_file_name($restaurant);
+  $answer['icon'] = null;
   if(file_exists($icon_file)) {
     // Store icon as base64
-    $answer['icon'] = base64_encode(file_get_contents($icon_file));
-    // Get MIME (PNG, JPEG, etc...)
-    $answer['icon_mime'] = mime_content_type ($icon_file);
-  } else {
-    $answer['icon'] = "";
-    $answer['icon_mime'] = "";
-  }
+    $answer['icon'] = file_get_contents($icon_file);
+  }   
 
   $answer['success'] = true;
 
