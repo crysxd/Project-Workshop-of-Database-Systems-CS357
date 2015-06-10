@@ -74,8 +74,8 @@ function loadItems() {
       /* Iterate over all elements */
       $(data.data).each(function(i, d) {
         var e = $(template);
-        e.attr('restaurant', d.id);
-        e.attr('href', 'javascript:leaveTo("meals.php?restaurant='  + d.id + '")');
+        e.attr('restaurant', d.restaurant);
+        e.attr('href', 'javascript:leaveTo("meals.php?restaurant='  + d.restaurant + '")');
         e.find('.restaurant-name').text(d.name);
         e.find('.rating-stars').text(generateRatingText(d.avg_rating));
         e.find('.rating-count').text(d.rating_count);
