@@ -81,12 +81,12 @@
     // Insert into Delivery table
     $stmt_insert_delivery = "
         INSERT INTO `Delivery` (`Customer_customer_id`, 
-            `Restaurant_restaurant_id`, `country`, `district`, `city`, `postcode`, `street_name`, `street_number`, `add_info`, `comment`) 
-        VALUES (?, ?, ?, ?, ?, ?, NULL, NULL)";
+            `Restaurant_restaurant_id`, `country`, `postcode`, `city`, `district`, `street_name`, `street_number`, `add_info`, `comment`) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)";
     
-    if(!(push_stmt_insert($stmt_insert_delivery, "iisssss", 
-          array(&$args['customer_id'], &$args['restaurant'],  &$args['address']['number'], 
-          &$args['address']['road'], &$args['address']['city'], &$args['address']['country'], &$args['address']['postcode']))))
+    if(!(push_stmt_insert($stmt_insert_delivery, "iissssss", 
+          array(&$args['customer_id'], &$args['restaurant'],  &$args['address']['country'], &$args['address']['postcode'],
+                &$args['address']['city'], &$args['address']['district'], &$args['address']['road'] , &$args['address']['number']))))
       db_error($answer);
     
     // Get the last inserted primary key
