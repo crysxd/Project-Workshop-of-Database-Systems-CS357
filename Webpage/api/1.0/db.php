@@ -53,21 +53,23 @@
       if(!array_key_exists ($p, $_GET) || strlen(serialize($_GET[$p])) == 0) {
         die(json_encode(array("success" => false, "err_no" => ERROR_MISSING_PARAM, "err_msg" => "Required parameter \"$p\" is missing.")));
       }
+      $_GET[$p] = htmlentities($db_link->real_escape_string($_GET[$p])); 
     }
   }
 
   /****************************************************************************************************************************
    * Assures all neeeded parameteres are availabel in $to_check
    */
-  function check_parms_available_in_array($params, $to_check) { 
+  function check_parms_available_in_array($params, &$to_check, $escaping) { 
 	global $db_link;
 	
     foreach($params as $i => $p) {
       // Check if key is available
       if(!array_key_exists ($p, $to_check) || strlen(serialize($to_check[$p])) == 0) {
         die(json_encode(array("success" => false, "err_no" => ERROR_MISSING_PARAM, "err_msg" => "Required parameter \"$p\" is missing.")));
-      }
-      $_GET[$p] = htmlentities($db_link->real_escape_string($_GET[$p])); 
+      } 
+      if ($escaping)
+        $to_check[$p] = htmlentities($db_link->real_escape_string($to_check[$p])); 
     }
   }
 

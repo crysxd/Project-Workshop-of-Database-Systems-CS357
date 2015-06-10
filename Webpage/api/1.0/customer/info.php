@@ -107,6 +107,7 @@
       FROM Customer
       WHERE nick = ?";
     
+    // hier fehlt distinct damit meals nicht öfter auftreten
     $stmt_select_ratable_dishes = "
       SELECT dmm.Meal_meal_id_pk id, w.Restaurant_restaurant_id, w.name state, w.date_pk state_since
         FROM 
@@ -127,7 +128,7 @@
             INNER JOIN Delivery d ON c.customer_id_pk = d.Customer_customer_id
           )cxd
           INNER JOIN Delivery_State ds ON cxd.delivery_id_pk = ds.Delivery_delivery_id_pk
-          WHERE ds.Delivery_State_Type_delivery_status_type !=4
+          WHERE ds.Delivery_State_Type_delivery_status_type =4
         )cxdxds
         INNER JOIN Delivery_State_Type dst ON cxdxds.type = dst.delivery_status_type_id_pk)w    
       INNER JOIN Delivery_Meal_Map dmm ON w.delivery_id_pk = dmm.Delivery_delivery_id_pk
