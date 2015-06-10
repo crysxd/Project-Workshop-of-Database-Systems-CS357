@@ -17,7 +17,7 @@
 
   // Destroy session
   $answer['success'] = true;
-  $stmt = $db_link->prepare("UPDATE customer SET session=\"\" WHERE phone_pk=?");
+  $stmt = $db_link->prepare("UPDATE customer SET session_id=\"\" WHERE nick=?");
   $stmt->bind_param("s", $_GET['user']);
   $stmt->execute();
 
