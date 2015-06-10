@@ -264,7 +264,7 @@ api/1.0/customer/info
     - Parameter:
         - GET:
             - session: The session which is used to update
-            - phone: The user's nick name
+            - user: The user's nick name
         - POST:     
             - first_name: The user's first name
             - sure_name: The user's sure name
@@ -300,16 +300,16 @@ api/1.0/customer/info
             "sure_name": "Guy",
             "ratable_dishes": [
                 {
-                    "id": 0, 
-                    "name": "sksdfh", 
-                    "date": "2015-05-14", 
-                    "restaurant": "Cool Restaurant"
+                    "id": 0,
+                    "restaurant": "A cool Restaurant",
+                    "state": "Processing",
+                    "state_since": "2015-05-14"
                 },
                 {
-                    "id": 1, 
-                    "name": "2sdf", 
-                    "date": "2015-05-13", 
-                    "restaurant": "Cool Restaurant"
+                    "id": 1,
+                    "restaurant": "A cool Restaurant",
+                    "state": "Processing",
+                    "state_since": "2015-05-14"
                 },
             ]
             "ongoing_deliveries": [
