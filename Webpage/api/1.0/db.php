@@ -229,7 +229,7 @@
   /****************************************************************************************************************************
    * Creates an Error message and kills the process
    */
-  function db_error($puffer_answer=array(), $info="", $err_no=ERROR_GENERAL){
+  function db_error($puffer_answer=array(), $info="", $err_no=ERROR_GENERAL) {
     global $db_link;
     
     $answer['success'] = false;
@@ -250,6 +250,30 @@
     
     die(json_encode($answer));
     
+  }
+
+  /****************************************************************************************************************************
+   * Creates an Error message and kills the process
+   */
+  function save_image_from_input($dest_path) {
+    // Open files
+    $dest = fopen($dest_path, "w");
+    $src = fopen("php://input", "r");
+   
+    if(!$dest) {
+      db_error(array(), "Unable to open output file: \"$file_path\"");
+    }
+    if(!$dest) {
+      db_error(array(), "Unable to open input file");
+    }
+    
+    // Copy stream
+    stream_copy_to_stream($src, $dest);
+    
+    //Close
+    fclose($src);
+    fclose($dest);
+
   }
 
 ?>
