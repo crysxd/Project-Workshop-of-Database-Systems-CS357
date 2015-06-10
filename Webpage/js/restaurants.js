@@ -84,7 +84,7 @@ function loadItems() {
         e.find('.eta').text(d.eta);
         
         if(d.icon) {
-          e.find('.restaurant-icon').attr('src', 'data:' + d.icon_mime + ';base64,' + d.icon);
+          e.find('.restaurant-icon').attr('src', d.icon);
         }
         
         $('.load-more-item').before(e);
