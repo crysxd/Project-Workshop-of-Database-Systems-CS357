@@ -4,7 +4,7 @@ var restaurant = 0;
 $(document).ready(function() {
   /* Get restaurant id from url */
   restaurant = getUrlParam('restaurant');
-  
+
   /* Init shopping cart */
   cart.initCart();
 
@@ -61,9 +61,7 @@ $(document).ready(function() {
       
       /* Extract data */
       var data = JSON.parse(d.data);
-      
-      console.log(d);
-      
+            
       /* Set information */
       e.find('.item-name').html(data.name);
       e.find('.item-price').html(d.price);
@@ -73,6 +71,55 @@ $(document).ready(function() {
       /* Append to table */
       $('.table-order tbody').prepend(e);
       
+    });
+  });
+});
+
+/* Click handler for complete order button */
+$('.btn-complete-order').click(function() {
+  /* show loading overlay*/
+  showLoadingOverlay(function() {
+    /* Load session */
+    var session = getSession();
+
+    /* Create put data */
+    var put = new Object();
+    put.restaurant = restaurant;
+
+    /* Copy address */
+    var address = getCurrentDeliveryAddress();
+    put.address = address.simple;
+    put.address.lat = address.geometry.location.lat;
+    put.address.lng = address.geometry.location.lng;
+
+    /* Copy shopping cart */
+    put.dishes = new Array();
+    var cartContent = cart.getOverview(restaurant, function(cartContent) {
+      /* Iterate over cart items */
+      $(cartContent.rows).each(function(i, d) {
+        /* Push item to array */
+        put.dishes.push({id: d.id, amount: d.amount});
+
+      });
+
+      /* Place the order */
+      console.log(put);
+      $.rest.put('api/1.0/customer/delivery.php', session, function(result) {
+        /* Handle errors */
+        if(!result.success) {
+          showErrorOverlay('An Error occured while placing the Order', 
+                           'Your order was not successfull, please try again', 
+                           undefined);
+          hideLoadingOverlay();
+          console.error('An error occured while requesting data from the server:')
+          console.error(result);
+          return;
+        }
+
+        /* Show confirmation, will forward user to profile */
+        showOverlay($('#success-overlay'));
+        
+      }, put);
     });
   });
 });

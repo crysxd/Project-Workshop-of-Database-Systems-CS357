@@ -41,3 +41,9 @@ address {
 .table-order th:nth-child(3) {
   text-align: center;
 }
+
+#success-overlay {
+  background: rgb(0, 212, 255);
+  color: white;
+  text-align: center;
+}

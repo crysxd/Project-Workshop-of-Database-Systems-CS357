@@ -60,7 +60,7 @@
     $row['eta'] = 0;
     //TODO check if he gets min_order_value
     // Test if a icon is available
-    $icon_file = get_restaurant_icon_file_name($row['id']);
+    $icon_file = get_restaurant_icon_file_name($row['restaurant']);
     if(file_exists($icon_file)) {
       //Get MIME (PNG, JPEG, etc...)
       $row['icon_mime'] = mime_content_type ($icon_file);

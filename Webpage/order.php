@@ -101,7 +101,7 @@
           </table>
         </section>
 
-        <button class="btn btn-block btn-success">
+        <button class="btn btn-block btn-success btn-complete-order">
           Order now (ETA: <span class="restaurant-eta">undefined</span> minutes)
         </button>
       </div>
@@ -110,6 +110,19 @@
     <?php include('shared/footer.html'); ?>
     
   </div>
+  
+  
+  <!-- success overlay -->
+  <nav id="success-overlay" class="overlay">
+    <div class="overlay-content">
+      <div class="narrow">
+        <h4><span class="title">Success</span></h4>
+        <p class="message">Your order was successfully placed</p>
+        <a class="btn btn-default btn-block" href="profile.php">OK</a>
+      </div>
+    </div>
+  </nav>
+
   
   <!-- Load Scripts at the end to optimize site loading time -->
   <script src="js/jquery-2.1.0.min.js"></script>
