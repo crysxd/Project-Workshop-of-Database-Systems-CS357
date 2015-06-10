@@ -199,41 +199,38 @@
     
     $answer['success'] = true;
 
-    if(!($result = push_stmt($stmt_select_head_info, "i", array(&$delivery))))
+    // Processes $stmt_select_head_info statement
+    if(!($select_head_info_result = push_stmt($stmt_select_head_info, "i", array(&$delivery))))
       db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     
-    if(!(add_answer($answer, $result, array('restaurant', 'phone', 'shipping_cost', 'number', 'street', 'city', 'postcode'))))
+    if(!(add_answer($answer, $select_head_info_result, 
+                    array('restaurant', 'phone', 'shipping_cost', 'number', 'street', 'city', 'postcode'))))
       db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
     
-    // Bind and execute $stmt_select_dishes
+    
+    // Processes $stmt_select_dishes statement
+    
+    //// Bind and execute $stmt_select_dishes
     $answer['dishes'] = array();
-       
-    if($stmt_select_dishes_result = $db_link->prepare($stmt_select_dishes)){
-      $stmt_select_dishes_result->bind_param("i", $delivery);
-      $select_dishes_result = $stmt_select_dishes_result->execute();
-      $select_dishes_result = $stmt_select_dishes_result->get_result();
-    } else {
+    
+    if(!($select_dishes_result = push_stmt($stmt_select_dishes, "i", array(&$delivery))))
       db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
-    }
 
     while($select_dishes_result && ($fetched_select_dishes_row = $select_dishes_result->fetch_assoc()))
-      $answer['dishes'][] = $fetched_select_dishes_row;
+      $answer['dishes'][] = $fetched_select_dishes_row;  
     
+    // Processes $stmt_select_states statement
     
-    // Bind and execute $stmt_select_states
+    //// Bind and execute $stmt_select_states
     $answer['states'] = array();
       
-    if($stmt_select_states_result = $db_link->prepare($stmt_select_states)){
-      $stmt_select_states_result->bind_param("i", $delivery);
-      $select_states_result = $stmt_select_states_result->execute();
-      $select_states_result = $stmt_select_states_result->get_result();
-    } else {
+    if(!($select_states_result = push_stmt($stmt_select_states, "i", array(&$delivery))))
       db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
-    }
 
     while($select_states_result && ($fetched_select_states_row = $select_states_result->fetch_assoc()))
       $answer['states'][] = $fetched_select_states_row;
     
+    // Sends the answer
     echo json_encode($answer);
     db_close();
   }
