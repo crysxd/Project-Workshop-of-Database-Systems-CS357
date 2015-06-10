@@ -60,12 +60,10 @@
     $row['eta'] = 0;
     //TODO check if he gets min_order_value
     // Test if a icon is available
-    $icon_file = get_restaurant_icon_file_name($row['id']);
+    $icon_file = get_restaurant_icon_file_name($row['restaurant']);
     if(file_exists($icon_file)) {
-      //Get MIME (PNG, JPEG, etc...)
-      $row['icon_mime'] = mime_content_type ($icon_file);
       // Store icon as base64
-      $row['icon'] = base64_encode(file_get_contents($icon_file));
+      $row['icon'] = file_get_contents($icon_file);
     }
 
     // the avg rating is returned as string, so we have to transform it back

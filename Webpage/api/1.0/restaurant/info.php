@@ -54,16 +54,19 @@
                               "street_name, postcode, national_number, city, country, position_lat, position_long, password,".
                               "description) VALUES('+86', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
+    // If preperation failed
+    if(!$stmt) {
+      db_error();
+    }
+    
     // Bind parameters
     $stmt->bind_param("iiissssssssss", $_GET['min_order_value'], $_GET['shipping_costs'], $_GET['max_delivery_range'],
                       $_GET['name'], $_GET['street'], $_GET['postcode'], $_GET['phone'], $_GET['city'], $_GET['country'],
                       $_GET['position_lat'], $_GET['position_long'], $password, $_GET['description']);
     
-    
     // execute
     if(!$stmt->execute()) {
-      $answer['err_no'] = $db_link->errno;
-      $answer['err_msg'] = "[$db_link->errno] $db_link->error";
+      db_error();
       
     } else {
       $id =  $db_link->insert_id;
@@ -72,23 +75,10 @@
       $answer['session'] = start_restaurant_session($id);
       $answer['name'] = $_GET['name'];
             
-      //Load the icon
-      $icon = file_get_contents("php://input");
-      
-      //Remove data URL
-      $start = strpos($icon, ",");
-      $icon = substr($icon, $start);
-      
-      //Decode
-      $raw = base64_decode($icon);
-      
-      //Write
-      $file = fopen(get_restaurant_icon_file_name($id), "c");
-      fwrite($file, $raw);
-      fclose($file);
-      
-      $answer['start'] = $start;
-      
+      // Get path and copy
+      $file = get_restaurant_icon_file_name($id);
+      save_image_from_input($file);
+            
     }
     
     // Encode answer as json and print aka send

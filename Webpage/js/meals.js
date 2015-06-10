@@ -61,21 +61,19 @@ function loadMenu() {
       }
 
       /* Set general information */
-      console.log(data.avg_rating);
       $('.restaurant-name').html(data.name);
       $('.restaurant-rating-stars').html(generateRatingText(data.avg_rating));
-      $('.restaurant-rating-count').html(data.raiting_count);
+      $('.restaurant-rating-count').html(data.rating_count);
       $('.restaurant-description').html(data.description);
       $('.restaurant-min-order-value').html(data.min_order_value);
-      $('.restaurant-shipping-costs').html(data.shipping_costs);
-      $('.restaurant-icon').attr('src', 'data:' + data.icon_mime + ',' + data.icon);
+      $('.restaurant-shipping-costs').html(data.shipping_cost);
+      $('.restaurant-icon').attr('src', data.icon);
 
       /* Empty table, but not delete the template */
       $('#meals-list tbody').children('.meal').remove();
 
       /* Read template */
       var template = $('#meals-list template').html().trim();
-      console.log(data);
 
       /* Iterate over meals */
       $(data.data).each(function(i, d) {
@@ -85,7 +83,7 @@ function loadMenu() {
         /* Set all infos */
         e.find('.meal-name').html(d.name);
         e.find('.meal-spiciness').addClass('chilli-' + d.spicy)
-        e.find('.meal-rating-stars').html(generateRatingText(d.raiting));
+        e.find('.meal-rating-stars').html(generateRatingText(d.avg_rating));
         e.find('.meal-rating-count').html(d.rating_count);
         e.find('.meal-price').html(d.price);
 
