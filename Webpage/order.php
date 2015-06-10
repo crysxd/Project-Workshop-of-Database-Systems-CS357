@@ -33,93 +33,40 @@
   <!-- Menus and overlays -->
   <?php  include('shared/header.html'); ?>
   
-  <!-- Modal Dialog to change the delivery address -->
-  <div class="modal fade" id="change-address-modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 class="modal-title">Change delivery address</h4>
-        </div>
-        <div class="modal-body">
-          <form class="form-horizontal">
-            <div class="form-group">
-              <label for="address-name" class="col-sm-4 control-label">Name</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="address-name" placeholder="Enter your name" required="true">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="address-street" class="col-sm-4 control-label">Street and Number</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="address-street" placeholder="Enter your street and number">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="address-aditional" class="col-sm-4 control-label">Additional</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="address-aditional" placeholder="Enter appartment/building">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="address-city" class="col-sm-4 control-label">City</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="address-city" placeholder="Enter your city">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="address-postal-code" class="col-sm-4 control-label">Postal Code</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="address-postal-code" placeholder="Enter your postal code">
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-success" id="btn-change-address">Save changes</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-  
   <div id="main-content">
     <h1>Your Order</h1>
     <div class="row">
-      <div class="col-sm-12 col-md-4 col-lg-2">
+      <div class="col-sm-4 col-md-4 col-lg-3">
         
         <!-- Adress -->
-        <section class="panel panel-default">
+        <section class="panel panel-default delivery-address">
           <div class="panel-heading">
             <h3 class="panel-title"><span class="glyphicon glyphicon-home"></span> Delivery Address</h3>
           </div>
           <div class="panel-body">
             <address>
-              <strong>Mike Miller</strong><br>
-              500 Dongchuan Rd.<br>
-              App. 402<br>
-              Shanghai, 94107<br>
+              <strong><span class="address-street">undefined</span></strong><br>
+              <span class="address-postal-code">undefined</span>
+              <span class="address-city">undefined</span><br>
+              <span class="address-country">undefined</span><br>
             </address>
-            <a data-toggle="modal" data-target="#change-address-modal">
-              Change address
-            </a>
           </div>
         </section>
 
         <!-- Information -->
-        <section class="panel panel-default">
+        <section class="panel panel-default restaurant-infromation">
           <div class="panel-heading">
-            <h3 class="panel-title"><span class="glyphicon glyphicon-info-sign"></span> General Information</h3>
+            <h3 class="panel-title"><span class="glyphicon glyphicon-info-sign"></span> Restaurant</h3>
           </div>
           <div class="panel-body">
-
+            <strong><span class="restaurant-name">undefined</span></strong><br>
+            Phone: <span class="restaurant-phone">undefined</span><br>
           </div>
         </section>
+        
       </div>
 
-      <div class="col-sm-12 col-md-8 col-lg-10">
+      <div class="col-sm-8 col-md-8 col-lg-9">
         <!-- Shopping cart -->
         <section class="panel panel-default">
           <div class="panel-heading">
@@ -127,45 +74,36 @@
           </div>
           <table class="table table-responsive table-order">
             <thead>
-              <tr><th>Meal</th><th>Amount</th><th></th></tr>
+              <tr><th>Meal</th><th>Price</th><th>Amount</th><th>Total Price</th></tr>
             </thead>
             <tbody>
-              <?php for($i=0; $i<20; $i++) { ?>
+              <template>
                 <tr class="item">
-                  <td class="item-name">
-                    A cool meal
-                  </td>
-                  <td>
-                    <div class="input-group amount-input">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">-</button>
-                      </span>
-                      <input type="text" class="form-control item-amount" value="0">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">+</button>
-                      </span>
-                    </div>
-                  </td>
-                  <td>
-                    <span class="item-costs">3</span>&nbsp;元
-                  </td>
+                  <td class="item-name">undefined</td>
+                  <td><span class="item-price">undefined</span>&nbsp;元</td>
+                  <td class="item-amount">undefined</td>
+                  <td><span class="item-total-price">undefined</span>&nbsp;元</td>
                 </tr>
-              <?php } ?>
-                <tr class="shipping-costs-row">
-                  <td>Shipping costs</td>
-                  <td></td>
-                  <td><span class="shipping-costs">3</span>&nbsp;元</td>
-                </tr>
-               <tr class="order-value-row">
-                  <td>Order value</td>
-                  <td></td>
-                  <td><span class="order-value">4</span>&nbsp;元</td>
-                </tr>
+              </template>
+              <tr class="shipping-costs-row">
+                <td>Shipping costs</td>
+                <td></td>
+                <td></td>
+                <td><span class="restaurant-shipping-cost">undefined</span>&nbsp;元</td>
+              </tr>
+              <tr class="order-value-row">
+                <td>Order value</td>
+                <td></td>
+                <td></td>
+                <td><span class="order-value">undefined</span>&nbsp;元</td>
+              </tr>
             </tbody>
           </table>
         </section>
 
-        <button class="btn btn-block btn-success">Order now (ETA: <span class="eta">42</span> minutes)</button>
+        <button class="btn btn-block btn-success">
+          Order now (ETA: <span class="restaurant-eta">undefined</span> minutes)
+        </button>
       </div>
     </div>
     <!-- Footer -->
@@ -176,7 +114,9 @@
   <!-- Load Scripts at the end to optimize site loading time -->
   <script src="js/jquery-2.1.0.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="js/api.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
   <script src="js/order.js"></script>
 </body>
 </html>

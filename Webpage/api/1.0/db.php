@@ -8,6 +8,7 @@
   define("ERROR_GENERAL", 0);
   define("ERROR_UNAUTHORIZED", 1);
   define("ERROR_MISSING_PARAM", 2);
+  define("DEBUG",1);
 
   /****************************************************************************************************************************
    * Opens a connection to the database
@@ -52,10 +53,26 @@
       if(!array_key_exists ($p, $_GET) || strlen($_GET[$p]) == 0) {
         die(json_encode(array("success" => false, "err_no" => ERROR_MISSING_PARAM, "err_msg" => "Required parameter \"$p\" is missing.")));
       }
-      
-      //escape the value
-      $_GET[$p] = htmlentities($db_link->real_escape_string($_GET[$p]));
     }
+  }
+
+  /****************************************************************************************************************************
+   * Escapes all given parameteres 
+   */
+  function escape_parms($params) { 
+	global $db_link;
+    foreach($params as $i => $p) {
+      $_GET[$p] = htmlentities($db_link->real_escape_string($_GET[$p])); 
+    }
+  }
+
+  /****************************************************************************************************************************
+   * Is used in combination with array_walk_recursive to walk through an array and escape every item
+   * Usage Exampe:  array_walk_recursive($arrays, 'mysqli_real_escape_string_asso_array');
+   */
+  function mysqli_real_escape_string_asso_array(&$item, $key){
+    global $db_link;
+    return htmlentities(mysqli_real_escape_string($db_link, $item));
   }
 
   /****************************************************************************************************************************
@@ -170,5 +187,25 @@
   function generate_session_id() {
     return bin2hex(openssl_random_pseudo_bytes(32));
   }
+
+  /****************************************************************************************************************************
+   * Creates an Error message and kills the process
+   */
+  function db_error($puffer_answer, $info=""){
+    global $db_link;
+    $answer['success'] = false;
+    $answer['err_no'] = ERROR_GENERAL;
+
+    // THIS IS ONLY FOR DEBUGGING PURPOSE!
+    // WE SHOULD NOT GIVE AN SQL-ERROR DESCRIPTION TO A POTENTIAL ATTACKER!
+    // WE INSTEAD SEND BACK AN EMPTY ARRAY TO HIDE THE ERROR!
+    if(DEBUG)
+      $answer['err_msg'] = "[$db_link->errno] $db_link->error; $info";
+
+    die(json_encode($answer));
+  }
+
+
+
 
 ?>

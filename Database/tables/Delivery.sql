@@ -33,7 +33,6 @@ CREATE TABLE IF NOT EXISTS `Delivery` (
   `street` varchar(256) NOT NULL,
   `postcode` varchar(45) NOT NULL,
   `city` varchar(256) NOT NULL,
-  `province` varchar(256) NOT NULL,
   `add_info` varchar(256) DEFAULT NULL,
   `comment` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`delivery_id_pk`),
@@ -45,8 +44,8 @@ CREATE TABLE IF NOT EXISTS `Delivery` (
 -- Dumping data for table `Delivery`
 --
 
-INSERT INTO `Delivery` (`delivery_id_pk`, `Customer_customer_id`, `Restaurant_restaurant_id`, `street_number`, `street_name`, `postcode`, `city`, `province`, `add_info`, `comment`) VALUES
-(1, 2, 1, '723', 'Dongchuan Road', '200030', 'Shanghai', 'Shanghai', NULL, NULL);
+INSERT INTO `Delivery` (`delivery_id_pk`, `Customer_customer_id`, `Restaurant_restaurant_id`, `street_number`, `street_name`, `postcode`, `city`, `add_info`, `comment`) VALUES
+(1, 2, 1, '723', 'Dongchuan Road', '200030', 'Shanghai', NULL, NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
