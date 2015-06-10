@@ -100,22 +100,22 @@
 
     // Preapre query
     if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM Customer WHERE nick=? AND session_id=?")) {
-      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
+      db_error($answer, "Unauthorized", ERROR_UNAUTHORIZED);
     }
     
     // Bind params
     if(!$stmt->bind_param("ss", $user, $session)) {
-      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
+      db_error($answer, "Unauthorized", ERROR_UNAUTHORIZED);
     }
     
     // Execute
     if(!$stmt->execute()) {
-      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
+      db_error($answer, "Unauthorized", ERROR_UNAUTHORIZED);
     }
     
     // Check result
     if($stmt->get_result()->fetch_assoc()['ok'] != 1) {
-      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
+      db_error($answer, "Unauthorized", ERROR_UNAUTHORIZED);
     }
   }
 
@@ -130,22 +130,22 @@
 
     // Preapre query
     if(!$stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM Restaurant WHERE restaurant_id_pk=? AND session_id=?")) {
-      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
+      db_error($answer, "Unauthorized", ERROR_UNAUTHORIZED);
     }
     
     // Bind params
     if(!$stmt->bind_param("ss", $user, $session)) {
-      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
+      db_error($answer, "Unauthorized", ERROR_UNAUTHORIZED);
     }
     
     // Execute
     if(!$stmt->execute()) {
-      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
+      db_error($answer, "Unauthorized", ERROR_UNAUTHORIZED);
     }
     
     // Check result
     if($stmt->get_result()->fetch_assoc()['ok'] != 1) {
-      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
+      db_error($answer, "Unauthorized", ERROR_UNAUTHORIZED);
     }
   }
 
@@ -222,21 +222,27 @@
   /****************************************************************************************************************************
    * Creates an Error message and kills the process
    */
-  function db_error($puffer_answer=null, $info=""){
+  function db_error($puffer_answer=array(), $info="", $err_no=ERROR_GENERAL){
     global $db_link;
+    
     $answer['success'] = false;
-    $answer['err_no'] = ERROR_GENERAL;
+    $answer['err_no'] = $err_no;
+    $answer['err_msg'] = $info;
 
     // THIS IS ONLY FOR DEBUGGING PURPOSE!
     // WE SHOULD NOT GIVE AN SQL-ERROR DESCRIPTION TO A POTENTIAL ATTACKER!
     // WE INSTEAD SEND BACK AN EMPTY ARRAY TO HIDE THE ERROR!
-    if(DEBUG)
-      $answer['err_msg'] = "[$db_link->errno] $db_link->error; $info";
-
+    if(DEBUG) {
+      if($db_link->errno) {
+        $answer['err_sql'] = "[$db_link->errno] $db_link->error";
+      }
+      
+      $answer['err_loc'] = debug_backtrace();
+        
+    }
+    
     die(json_encode($answer));
+    
   }
-
-
-
 
 ?>
