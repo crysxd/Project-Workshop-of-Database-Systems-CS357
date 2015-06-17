@@ -212,7 +212,7 @@ api/1.0/customer/delivery
                         "state": "Shanghai Shi",
                         "country": "China",
                         "lat": 23.3434,
-                        "lang": 23.344
+                        "long": 23.344
                     ]
                 }
         - GET
@@ -269,7 +269,6 @@ api/1.0/customer/address
             - district: The user's district
             - postcode: The user's postal  code
             - city: The user's city
-            - province: The user's province
     - Answer GET:
         {
             "success": true,
@@ -283,7 +282,6 @@ api/1.0/customer/address
             "success": true
         }
     
---------------------------------------------------------------------------------
 api/1.0/customer/info
     - Description:
         Used to receive and set user informations or to create a completely new
@@ -296,7 +294,7 @@ api/1.0/customer/info
     - Parameter:
         - GET:
             - session: The session which is used to update
-            - phone: The user's nick name
+            - user: The user's nick name
         - POST:     
             - first_name: The user's first name
             - sure_name: The user's sure name
@@ -332,16 +330,16 @@ api/1.0/customer/info
             "sure_name": "Guy",
             "ratable_dishes": [
                 {
-                    "id": 0, 
-                    "name": "sksdfh", 
-                    "date": "2015-05-14", 
-                    "restaurant": "Cool Restaurant"
+                    "id": 0,
+                    "restaurant": "A cool Restaurant",
+                    "state": "Processing",
+                    "state_since": "2015-05-14"
                 },
                 {
-                    "id": 1, 
-                    "name": "2sdf", 
-                    "date": "2015-05-13", 
-                    "restaurant": "Cool Restaurant"
+                    "id": 1,
+                    "restaurant": "A cool Restaurant",
+                    "state": "Processing",
+                    "state_since": "2015-05-14"
                 },
             ]
             "ongoing_deliveries": [
