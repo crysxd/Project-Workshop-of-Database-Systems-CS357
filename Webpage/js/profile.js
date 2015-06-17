@@ -20,17 +20,10 @@ $(document).ready(function() {
   /* Load informations from server */
   $.rest.get('api/1.0/customer/info.php', getSession(), function(data) {
     /* Handle errors */
-    if(!data.success) {
-      showErrorOverlay('An Error occured while loading the Page', 
-                       'The page can not be displayed', 
-                       undefined);
-      console.error('An error occured while requesting data from the server:')
-      console.error(data);
+    if(handleError(data)) {
       return;
     }
-    
-    console.log(data);
-    
+
     /* Set information */
     $('.user-nick').html(data.nick);
     $('.user-first-name').html(data.first_name);
@@ -42,6 +35,8 @@ $(document).ready(function() {
       return d.restaurant;
     }, function(d) {
       return d.state + ' (' + d.state_since + ')';
+    }, function(d) {
+      return d.id;
     }, function(d) {
       showDelivery(d.id);
     });
@@ -51,15 +46,19 @@ $(document).ready(function() {
       return d.restaurant;
     }, function(d) {
       return d.state_since;
+    }, function(d) {
+      return d.id;
     }, function(d) {
       showDelivery(d.id);
     });
         
     /* Build list for unrated meals */
-    fillDeliveryList($('#meal-list-ratable'), data.old_deliveries, function(d) {
+    fillDeliveryList($('#meal-list-ratable'), data.ratable_dishes, function(d) {
       return d.name;
     }, function(d) {
       return 'Bought from ' + d.restaurant + ' on ' + d.bought_on;
+    }, function(d) {
+      return d.id;
     }, function(d) {
       rateMeal(d);
     });
@@ -83,7 +82,7 @@ $('#btn-logout').click(function() {
   });
 });
   
-function fillDeliveryList(list, data, titleFunction, subtitleFunction, onclickFunction) {
+function fillDeliveryList(list, data, titleFunction, subtitleFunction, itemFunction, onclickFunction) {
   /* Set ongoing deliveries */
   if(data.length > 0) {
     /* Load template */
@@ -97,6 +96,9 @@ function fillDeliveryList(list, data, titleFunction, subtitleFunction, onclickFu
       /* Duplicate template */
       var e = $(template); 
 
+      /* Set item id */
+      e.attr('item', itemFunction(d));
+      
       /* Set information */
       e.find('.title').html(titleFunction(d));
       e.find('.detail').html(subtitleFunction(d));
@@ -114,7 +116,75 @@ function fillDeliveryList(list, data, titleFunction, subtitleFunction, onclickFu
 }
 
 function showDelivery(id) {
-  alert("Show: " + id);
+  /* Show modal in loading state */
+  $('#delivery-modal').modal('show');
+  $('#delivery-modal .modal-body-loading').show(); 
+  $('#delivery-modal .modal-body-content').hide(); 
+  
+  /* Create params */
+  var params = getSession();
+  params['delivery'] = id;
+  
+  /* Load data */
+  $.rest.get('api/1.0/customer/delivery.php', params, function(data) {
+    /* Handle errors */
+    if(handleError(data)) {
+      $('#delivery-modal').modal('hide');
+      return;
+    }
+    
+    /* Fill in meals and calculate complete delivery value */
+    var completeValue = data.shipping_cost;
+    var list = $('#delivery-modal #delivery-meal-list');
+    var template = list.find('tbody template').html().trim();
+    list.find('tbody').children('.meal').remove();
+    $(data.dishes).each(function(i, d) {
+      /* Build item */
+      var e = $(template);
+      e.find('.meal-id').html(d.id);
+      e.find('.meal-name').html(d.name);
+      e.find('.meal-price').html(d.price);
+      e.find('.meal-amount').html(d.quantity);
+      
+      /* Add price */
+      completeValue += d.price * d.quantity;
+
+      /* Append value */
+      list.find('tbody').append(e);
+      
+    });
+    
+    /* Fill in states */
+    list = $('#delivery-modal #delivery-state-list');
+    template = list.find('tbody template').html().trim();
+    list.find('tbody').children('.state').remove();
+    $(data.states).each(function(i, d) {
+      /* Build item */
+      var e = $(template);
+      e.find('.state-date').html(d.date);
+      e.find('.state-state').html(d.state);
+
+      /* Append value */
+      list.find('tbody').append(e);
+      
+    });
+    
+    /* Fill in information */
+    $('#delivery-modal .delivery-id').html(id);
+    $('#delivery-modal .delivery-restaurant').html(data.restaurant);
+    $('#delivery-modal .delivery-phone').html(data.phone);
+    $('#delivery-modal .delivery-shipping-cost').html(data.shipping_cost);
+    $('#delivery-modal .delivery-value').html(completeValue);
+    $('#delivery-modal .delivery-name').html(data.first_name + ' ' + data.sure_name);
+    $('#delivery-modal .delivery-street').html(data.street);
+    $('#delivery-modal .delivery-postal-code').html(data.postcode);
+    $('#delivery-modal .delivery-city').html(data.city);
+    $('#delivery-modal .delivery-country').html(data.country);
+    
+    /* Change state to normal */
+    $('#delivery-modal .modal-body-loading').hide(); 
+    $('#delivery-modal .modal-body-content').show(); 
+  });
 }
 
 function rateMeal(d) {
@@ -131,10 +201,6 @@ function rateMeal(d) {
   /* Set id */
   $('#rate-modal').attr('meal-id', d.id);
   
-  /* Search and mark list entry */
-  $('#meal-list-ratable .title').parent().attr('is-rated', 'false');
-  $('#meal-list-ratable .title:contains(' + d.name + ')').parent().attr('is-rated', 'true');
-  
 }
 
 $('#meal-modal-save').click(function() {
@@ -143,9 +209,10 @@ $('#meal-modal-save').click(function() {
   $('#rate-modal .modal-body-content').hide(); 
   
   /* Save */
+  var id = $('#rate-modal').attr('meal-id');
   var params = getSession();
   params.rating = $('.rating-input').attr('value');
-  params.meal = $('#rate-modal').attr('meal-id');
+  params.meal = id
   params.comment = $('#rate-modal textarea').val();
   $.rest.put('api/1.0/customer/rate.php', params, function(data) {
     /* Handle errors */
@@ -162,7 +229,7 @@ $('#meal-modal-save').click(function() {
     $('#rate-modal').modal('hide');
     
     /* Remove from list */
-    $('#meal-list-ratable .list-group-item[is-rated="true"]').remove();
+    $('#meal-list-ratable .list-group-item[item="' + id + '"]').remove();
     
   })
 });
