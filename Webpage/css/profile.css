@@ -71,3 +71,15 @@
   background: rgba(0, 0, 0, 0.03);
   cursor: pointer;
 }
+
+dl {
+  margin: 0;
+}
+
+dt:not(:first-child) {
+  margin-top: 10px;
+}
+
+.rating-input {
+  cursor: pointer;
+}

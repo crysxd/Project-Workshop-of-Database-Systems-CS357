@@ -35,7 +35,7 @@
   
   <div id="main-content">
   
-    <h1><span class="user-name">Test</span>'s Profile</h1>
+    <h1><span class="user-nick">undefined</span>'s Profile</h1>
     
     <div class="row">
       
@@ -46,12 +46,15 @@
             <h3 class="panel-title"><span class="glyphicon glyphicon-send"></span> Ongoing Deliveries</h3>
           </div>
           <ul class="list-group">
-            <?php for($i=0; $i<4; $i++) { ?>
-              <li class="list-group-item order">
-                <p class="title">A cool Meal</p>
-                <p class="detail">12:04: Processing</p>
+            <template>
+              <li class="list-group-item">
+                <p class="title">undefined</p>
+                <p class="detail">undefined</p>
               </li>
-            <?php } ?>
+            </template>
+            <li class="list-group-item">
+                <p class="title">No ongoing deliveries</p>
+            </li>
           </ul>
         </section>
       </div>
@@ -64,6 +67,16 @@
             <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> User Information</h3>
           </div>
           <div class="panel-body">
+            <dl>
+              <dt>First Name</dt>
+              <dd class="user-first-name">undefined</dd>
+              <dt>Sur Name</dt>
+              <dd class="user-sure-name">undefined</dd>
+              <dt>Nick Name</dt>
+              <dd class="user-nick">undefined</dd>
+              <dt>Phone</dt>
+              <dd class="user-phone">undefined</dd>
+            </dl>
           </div>
         </section>
 
@@ -74,12 +87,15 @@
             <h3 class="panel-title"><span class="glyphicon glyphicon-star"></span> Unrated Meals</h3>
           </div>
           <ul class="list-group">
-            <?php for($i=0; $i<4; $i++) { ?>
+            <template>
               <li class="list-group-item meal">
-                <p class="title">A cool Meal</p>
-                <p class="detail">A cool Restaurant - 23.5.3334</p>
+                <p class="title">undefined</p>
+                <p class="detail">undefined</p>
               </li>
-            <?php } ?>
+            </template>
+            <li class="list-group-item meal">
+              <p class="title">No ratable meals</p>
+            </li>
           </ul>
         </section>
 
@@ -90,12 +106,15 @@
             <h3 class="panel-title"><span class="glyphicon glyphicon-time"></span> Delivery History</h3>
           </div>
           <ul class="list-group">
-            <?php for($i=0; $i<4; $i++) { ?>
-              <li class="list-group-item order">
-                <p class="title">A cool Restaurant</p>
-                <p class="detail">23.5.3334</p>
+            <template>
+              <li class="list-group-item">
+                <p class="title">undefined</p>
+                <p class="detail">undefined</p>
               </li>
-            <?php } ?>
+            </template>
+            <li class="list-group-item">
+                <p class="title">No completed deliveries</p>
+            </li>
           </ul>
         </section>
       </div>
@@ -116,7 +135,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title">Rate <span class="meal-name"> A cool meal</span></h4>
+            <h4 class="modal-title">Rate <span class="meal-name">undefined</span></h4>
           </div>
           <div class="modal-body">
             
@@ -127,7 +146,13 @@
             <div class="modal-body-content">     
               <div class="form-group">
                 <label>Rating</label>
-                <p class="form-contro">★★★★★</p>
+                <div class="rating-input" value="0">
+                  <span rating="1">★</span>
+                  <span rating="2">☆</span>
+                  <span rating="3">☆</span>
+                  <span rating="4">☆</span>
+                  <span rating="5">☆</span>
+                </div>
               </div>
               <div class="form-group">
                 <label>Comment</label>
