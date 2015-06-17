@@ -107,18 +107,14 @@
       FROM Customer
       WHERE nick = ?";
     
-    // hier fehlt distinct damit meals nicht öfter auftreten
     $stmt_select_ratable_dishes = "
       SELECT m.meal_id_pk id, restaurant, m.name, bought_on from (
  
 		SELECT * from (
-
           SELECT cdds.delivery_id_pk , r.name restaurant, cdds.date_pk bought_on
           FROM (
-
             SELECT d.delivery_id_pk, d.Restaurant_restaurant_id, ds.date_pk, ds.Delivery_State_Type_delivery_status_type type
             FROM (
-
               SELECT customer_id_pk
               FROM Customer
               WHERE nick =  ?
@@ -139,14 +135,11 @@
     $stmt_select_ongoing_deliveries = "
         SELECT * 
         FROM (
-
           SELECT cdds.delivery_id_pk id, r.name restaurant, dst.name state, cdds.date_pk state_since
           FROM (
-
             SELECT d.delivery_id_pk, d.Restaurant_restaurant_id, ds.date_pk, ds.Delivery_State_Type_delivery_status_type
             TYPE 
             FROM (
-
               SELECT customer_id_pk
               FROM Customer
               WHERE nick =  ?
@@ -156,7 +149,6 @@
             WHERE d.delivery_id_pk != ( 
               SELECT d.delivery_id_pk
               FROM (
-
                 SELECT customer_id_pk
                 FROM Customer
                 WHERE nick =  ?
@@ -164,7 +156,6 @@
               INNER JOIN Delivery d ON c.customer_id_pk = d.Customer_customer_id
               INNER JOIN Delivery_State ds ON d.delivery_id_pk = ds.Delivery_delivery_id_pk
               WHERE ds.Delivery_State_Type_delivery_status_type = 4 ) 
-
           )cdds
           INNER JOIN Delivery_State_Type dst ON cdds.type = dst.delivery_status_type_id_pk
           INNER JOIN Restaurant r ON cdds.Restaurant_restaurant_id = r.restaurant_id_pk
@@ -172,17 +163,13 @@
         )cddsr
         GROUP BY cddsr.id
     ";
-
     $stmt_select_old_deliveries = "
         SELECT * 
         FROM (
-
           SELECT cdds.delivery_id_pk id, r.name restaurant, dst.name state, cdds.date_pk state_since
           FROM (
-
             SELECT d.delivery_id_pk, d.Restaurant_restaurant_id, ds.date_pk, ds.Delivery_State_Type_delivery_status_type type
             FROM (
-
               SELECT customer_id_pk
               FROM Customer
               WHERE nick =  ?
