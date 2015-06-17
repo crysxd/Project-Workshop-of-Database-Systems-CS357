@@ -1,0 +1,49 @@
+#main-content {
+  padding: 20px;
+  padding-top: 50px; 
+}
+
+address {
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.order-value-row td {
+    border-top: 3px solid #ddd !important;
+  font-weight: bold;
+}
+
+.table-order tbody td {
+  height: 51px;
+}
+
+.table-order td {
+  vertical-align: middle !important;
+}
+
+/* Item name */
+.table-order td:nth-child(1),
+.table-order th:nth-child(1) {
+  padding-left: 40px;
+}
+
+/* Item price (total) */
+.table-order td:nth-child(4),
+.table-order th:nth-child(4) {
+  text-align: right !important;
+  padding-right: 40px;
+}
+
+/* Item price and amount */
+.table-order td:nth-child(2),
+.table-order th:nth-child(2),
+.table-order td:nth-child(3),
+.table-order th:nth-child(3) {
+  text-align: center;
+}
+
+#success-overlay {
+  background: rgb(0, 212, 255);
+  color: white;
+  text-align: center;
+}

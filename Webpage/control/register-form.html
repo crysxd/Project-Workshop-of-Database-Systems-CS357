@@ -1,0 +1,95 @@
+<link href="register-form.css" rel="stylesheet">
+
+<form id="register-form">
+  <div class="form-group">
+    <label for="register-name">Restaurant Name</label>
+    <input type="text" class="form-control" id="register-name" placeholder="Enter name">
+  </div>
+  <div class="form-group">
+    <label for="register-password">Password</label>
+    <input type="password" class="form-control" id="register-password" placeholder="Enter password">
+    <input type="password" class="form-control" id="register-password-control" placeholder="Enter password again">
+  </div>
+  <div class="form-group">
+    <label for="register-phone">Phone</label>
+    <input type="phone" class="form-control" id="register-phone" placeholder="Enter phone number">
+  </div>
+  <div class="form-group">
+    <label for="register-range">Delivery Range</label>
+    <div class="input-group">
+      <input type="number" class="form-control" id="register-range" placeholder="Enter delivery range">
+      <span class="input-group-addon" id="basic-addon1">meters</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="register-min-value">Minimum Order Value</label>
+    <div class="input-group">
+      <input type="number" class="form-control" id="register-min-value" placeholder="Enter minimum order value">
+      <span class="input-group-addon" id="basic-addon1">元</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="register-shipping-costs">Shipping costs</label>
+    <div class="input-group">
+      <input type="number" class="form-control" id="register-shipping-costs" placeholder="Enter shipping costs">
+      <span class="input-group-addon" id="basic-addon1">元</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Address</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="register-address-search" placeholder="Number, Street, City...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" id="btn-search-address" type="button">Search address</button>
+      </span>
+    </div>   
+  </div>
+  <div class="form-group">
+    <label for="register-description">Description</label>
+    <textarea type="number" class="form-control" id="register-description" placeholder="Description"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="register-icon">Icon</label>
+    <div>
+      <input type="file" id="register-icon" accept="image/x-png">
+      <p class="help-block">The icon should be squarish and have transparent background.</p>
+      <img class="well" id="register-icon-preview" src="../imgs/icon.png">
+    </div>
+  </div>
+  <div id="btn-register-complete" class="btn btn-primary" data-loading-text="Loading...">Save</div>
+  <div id="btn-register-reset" class="btn btn-default">Reset</div>
+</form>   
+
+<!-- Dialog to choose a address -->
+<div id="address-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title meal-name">Choose a address</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="modal-body-loading">
+          <img src="../imgs/loader.gif" alt="Loading...">
+        </div>
+
+        <div class="modal-body-content" id="register-address-list"> 
+          <template>
+            <address class="btn btn-default btn-block">
+              <strong><span class="road"></span></strong><br>
+              <span class="postal_code"></span>&nbsp;<span class="city"></span><br>
+              <span class="state"></span><br>
+              <span class="country"></span>
+            </address>
+          </template>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div id="meal-modal-cancel" class="btn btn-default" data-dismiss="modal">Cancel</div>
+      </div>
+    </div>
+  </div>
+</div><!-- address dialog -->

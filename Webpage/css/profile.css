@@ -1,0 +1,85 @@
+#main-content {
+  padding: 20px;
+  padding-top: 50px;
+}
+
+.panel-collapse .panel-body,
+.panel-collapse .collapse-trigger {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.panel-collapse .panel-heading {
+  cursor: pointer;
+}
+
+.panel-collapsed .panel-body {
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+.panel-collapsed .collapse-trigger {
+  -webkit-transform: rotateZ(180deg);
+  -moz-transform: rotateZ(180deg);
+  -ms-transform: rotateZ(180deg);
+  -o-transform: rotateZ(180deg);
+  transform: rotateZ(180deg);
+}
+
+.collapse-trigger:before {
+    content: "\e114";
+}   
+
+.list-group-item>.title,
+.list-group-item>.detail {
+  margin: 0;
+  padding: 0;
+}
+
+.list-group-item>.title {
+  font-weight: bold;
+}
+
+.modal-body-loading {
+  text-align: center;
+  padding: 50px;
+}
+
+.modal-body-content {
+  display: none;
+  max-height: 500px;
+  overflow-y: auto;
+  margin: -15px;
+  padding: 15px;
+}
+
+.table address {
+  margin: 0;
+}
+
+.modal-body-content .modal-footer {
+  margin: -15px;
+  margin-top: 0;
+}
+
+.list-group li:hover {
+  background: rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+}
+
+dl {
+  margin: 0;
+}
+
+dt:not(:first-child) {
+  margin-top: 10px;
+}
+
+.rating-input {
+  cursor: pointer;
+}
