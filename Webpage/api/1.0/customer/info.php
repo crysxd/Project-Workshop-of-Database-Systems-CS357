@@ -164,7 +164,14 @@
         GROUP BY cddsr.id
     ";
     $stmt_select_old_deliveries = "
+<<<<<<< HEAD
         SELECT * 
+=======
+      SELECT cxd.delivery_id_pk id, cxd.Restaurant_restaurant_id, 'state', ds.date_pk state_since
+      FROM (
+
+        SELECT d.delivery_id_pk, d.Restaurant_restaurant_id
+>>>>>>> a5f54f5e06e0a8809f68e4acf1c937e0b16553d7
         FROM (
           SELECT cdds.delivery_id_pk id, r.name restaurant, dst.name state, cdds.date_pk state_since
           FROM (

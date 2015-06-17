@@ -179,10 +179,10 @@
         INNER JOIN Meal m ON dmm_d.id = m.meal_id_pk";
     
     $stmt_select_states = "
-        SELECT dst.name state, ds.date_pk date
+        SELECT dst.name state, ds.date_pk date, comment
         FROM (
 
-          SELECT Delivery_State_Type_delivery_status_type state_id, date_pk
+          SELECT Delivery_State_Type_delivery_status_type state_id, date_pk, comment
           FROM Delivery_State
           WHERE Delivery_delivery_id_pk = ?
         )ds
