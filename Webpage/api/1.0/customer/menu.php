@@ -164,7 +164,7 @@ $stmt_tag_result = $db_link->prepare("
   if(file_exists($icon_file)) {
     // Store icon as base64
     $answer['icon'] = file_get_contents($icon_file);
-  }   
+  }
 
   $answer['success'] = true;
 
