@@ -205,7 +205,7 @@ api/1.0/customer/delivery
                         {"id": 42, "quantity": 12},
                         {"id": 1337, "quantity": 1},
                     ]
-                    "address": [
+                    "address": {
                         "road": "800 Dong Chuan Lu",
                         "city": "Minghang Qu",
                         "postal_code": "23423",
@@ -332,14 +332,14 @@ api/1.0/customer/info
                 {
                     "id": 0,
                     "restaurant": "A cool Restaurant",
-                    "state": "Processing",
-                    "state_since": "2015-05-14"
+                    "name": "A cool dish",
+                    "bought_on": "2015-05-14"
                 },
                 {
                     "id": 1,
                     "restaurant": "A cool Restaurant",
-                    "state": "Processing",
-                    "state_since": "2015-05-14"
+                    "name": "A cool dish",
+                    "bought_on": "2015-05-14"
                 },
             ]
             "ongoing_deliveries": [
