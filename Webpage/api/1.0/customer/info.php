@@ -2,7 +2,7 @@
 
   // include main database script
   include_once("../db.php");
-
+  include_once("../../../../vendor/autoload.php");
   // open database connection
   db_open();
 
@@ -44,13 +44,32 @@
       $answer['err_no'] = 1003;
       die(json_encode($answer));
     }
-  
+    
+    // builds up the utility for checking the number
+    $phone_number = $_GET['phone'];
+    $phoneNumber = new \libphonenumber\PhoneNumber();
+    $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+    try {
+      // extracts the phone number fragments and saves them into the $phone_number object
+      $phone_number_proto = $phoneUtil->parse($phone_number, "CH", $phoneNumber);
+    } catch (\libphonenumber\NumberParseException $e) {
+      db_error($e);
+    }
+    
+    // checks if phone number is valid
+    if(!($phoneUtil->isValidNumber($phone_number_proto))) {
+      db_error("Phone number is unvalid.");
+    }
+    
+    $region_code = $phoneNumber->getCountryCode();
+    $national_number = $phoneNumber->getNationalNumber();
+    
     // hash password
     $password = hash(PASSWORD_HASH_FUNCTION, $_GET['pw']);
     
     // prepare statement
-    $stmt = $db_link->prepare("INSERT INTO customer(region_code, national_number, last_name, first_name, nick, password) VALUES('+86', ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $_GET['phone'], $_GET['sure_name'], $_GET['first_name'], $_GET['nick'], $password);
+    $stmt = $db_link->prepare("INSERT INTO Customer(region_code, national_number, last_name, first_name, nick, password) VALUES(?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $region_code, $national_number, $_GET['sure_name'], $_GET['first_name'], $_GET['nick'], $password);
     
     
     // execute
