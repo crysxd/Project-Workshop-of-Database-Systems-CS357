@@ -35,7 +35,7 @@
 
     $args_str = array("user", "session");
     $args_put_str = array('restaurant', 'dishes', 'address');
-    $args_address_str = array('road', 'city', 'postal_code', 'country', 'lat', 'long');
+    $args_address_str = array('road', 'city', 'postal_code', 'country', 'lat', 'lng');
     $args_dish_str = array('id', 'quantity');
 
     check_parms_available($args_str); 
@@ -68,11 +68,27 @@
     $answer = array();
 
     $answer['succes'] = true;
+    
+    // check if the distance is ok
+    $stmt_check_distance = "      
+      SELECT COUNT( max_delivery_range > DISTANCE( position_lat, position_long, ?, ? ) ) ok
+      FROM Restaurant
+      WHERE restaurant_id_pk = ?
+      ";
+    
+    if(!($select_check_distance_result = push_stmt($stmt_check_distance, "ddi", 
+              array(&$args['address']['lat'], &$args['address']['lng'],  &$args['restaurant']))))
+      db_error($answer);
+    
+    if($select_check_distance_result->fetch_assoc()['ok'] != 1) {
+      db_error($answer, "Restaurant_id and address does not match in distance");
+    }
+
     //  Statements
     
     // Get customer id with nick $user
     if(!($select_user_id = push_stmt("SELECT customer_id_pk FROM Customer WHERE nick=? AND session_id=?", "ii", 
-          array(&$args['user'], &$args['session']))))
+              array(&$args['user'], &$args['session']))))
       db_error($answer);
     $args['customer_id'] = $select_user_id->fetch_assoc();
 
@@ -85,8 +101,8 @@
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)";
     
     if(!(push_stmt_insert($stmt_insert_delivery, "iissssss", 
-          array(&$args['customer_id'], &$args['restaurant'],  &$args['address']['country'], &$args['address']['postcode'],
-                &$args['address']['city'], &$args['address']['district'], &$args['address']['road'] , &$args['address']['number']))))
+            array(&$args['customer_id'], &$args['restaurant'],  &$args['address']['country'], &$args['address']['postcode'],
+            &$args['address']['city'], &$args['address']['district'], &$args['address']['road'] , &$args['address']['number']))))
       db_error($answer);
     
     // Get the last inserted primary key
