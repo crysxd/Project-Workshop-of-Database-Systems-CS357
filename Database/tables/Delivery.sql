@@ -44,8 +44,10 @@ CREATE TABLE IF NOT EXISTS `Delivery` (
 -- Dumping data for table `Delivery`
 --
 
-INSERT INTO `Delivery` (`delivery_id_pk`, `Customer_customer_id`, `Restaurant_restaurant_id`, `street_number`, `street_name`, `postcode`, `city`, `add_info`, `comment`) VALUES
-(1, 2, 1, '723', 'Dongchuan Road', '200030', 'Shanghai', NULL, NULL);
+INSERT INTO `Delivery` (`delivery_id_pk`, `Customer_customer_id`, `Restaurant_restaurant_id`, `country`, `postcode`, `city`, `district`, `street_name`, `street_number`, `add_info`, `comment`) VALUES
+(1, 2, 1, 'China', '200030',  'Shanghai', 'Minhang', 'Dongchuan Road', '723', NULL, NULL),
+(2, 3, 2, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '654', NULL, NULL),
+(3, 2, 2, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '723', NULL, NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

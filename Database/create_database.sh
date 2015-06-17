@@ -17,9 +17,8 @@ cat ./tables/Delivery_State_Type.sql >> mymeal_database.sql
 cat ./tables/Restaurant.sql >> mymeal_database.sql
 cat ./tables/Customer.sql >> mymeal_database.sql
 cat ./tables/Meal.sql >> mymeal_database.sql
-cat ./tables/Rating.sql >> mymeal_database.sql
 cat ./tables/Meal_Tag_Map.sql >> mymeal_database.sql
 cat ./tables/Delivery.sql >> mymeal_database.sql
 cat ./tables/Delivery_State.sql >> mymeal_database.sql
 cat ./tables/Delivery_Meal_Map.sql >> mymeal_database.sql
-
+cat ./tables/Rating.sql >> mymeal_database.sql
