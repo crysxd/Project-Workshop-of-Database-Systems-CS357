@@ -30,7 +30,7 @@
       INNER JOIN Rating r ON m.meal_id_pk = r.Meal_meal_id_pk";
 
   $stmt_select_data = "
-    SELECT c.nick composer, r.rating, r.comment, r.date
+    SELECT c.nick composer, c.first_name sure_name, c.last_name, r.rating, r.comment, r.date
     FROM Customer c
     INNER JOIN (
 
