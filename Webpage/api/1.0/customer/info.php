@@ -149,6 +149,7 @@
         GROUP BY cddsr.delivery_id_pk) cddsrg 
 		INNER JOIN Delivery_Meal_Map dmm ON cddsrg.delivery_id_pk = dmm.Delivery_delivery_id_pk
 		INNER JOIN Meal m ON dmm.Meal_meal_id_pk = m.meal_id_pk
+        WHERE m.meal_id_pk NOT IN (SELECT Meal_meal_id_pk FROM Rating)
     ";
     
     $stmt_select_ongoing_deliveries = "

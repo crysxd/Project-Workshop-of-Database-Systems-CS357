@@ -170,11 +170,11 @@
     
     //
     $stmt_select_head_info = "
-        SELECT r.name restaurant, CONCAT(  '+', r.region_code, ' ', r.national_number ) phone , r.shipping_cost, CONCAT(d.number,' ' ,d.street) street, d.city, d.postcode
+        SELECT r.name restaurant, CONCAT(  '+', r.region_code, ' ', r.national_number ) phone , r.shipping_cost, CONCAT(d.number,' ' ,d.street) street, d.city, d.postcode, d.country
         FROM Restaurant r
         INNER JOIN (
 
-          SELECT street_number number, street_name street, city, postcode, Restaurant_restaurant_id
+          SELECT country, street_number number, street_name street, city, postcode, Restaurant_restaurant_id
           FROM Delivery
           WHERE delivery_id_pk = ?
         )d ON r.restaurant_id_pk = d.Restaurant_restaurant_id";
@@ -209,11 +209,11 @@
 
     // Processes $stmt_select_head_info statement
     if(!($select_head_info_result = push_stmt($stmt_select_head_info, "i", array(&$delivery))))
-      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
+      db_error();
     
     if(!(add_answer($answer, $select_head_info_result, 
-                    array('restaurant', 'phone', 'shipping_cost', 'street', 'city', 'postcode'))))
-      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
+                    array('restaurant', 'phone', 'shipping_cost', 'street', 'city', 'postcode', 'country'))))
+      db_error();
     
     
     // Processes $stmt_select_dishes statement
@@ -222,7 +222,7 @@
     $answer['dishes'] = array();
     
     if(!($select_dishes_result = push_stmt($stmt_select_dishes, "i", array(&$delivery))))
-      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
+      db_error();
 
     while($select_dishes_result && ($fetched_select_dishes_row = $select_dishes_result->fetch_assoc()))
       $answer['dishes'][] = $fetched_select_dishes_row;  
@@ -233,7 +233,7 @@
     $answer['states'] = array();
       
     if(!($select_states_result = push_stmt($stmt_select_states, "i", array(&$delivery))))
-      db_error($answer, "In file " . __FILE__ ." in line " . __LINE__ );
+      db_error();
 
     while($select_states_result && ($fetched_select_states_row = $select_states_result->fetch_assoc()))
       $answer['states'][] = $fetched_select_states_row;
