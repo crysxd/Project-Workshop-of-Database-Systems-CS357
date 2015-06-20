@@ -315,14 +315,19 @@
    * Creates an Error message and kills the process
    */
   function save_image_from_input($dest_path) {
+    // Create parent file if it does not exist
+    if(!file_exists(dirname($dest_path))) {
+      mkdir(dirname($dest_path), null, true);
+    }
+    
     // Open files
-    $dest = fopen($dest_path, "w");
+    $dest = fopen($dest_path, "w+");
     $src = fopen("php://input", "r");
    
     if(!$dest) {
-      db_error(array(), "Unable to open output file: \"$file_path\"");
+      db_error(array(), "Unable to open output file: \"$dest_path\"");
     }
-    if(!$dest) {
+    if(!$src) {
       db_error(array(), "Unable to open input file");
     }
     
