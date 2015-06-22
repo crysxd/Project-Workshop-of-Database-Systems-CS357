@@ -18,7 +18,7 @@
       INNER JOIN (
         SELECT Meal.Restaurant_restaurant_id, AVG( Rating.rating ) avg_rating, COUNT( Rating.rating ) rating_count
         FROM Meal
-        INNER JOIN Rating ON Meal.meal_id_pk = Rating.Meal_meal_id_pk
+        LEFT JOIN Rating ON Meal.meal_id_pk = Rating.Meal_meal_id_pk
         GROUP BY Meal.Restaurant_restaurant_id
       ) Meal_j_Rating
       ON r.restaurant_id_pk = Meal_j_Rating.Restaurant_restaurant_id

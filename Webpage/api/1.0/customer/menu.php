@@ -32,7 +32,7 @@
       INNER JOIN (
         SELECT Meal.meal_id_pk, Meal.Restaurant_restaurant_id, AVG( Rating.rating ) avg_rating, COUNT( Rating.rating ) rating_count
         FROM Meal
-        INNER JOIN Rating ON Meal.meal_id_pk = Rating.Meal_meal_id_pk
+        LEFT JOIN Rating ON Meal.meal_id_pk = Rating.Meal_meal_id_pk
         WHERE Meal.Restaurant_restaurant_id = ?
         GROUP BY Meal.Restaurant_restaurant_id
       ) Meal_j_Rating
@@ -76,7 +76,7 @@
   $stmt_meal = "
       SELECT Meal.meal_id_pk meal_id, Meal.name name, Meal.price price, Meal.spiciness spicy, AVG( Rating.rating ) avg_rating, COUNT( Rating.rating ) rating_count
       FROM Meal
-      INNER JOIN Rating ON Meal.meal_id_pk = Rating.Meal_meal_id_pk
+      LEFT JOIN Rating ON Meal.meal_id_pk = Rating.Meal_meal_id_pk
       WHERE Meal.offered = 1 && Meal.Restaurant_restaurant_id = ? && Meal.name LIKE ?
       GROUP BY Meal.meal_id_pk
       ORDER BY $order $ascOrDesc 
