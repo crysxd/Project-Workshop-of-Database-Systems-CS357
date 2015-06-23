@@ -98,26 +98,20 @@ $('.btn-complete-order').click(function() {
       /* Iterate over cart items */
       $(cartContent.rows).each(function(i, d) {
         /* Push item to array */
-        put.dishes.push({id: d.id, amount: d.amount});
+        put.dishes.push({id: d.id, quantity : d.amount});
 
       });
 
       /* Place the order */
-      console.log(put);
-      $.rest.put('api/1.0/customer/delivery.php', session, function(result) {
+      $.rest.put('api/1.0/customer/delivery.php', session, function(data) {
         /* Handle errors */
-        if(!result.success) {
-          showErrorOverlay('An Error occured while placing the Order', 
-                           'Your order was not successfull, please try again', 
-                           undefined);
-          hideLoadingOverlay();
-          console.error('An error occured while requesting data from the server:')
-          console.error(result);
+        if(handleError(data)) {
           return;
         }
 
         /* Show confirmation, will forward user to profile */
-        showOverlay($('#success-overlay'));
+        showOverlay($('#success-overlay'), hideLoadingOverlay);
+        
         
       }, put);
     });
