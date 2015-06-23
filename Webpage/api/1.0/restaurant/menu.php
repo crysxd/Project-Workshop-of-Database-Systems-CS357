@@ -13,7 +13,7 @@
   check_restaurant_session($_GET['id'], $_GET['session']);
 
   // Prepare statement 
-  $stmt = $db_link->prepare("SELECT meal_id_pk AS id, name FROM meal WHERE restaurant_restaurant_id = ?");
+  $stmt = $db_link->prepare("SELECT meal_id_pk AS id, name FROM meal WHERE restaurant_restaurant_id = ? AND offered = 1");
 
   // Check, Bind, Execute and get result
   if(!$stmt || !$stmt->bind_param("i", $_GET['id']) || !$stmt->execute() || !$result=$stmt->get_result()) {

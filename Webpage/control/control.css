@@ -92,8 +92,3 @@ body {
 .btn:active {
   outline: none;
 }
-
-
-textarea {
-  max-width: 100%;
-}

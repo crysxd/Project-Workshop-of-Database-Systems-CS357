@@ -35,6 +35,7 @@
     <link rel="import" href="restaurant-delivery-info.html">
     <link rel="import" href="restaurant-delivery-list.html">
     <link rel="import" href="restaurant-menu-list.html">
+    <link rel="import" href="restaurant-meal-info.html">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -100,79 +101,6 @@
         
       </div>
     </div><!-- Main Container -->
-    
-    <!-- Dialog to display a meal -->
-    <div id="meal-modal" class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 class="modal-title meal-name">Add a new meal</h4>
-          </div>
-          <div class="modal-body">
-            
-            <div class="modal-body-loading">
-              <img src="../imgs/loader.gif" alt="Loading...">
-            </div>
-            
-            <div class="modal-body-content"> 
-              <form>
-                <div class="form-group">
-                  <label for="meal-modal-title">Title</label>
-                  <input type="text" class="form-control" id="meal-modal-title" placeholder="Enter title">
-                </div>
-                <div class="form-group">
-                  <label for="meal-modal-title">Price</label>
-                  <div class="input-group">
-                    <input type="number" class="form-control" id="meal-modal-price" placeholder="Enter price">
-                    <span class="input-group-addon" id="basic-addon1">元</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="meal-modal-description">Description</label>
-                  <textarea class="form-control" id="meal-modal-description" placeholder="Enter description"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="meal-modal-spiciness">Spiciness Level</label>
-                  <select class="form-control" id="meal-modal-spiciness">
-                    <option value="0">Not spicy</option>
-                    <option value="1">Minimal hot</option>
-                    <option value="2">Hot</option>
-                    <option value="3">Very hot</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="meal-modal-tags">Tags</label>
-                  <div id="meal-modal-tags" class="row">
-                    <div class="col-xs-3">
-                      <input  type="checkbox" id="meal-modal-price" > Vegan
-                    </div>
-                    <div class="col-xs-3">
-                      <input  type="checkbox" id="meal-modal-price" > Vegetarian
-                    </div>
-                    <div class="col-xs-3">
-                      <input  type="checkbox" id="meal-modal-price" > Pork
-                    </div>
-                    <div class="col-xs-3">
-                      <input  type="checkbox" id="meal-modal-price" > Vegan
-                    </div>
-                    <div class="col-xs-3">
-                      <input  type="checkbox" id="meal-modal-price" > Vegan
-                    </div>
-                  </div>
-                </div>
-              </form>
-              <div class="modal-footer">
-                <div id="meal-modal-cancel" class="btn btn-default" data-dismiss="modal">Cancel</div>
-                <div id="meal-modal-save" class="btn btn-primary">Save</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div><!-- meal dialog -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -182,28 +110,6 @@
     <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
     <script>
       $('.navbar-brand').html(JSON.parse(localStorage.getItem('restaurantSession')).name);
-      
-      $('.table-orders .order').click(function() {
-        $('#order-modal').modal('show'); 
-        window.setTimeout(function() {
-          $('#order-modal .modal-body-loading').hide(); 
-          $('#order-modal .modal-body-content').show(); 
-        }, 500);
-      });
-      $('#btn-new-meal').click(function() {
-        $('#meal-modal').modal('show'); 
-        window.setTimeout(function() {
-          $('#meal-modal .modal-body-loading').hide(); 
-          $('#meal-modal .modal-body-content').show(); 
-        }, 500);
-      });
-      $('#btn-search-address').click(function() {
-        $('#address-modal').modal('show'); 
-        window.setTimeout(function() {
-          $('#address-modal .modal-body-loading').hide(); 
-          $('#address-modal .modal-body-content').show(); 
-        }, 500);
-      });
     </script>
   </body>
 </html>
