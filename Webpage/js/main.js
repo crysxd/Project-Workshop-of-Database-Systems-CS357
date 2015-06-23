@@ -340,3 +340,31 @@ function getUrlParam(name){
     
   }
 }
+
+/* Default handler for REST errors. Returns true if there was an error, false otherwise */
+function handleError(data) {
+  /* Handle errors */
+  if(!data.success) {
+    var action = undefined;
+    var title = 'An Error occured while loading the Page';
+    var message = 'The page can not be displayed';
+    
+    /* If the user was unauthorized, log out */
+    if(data.err_no == 1) {
+      deleteSession();
+      action = 'leaveTo("index.php")';
+      title = 'Login invalid'
+      message = 'Your login seems to be invalid. Please login again.'
+    }
+    
+    /* Show error message*/
+    showErrorOverlay(title, message, undefined, action);
+    
+    /* Log error */
+    console.error('An error occured while requesting data from the server:')
+    console.error(data);
+    
+    /* Return true to signal there was an error */
+    return true;
+  }
+}

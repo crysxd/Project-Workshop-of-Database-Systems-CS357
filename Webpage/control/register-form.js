@@ -19,7 +19,7 @@ $('#btn-register-complete').click(function() {
   params.phone = $('#register-phone').val();
   params.min_order_value = $('#register-min-value').val();
   params.max_delivery_range = $('#register-range').val();
-  params.shipping_costs = $('#register-shipping-costs').val();
+  params.shipping_cost = $('#register-shipping-costs').val();
   params.description = $('#register-description').val();
   var icon = $('#register-icon-preview').attr('src');  
   var address = $('#register-address-search').attr('result');
