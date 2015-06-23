@@ -21,8 +21,8 @@ $('#btn-login-complete').click(function() {
     
     /* Everything is ok, save session */
     delete data.success;
-    localStorage.setItem('restaurantSession', JSON.stringify(data));
-    
+    utils.setSession(data);
+        
     /* Forward */
     window.location.href = 'control.html';
     

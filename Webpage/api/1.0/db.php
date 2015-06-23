@@ -27,6 +27,10 @@
       echo $db_link->connect_error;
       die();
     }
+    
+    // Set return type to JSON
+    header('Content-Type: application/json');
+  
   }
 
   /****************************************************************************************************************************

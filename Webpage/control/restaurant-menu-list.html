@@ -1,0 +1,55 @@
+<dom-module id="restaurant-menu-list">
+
+  <template>
+    
+    <iron-ajax id="ajax" on-response="_ajaxDone" handle-as="json"></iron-ajax>
+    <iron-ajax id="ajaxState" on-response="_stateChanged" handle-as="json"></iron-ajax>
+
+    <restaurant-delivery-info id="info"></restaurant-delivery-info>
+    
+    <div class="form-inline padded pull-right">
+      <div class="form-group">
+        <div id="btn-new-meal" class="btn btn-success">
+          <span class="glyphicon glyphicon-plus">&nbsp;</span>Add meal
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for meal...">
+          <span class="input-group-btn">
+            <button id="btn-search" class="btn btn-default" type="button">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr><th>Meal</th></tr>
+      </thead>
+      <tbody>
+        <template>
+          <tr class="row meal"><td></td></tr>
+        </template>
+      </tbody>
+    </table>
+    
+  </template>
+
+  <script>
+    var restaurantDeliveryListInstances = new Array();
+
+    Polymer({
+      is: 'restaurant-menu-list',
+      ready: function() {
+
+      }
+    });
+  </script>
+  
+  <style>
+
+  </style>
+
+</dom-module>

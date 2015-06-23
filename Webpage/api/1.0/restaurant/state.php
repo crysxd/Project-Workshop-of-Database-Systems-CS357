@@ -58,16 +58,34 @@
 
   // execute
   $result = $stmt_insert->execute();
-
-  // if an error occured while performing the query
+  
+  // Handle error
   if(!$result) {
-    db_error($answer);
-
-  } else {
-    $answer['success'] = true;
-    
+    db_error();
   }
-    
+
+  // get data
+  $stmt = $db_link->prepare("SELECT d.delivery_id_pk AS id, s.since, s.state, st.name AS state_name, c.nick AS customer
+                             FROM delivery as d
+                             INNER JOIN restaurant AS r ON r.restaurant_id_pk = d.restaurant_restaurant_id
+                             INNER JOIN (
+                                  SELECT max(date_pk) AS since, max(delivery_state_type_delivery_status_type) AS state, 
+                                          delivery_delivery_id_pk
+                                  FROM delivery_state
+                                  GROUP BY delivery_delivery_id_pk
+                                 ) AS s ON d.delivery_id_pk = s.delivery_delivery_id_pk
+                              INNER JOIN delivery_state_type AS st ON st.delivery_status_type_id_pk = s.state
+                              INNER JOIN customer AS c ON d.customer_customer_id = c.customer_id_pk
+                              WHERE d.delivery_id_pk = ?");
+
+  // Bind and execute
+  if(!$stmt || !$stmt->bind_param("i", $_GET['delivery']) || !$stmt->execute() || !$result=$stmt->get_result()) {
+    db_error();
+  }
+
+  $answer = $result->fetch_assoc();
+  $answer['success'] = true;
+  
   // Encode answer as json and print aka send
   echo json_encode($answer);
 

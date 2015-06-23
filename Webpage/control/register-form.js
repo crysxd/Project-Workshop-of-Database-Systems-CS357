@@ -79,7 +79,7 @@ $('#btn-register-complete').click(function() {
     
     /* Save session */
     delete data.success;
-    localStorage.setItem('restaurantSession', JSON.stringify(data));
+    session.setSession(data);
     
     /* Tell user his id */
     alert('Your restaurant ID is: ' + data.id + '\nYou need this id to login!');
@@ -172,12 +172,6 @@ $('#btn-search-address').click(function() {
     $('#address-modal .modal-body-content').show();
   
   });
-});
-
-/* Click handler for registerreset button */
-$('#btn-register-reset').click(function() {
-    alert("reset");
-
 });
 
 /* Hide hanler for popovers for inputs in login/register forms */
