@@ -230,6 +230,13 @@
       }
     }
     
+    // Update image if supplied
+    $input = file_get_contents('php://input');
+    if($input) {
+      $file = get_meal_image_file_name($_GET['dish']);
+      save_image_from_input($file);
+    }
+    
     // send answer
     echo json_encode(array("success" => true, "dish" => $_GET['dish']));
   
