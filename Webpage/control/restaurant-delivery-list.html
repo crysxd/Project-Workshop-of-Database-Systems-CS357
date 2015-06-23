@@ -29,7 +29,8 @@
       properties: { 
         state: Number,
         refresh: Number,
-        next: String
+        next: String,
+        auto: Number
       },
       ready: function() {
         this.refreshList();
@@ -39,8 +40,18 @@
           restaurantDeliveryListInstances.push({state: this.state, instance: this});
         }
         
+        /* Setup auto refresh */
+        if(this.auto != undefined) {
+          var _this = this;
+          window.setInterval(function() { _this.refreshList(_this) }, this.auto*1000);
+        }
+        
       },
-      refreshList: function() {
+      refreshList: function(_this) {
+        if(_this == undefined) {
+          _this = this;
+        }
+        
         /* Generate param set */
         var params = utils.getSession();
         params.state = this.state;
@@ -68,7 +79,7 @@
       },
       _stateChanged: function(request) {
         var result = request.detail.response;
-        console.log(result);
+
         /* Handle possible errors */
         if(utils.handleError(result)) {
           return;
@@ -149,29 +160,29 @@
   </script>
   
   <style>
-    table td {
+    restaurant-delivery-list table td {
       height: 50px;
     }
     
-    table th:nth-child(1),
-    table td:nth-child(1) {
+    restaurant-delivery-list table th:nth-child(1),
+    restaurant-delivery-list table td:nth-child(1) {
       width: 15%;
       font-weight: bold;
       text-align: right;
     }
 
-    table th:nth-child(2),
-    table td:nth-child(2) {  
+    restaurant-delivery-list table th:nth-child(2),
+    restaurant-delivery-list table td:nth-child(2) {  
       width: 25%;
     }
 
-    table th:nth-child(3),
-    table td:nth-child(3) {  
+    restaurant-delivery-list table th:nth-child(3),
+    restaurant-delivery-list table td:nth-child(3) {  
       width: 20%;
     }
 
-    table th:nth-child(4),
-    table td:nth-child(4) { 
+    restaurant-delivery-list table th:nth-child(4),
+    restaurant-delivery-list table td:nth-child(4) { 
       width: 40%;
     }
   </style>
