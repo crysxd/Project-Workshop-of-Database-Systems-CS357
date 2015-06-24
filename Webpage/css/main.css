@@ -249,7 +249,7 @@ body {
   right: -40px; /* Position right outside the view port. Will be relocated in responsive media */
 }
 
-#top-menu>#logo {
+#top-menu #logo {
   height: 100%; /* Match menu bar height */
 }
 

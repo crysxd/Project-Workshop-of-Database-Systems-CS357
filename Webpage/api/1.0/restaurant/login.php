@@ -13,46 +13,45 @@
 
   // Prepare Statements
   $stmt = $db_link->prepare("SELECT COUNT(*) AS ok, name FROM restaurant WHERE restaurant_id_pk=? AND password=?");
-  $stmt->bind_param("ss", $user, $pw);
+  
+  if(!$stmt) {db_error();}
 
   // assure query parameters are clean and set parameters
   $user = $_GET['id'];
   $pw = hash(PASSWORD_HASH_FUNCTION, $_GET['pw']);
 
   // Execute queries
-  $result = $stmt->execute();
-  $result = $stmt->get_result();
+  if(!$stmt) {
+    db_error();
+  }
 
-  // if an error occured while performing the query
-  if($db_link->errno || !$stmt || !$result) {
-    // set fields for array
-    $answer['success'] = false;
-    $answer['err_no'] = ERROR_GENERAL;
+  if(!$stmt->bind_param("ss", $user, $pw)) {
+    db_error();
+  }
+  if(!$stmt->execute()) {
+    db_error();
+  }
+  if(!$result = $stmt->get_result()) {
+    db_error();
+  }
 
-    // THIS IS ONLY FOR DEBUGGING PURPOSE!
-    // WE SHOULD NOT GIVE AN SQL-ERROR DESCRIPTION TO A POTENTIAL ATTACKER!
-    // WE INSTEAD SEND BACK AN EMPTY ARRAY TO HIDE THE ERROR!
-    $answer['err_msg'] = "[$db_link->errno] $db_link->error";
+  $result = $result->fetch_assoc();
+  if($result['ok'] == 1) {
+    // Login successful
+    $answer['success'] = true;
+    $answer['name'] = $result['name'];
+
+    // Log in
+    $answer['session'] = start_restaurant_session($_GET['id']);
+
+    // Query id
+    $answer['id'] = $_GET['id'];
 
   } else {
-    $result = $result->fetch_assoc();
-    if($result['ok'] == 1) {
-      // Login successful
-      $answer['success'] = true;
-      $answer['name'] = $result['name'];
-      
-      // Log in
-      $answer['session'] = start_restaurant_session($_GET['id']);
-      
-      // Query id
-      $answer['id'] = $_GET['id'];
-      
-    } else {
-      // Login unsuccessful
-      $answer['success'] = false;
-      $answer['err_no'] = ERROR_GENERAL;
-      
-    }
+    // Login unsuccessful
+    $answer['success'] = false;
+    $answer['err_no'] = ERROR_UNAUTHORIZED;
+
   }
 
   // Encode answer as json and print aka send

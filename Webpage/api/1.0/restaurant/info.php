@@ -31,58 +31,38 @@
     global $db_link;
     
     // assure all required parameters are available, will die if not all are available
-    check_parms_available(array("name", "min_order_value", "shipping_costs", "max_delivery_range", 
+    check_parms_available(array("name", "min_order_value", "shipping_cost", "max_delivery_range", 
                                 "street", "postcode", "phone", "city", "country", "position_lat", "position_long",
                                 "pw", "description"));
-        
-    // create answer array
-    $answer = array();
-    $answer['success'] = false;
-
+    
     // Check if params are sufficient
     // Password should have at least 6 characters
     if(strlen($_GET['pw']) < 6) {
-      $answer['err_no'] = 1003;
-      die(json_encode($answer));
+        $answer = array();
+        $answer['err_no'] = 1003;
+        $answer['success'] = false;
     }
-  
-    // hash password
-    $password = hash(PASSWORD_HASH_FUNCTION, $_GET['pw']);
     
-    // prepare statement
+    // prepare insert empty
+    $u = "undefined";
     $stmt = $db_link->prepare("INSERT INTO restaurant(region_code, min_order_value, shipping_cost, max_delivery_range, name,".
                               "street_name, postcode, national_number, city, country, position_lat, position_long, password,".
-                              "description) VALUES('+86', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    
-    // If preperation failed
-    if(!$stmt) {
+                              "description, offered) ".
+                              "VALUES('+86', 0, 0, 0, '$u', '$u', '$u', '$u', '$u', '$u', 0, 0, 0, '$u', 0)");
+
+    // insert empty
+    if(!$stmt || !$stmt->execute()) {
       db_error();
     }
+        
+    // inject id in $_GET
+    $_GET['id'] = $db_link->insert_id;
     
-    // Bind parameters
-    $stmt->bind_param("iiissssssssss", $_GET['min_order_value'], $_GET['shipping_costs'], $_GET['max_delivery_range'],
-                      $_GET['name'], $_GET['street'], $_GET['postcode'], $_GET['phone'], $_GET['city'], $_GET['country'],
-                      $_GET['position_lat'], $_GET['position_long'], $password, $_GET['description']);
+    // start session and inject in $_GET
+    $_GET['session'] = start_restaurant_session($_GET['id']);
     
-    // execute
-    if(!$stmt->execute()) {
-      db_error();
-      
-    } else {
-      $id =  $db_link->insert_id;
-      $answer['success'] = true;
-      $answer['id'] = $id;
-      $answer['session'] = start_restaurant_session($id);
-      $answer['name'] = $_GET['name'];
-            
-      // Get path and copy
-      $file = get_restaurant_icon_file_name($id);
-      save_image_from_input($file);
-            
-    }
-    
-    // Encode answer as json and print aka send
-    echo json_encode($answer);
+    // call post to update the stub
+    rest_post();
     
   }
         
@@ -90,11 +70,80 @@
    * Handles put requests
    */     
   function rest_post() {
+    global $db_link;
+    
+    // assure all required parameters are available, will die if not all are available
+    check_parms_available(array("name", "min_order_value", "shipping_cost", "max_delivery_range", 
+                                "street", "postcode", "phone", "city", "country", "position_lat", "position_long",
+                                "description", "id", "session"));
+    
+    // assure user is logged in
+    check_restaurant_session($_GET['id'], $_GET['session']);  
+    
     // create answer array
-    $answer = array("success" => false, "err_no" => ERROR_GENERAL, "err_msg" => "Not implemented");
-       
+    $answer = array();
+    $answer['success'] = false;
+
+    // prepare statement
+    $stmt = $db_link->prepare("UPDATE restaurant ".
+                              "SET region_code = '+86', min_order_value = ?, shipping_cost = ?, max_delivery_range = ?, ".
+                              "name = ?, street_name = ?, postcode = ?, national_number = ?, city = ?, country = ?, ".
+                              "position_lat = ?, position_long = ?, description = ?, offered = 1 ".
+                              "WHERE restaurant_id_pk = ?");
+    
+    // If preperation failed
+    if(!$stmt) {
+      db_error();
+    }
+    
+    // Bind parameters
+    $bind = $stmt->bind_param("iiissssssiisi", $_GET['min_order_value'], $_GET['shipping_cost'], $_GET['max_delivery_range'],
+                              $_GET['name'], $_GET['street'], $_GET['postcode'], $_GET['phone'], $_GET['city'], $_GET['country'],
+                              $_GET['position_lat'], $_GET['position_long'], $_GET['description'], $_GET['id']);
+    
+    // execute
+    if(!$bind || !$stmt->execute()) {
+      db_error();
+      
+    } else {
+      $answer['success'] = true;
+      $answer['id'] = $_GET['id'];
+      $answer['session'] = $_GET['session'];
+      $answer['name'] = $_GET['name'];
+            
+      // Get path and copy
+      $file = get_restaurant_icon_file_name($_GET['id']);
+      save_image_from_input($file);
+            
+    }
+    
+        
+    // if a new password is supplied, update it
+    if(array_key_exists('pw', $_GET)) {
+      // Check if params are sufficient
+      // Password should have at least 6 characters
+      if(strlen($_GET['pw']) < 6) {
+        $answer = array();
+        $answer['err_no'] = 1003;
+        $answer['success'] = false;
+        die(json_encode($answer));
+      }
+      
+      // hash password
+      $password = hash(PASSWORD_HASH_FUNCTION, $_GET['pw']);
+      
+      //prepare
+      $stmt = $db_link->prepare("UPDATE restaurant SET password = ? WHERE restaurant_id_pk = ?");
+      
+      // bind, execute and fetch result
+      if(!$stmt || !$stmt->bind_param("si", $password, $_GET['id']) || !$stmt->execute()) {
+        db_error();
+      }
+    }
+    
     // Encode answer as json and print aka send
     echo json_encode($answer);
+
   }
         
   /****************************************************************************************************************************

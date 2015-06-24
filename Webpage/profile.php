@@ -170,14 +170,14 @@
     </div><!-- rate dialog-->
     
     <!-- Dialog for displaying deliveries -->
-    <div id="order-modal" class="modal fade">
+    <div id="delivery-modal" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title">Order <span class="order-id">324342</span></h4>
+            <h4 class="modal-title">Order #<span class="delivery-id">undefined</span></h4>
           </div>
           <div class="modal-body">
             
@@ -192,18 +192,19 @@
                   <tr><th>Position</th><th>Value</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td>Restaurant</td><td>A cool Restaurant</td></tr>
-                  <tr><td>Shipping costs</td><td>23</td></tr>
-                  <tr><td>Order value</td><td>324</td></tr>
-                  <tr><td>Contact phone</td><td>130 2342 2342</td></tr>
+                  <tr><td>Restaurant</td><td class="delivery-restaurant">undefined</td></tr>
+                  <tr><td>Shipping costs</td><td><span class="delivery-shipping-cost">undefined</span>元</td></tr>
+                  <tr><td>Order value</td><td><span class="delivery-value">undefined</span>元</td></tr>
+                  <tr><td>Contact phone</td><td class="delivery-phone">undefined</td></tr>
                   <tr>
                     <td>Address</td>
                     <td>
                       <address>
-                        Christian Würthner<br>
-                        800 Dongchuan Lu<br>
-                        Minhang Qu<br>
-                        20123 Shanghai Shi
+                        <span class="delivery-name">undefined</span><br>
+                        <span class="delivery-street">undefined</span><br>
+                        <span class="delivery-postal-code">undefined</span>&nbsp;
+                        <span class="delivery-city">undefined</span><br>
+                        <span class="delivery-country">undefined</span>
                       </address>
                     </td>
                   </tr>
@@ -211,25 +212,34 @@
               </table>
               
               <h4>Items</h4>
-              <table class="table table-striped table-bordered">
+              <table id="delivery-meal-list" class="table table-striped table-bordered">
                 <thead>
                   <tr><th>#</th><th>Name</th><th>Price</th><th>Amount</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td>32423</td><td>A cool meal</td><td>34</td><td>1</td></tr>
+                  <template>
+                    <tr class="meal">
+                      <td class="meal-id">undefined</td>
+                      <td class="meal-name">undefined</td>
+                      <td><span class="meal-price">undefined</span>元</td>
+                      <td class="meal-amount">undefined</td>
+                    </tr>
+                  </template>
                 </tbody>
               </table>
               
               <h4>Log</h4>
-              <table class="table table-striped table-bordered">
+              <table id="delivery-state-list" class="table table-striped table-bordered">
                 <thead>
                   <tr><th>Position</th><th>Value</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td>2015-05-29 12:50</td><td>Pending</td></tr>
-                  <tr><td>2015-05-29 13:03</td><td>Processing</td></tr>
-                  <tr><td>2015-05-29 13:12</td><td>On Road</td></tr>
-                  <tr><td>2015-05-29 13:21</td><td>Delivered</td></tr>
+                  <template>
+                    <tr class="state">
+                      <td class="state-date">undefined</td>
+                      <td class="state-state">undefined</td>
+                    </tr>
+                  </template>
                 </tbody>
               </table>
             </div>
