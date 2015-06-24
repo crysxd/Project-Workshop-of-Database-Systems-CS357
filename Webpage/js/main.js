@@ -116,6 +116,7 @@ $('#register-complete-button').click(function() {
   var phone2 = $('#task-register #form-phone-control').val();
   params.first_name = $('#task-register #form-first-name').val();
   params.sure_name = $('#task-register #form-sure-name').val();
+  params.email = $('#task-register #form-email').val();
   
   /* Check that there is data in all fields */
   var emptyFields = $('#task-register input').filter(function(){ return !this.value });

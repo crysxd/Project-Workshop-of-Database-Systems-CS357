@@ -31,7 +31,7 @@
     global $db_link;
     
     // assure all required parameters are available, will die if not all are available
-    check_parms_available(array("first_name", "sure_name", "pw", "nick", "phone"));
+    check_parms_available(array("first_name", "sure_name", "pw", "nick", "phone", "email"));
         
     // create answer array
     $answer = array();
@@ -68,8 +68,8 @@
     $password = hash(PASSWORD_HASH_FUNCTION, $_GET['pw']);
     
     // prepare statement
-    $stmt = $db_link->prepare("INSERT INTO Customer(region_code, national_number, last_name, first_name, nick, password) VALUES(?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $region_code, $national_number, $_GET['sure_name'], $_GET['first_name'], $_GET['nick'], $password);
+    $stmt = $db_link->prepare("INSERT INTO Customer(region_code, national_number, last_name, first_name, nick, password, email) VALUES(?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssss", $region_code, $national_number, $_GET['sure_name'], $_GET['first_name'], $_GET['nick'], $password, $_GET['email']);
     
     
     // execute
@@ -122,7 +122,7 @@
     check_customer_session($args['user'], $args['session']);
     
     $stmt_select_user="
-      SELECT nick, CONCAT(  '+', region_code,  ' ', national_number ) phone, first_name, last_name sure_name
+      SELECT nick, CONCAT(  '+', region_code,  ' ', national_number ) phone, first_name, last_name sure_name, email
       FROM Customer
       WHERE nick = ?";
     
@@ -186,7 +186,7 @@
       db_error($answer);
     
     if(!(add_answer($answer, $select_user_result, 
-                    array('nick', 'phone', 'first_name', 'first_name', 'sure_name'))))
+                    array('nick', 'phone', 'first_name', 'first_name', 'sure_name', 'email'))))
       db_error($answer);
     
     $answer['ratable_dishes'] = array();

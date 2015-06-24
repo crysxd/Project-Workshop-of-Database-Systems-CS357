@@ -29,6 +29,7 @@ $(document).ready(function() {
     $('.user-first-name').html(data.first_name);
     $('.user-sure-name').html(data.sure_name);
     $('.user-phone').html(data.phone);
+    $('.user-email').html(data.email);
     
     /* Build lists for ongoing deliveries */
     fillDeliveryList($('#order-list-ongoing'), data.ongoing_deliveries, function(d) {

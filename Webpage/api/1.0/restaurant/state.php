@@ -85,6 +85,23 @@
 
   $answer = $result->fetch_assoc();
   $answer['success'] = true;
+
+
+  // fetch user email
+  $stmt_email = $db_link->prepare("SELECT email FROM customer WHERE nick = ?");
+
+  // check, bind and execute. Do not handle errors, as this would not be any kind of an critical error
+  if($stmt && !$stmt->bind_param("s", $answer['nick']) && $stmt->execute() && $result=$stmt->get_result()) {
+    // get email and notify user
+    $email = $result->fetch_assoc()['email'];
+    mail($email,
+         "#{$answer['id']}: Status is now \"{$answer['state_name']}\"", 
+         "Hey there,
+          your order has been updated and the current status is now \"{$answer['state_name']}\"
+          
+          Your my-meal.com team",
+         "From: hello@my-meal.com <my-meal.com Team>");
+  }
   
   // Encode answer as json and print aka send
   echo json_encode($answer);
