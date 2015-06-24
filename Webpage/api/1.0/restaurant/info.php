@@ -150,9 +150,30 @@
    * Handles get requests
    */     
   function rest_get() {
-    // create answer array
-    $answer = array("success" => false, "err_no" => ERROR_GENERAL, "err_msg" => "Not implemented");
-       
+    global $db_link;
+    
+    // Check params and session
+    check_parms_available(array("id", "session"));
+    check_restaurant_session($_GET['id'], $_GET['session']); 
+    
+    // prepare query
+    $stmt = $db_link->prepare("SELECT *, CONCAT(region_code, ' ', national_number) AS phone FROM restaurant WHERE restaurant_id_pk = ?");
+    
+    // check, bin, execute and get results
+    if(!$stmt || !$stmt->bind_param("i", $_GET["id"]) || !$stmt->execute() || !$result=$stmt->get_result()) {
+      db_error();
+    }
+    
+    // create answer
+    $answer = $result->fetch_assoc();
+    $answer['id'] = $_GET['id'];
+    $answer['success'] = true;
+    unset($answer['restaurant_id_pk']);
+    unset($answer['password']);
+    unset($answer['session_id']);
+    unset($answer['national_number']);
+    unset($answer['region_code']);
+    
     // Encode answer as json and print aka send
     echo json_encode($answer);
   }
