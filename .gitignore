@@ -1,2 +1,6 @@
 
 Webpage/api/1.0/img/*
+
+vendor/
+
+composer.lock
