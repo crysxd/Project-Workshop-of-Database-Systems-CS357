@@ -143,3 +143,19 @@ cart.getOverview = function(restaurantId, onsuccess) {
     });
   });  
 }
+
+/* Deletes all items for the given restaurant */
+cart.deleteRestaurant = function(restaurantId) {
+  console.log('delete');
+  /* Delete all items from one restaurant */
+  cart.db.transaction(function (tx) {
+    tx.executeSql(
+      'DELETE FROM cart WHERE restaurant = ?',
+      [restaurantId],
+      function(tx, results) {
+        console.log(tx);
+        console.log(results);
+      }
+    );
+  });
+}

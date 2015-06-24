@@ -108,10 +108,12 @@ $('.btn-complete-order').click(function() {
         if(handleError(data)) {
           return;
         }
+        
+        /* Delete cart */
+        cart.deleteRestaurant(restaurant);
 
         /* Show confirmation, will forward user to profile */
         showOverlay($('#success-overlay'), hideLoadingOverlay);
-        
         
       }, put);
     });
