@@ -90,7 +90,7 @@
     if(!($select_user_id = push_stmt("SELECT customer_id_pk FROM Customer WHERE nick=? AND session_id=?", "ii", 
               array(&$args['user'], &$args['session']))))
       db_error($answer);
-    $args['customer_id'] = $select_user_id->fetch_assoc();
+    $args['customer_id'] = $select_user_id->fetch_assoc()['customer_id_pk'];
 
     // gets the next delivery id
     
