@@ -2,7 +2,7 @@
 
   // include main database script
   include_once("../db.php");
-
+  include_once("../../../../vendor/autoload.php");
   // open database connection
   db_open();
 
@@ -44,13 +44,32 @@
       $answer['err_no'] = 1003;
       die(json_encode($answer));
     }
-  
+    
+    // builds up the utility for checking the number
+    $phone_number = $_GET['phone'];
+    $phoneNumber = new \libphonenumber\PhoneNumber();
+    $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+    try {
+      // extracts the phone number fragments and saves them into the $phone_number object
+      $phone_number_proto = $phoneUtil->parse($phone_number, "CH", $phoneNumber);
+    } catch (\libphonenumber\NumberParseException $e) {
+      db_error($e);
+    }
+    
+    // checks if phone number is valid
+    if(!($phoneUtil->isValidNumber($phone_number_proto))) {
+      db_error("Phone number is unvalid.");
+    }
+    
+    $region_code = $phoneNumber->getCountryCode();
+    $national_number = $phoneNumber->getNationalNumber();
+    
     // hash password
     $password = hash(PASSWORD_HASH_FUNCTION, $_GET['pw']);
     
     // prepare statement
-    $stmt = $db_link->prepare("INSERT INTO customer(region_code, national_number, last_name, first_name, nick, password) VALUES('+86', ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $_GET['phone'], $_GET['sure_name'], $_GET['first_name'], $_GET['nick'], $password);
+    $stmt = $db_link->prepare("INSERT INTO Customer(region_code, national_number, last_name, first_name, nick, password) VALUES(?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $region_code, $national_number, $_GET['sure_name'], $_GET['first_name'], $_GET['nick'], $password);
     
     
     // execute
@@ -107,18 +126,14 @@
       FROM Customer
       WHERE nick = ?";
     
-    // hier fehlt distinct damit meals nicht öfter auftreten
     $stmt_select_ratable_dishes = "
       SELECT m.meal_id_pk id, restaurant, m.name, bought_on from (
  
 		SELECT * from (
-
           SELECT cdds.delivery_id_pk , r.name restaurant, cdds.date_pk bought_on
           FROM (
-
             SELECT d.delivery_id_pk, d.Restaurant_restaurant_id, ds.date_pk, ds.Delivery_State_Type_delivery_status_type type
             FROM (
-
               SELECT customer_id_pk
               FROM Customer
               WHERE nick =  ?
@@ -140,14 +155,11 @@
     $stmt_select_ongoing_deliveries = "
         SELECT * 
         FROM (
-
           SELECT cdds.delivery_id_pk id, r.name restaurant, dst.name state, cdds.date_pk state_since
           FROM (
-
             SELECT d.delivery_id_pk, d.Restaurant_restaurant_id, ds.date_pk, ds.Delivery_State_Type_delivery_status_type
             TYPE 
             FROM (
-
               SELECT customer_id_pk
               FROM Customer
               WHERE nick =  ?
@@ -157,7 +169,6 @@
             WHERE d.delivery_id_pk != ( 
               SELECT d.delivery_id_pk
               FROM (
-
                 SELECT customer_id_pk
                 FROM Customer
                 WHERE nick =  ?
@@ -165,7 +176,6 @@
               INNER JOIN Delivery d ON c.customer_id_pk = d.Customer_customer_id
               INNER JOIN Delivery_State ds ON d.delivery_id_pk = ds.Delivery_delivery_id_pk
               WHERE ds.Delivery_State_Type_delivery_status_type = 4 ) 
-
           )cdds
           INNER JOIN Delivery_State_Type dst ON cdds.type = dst.delivery_status_type_id_pk
           INNER JOIN Restaurant r ON cdds.Restaurant_restaurant_id = r.restaurant_id_pk
@@ -173,17 +183,13 @@
         )cddsr
         GROUP BY cddsr.id
     ";
-
     $stmt_select_old_deliveries = "
         SELECT * 
         FROM (
-
           SELECT cdds.delivery_id_pk id, r.name restaurant, dst.name state, cdds.date_pk state_since
           FROM (
-
             SELECT d.delivery_id_pk, d.Restaurant_restaurant_id, ds.date_pk, ds.Delivery_State_Type_delivery_status_type type
             FROM (
-
               SELECT customer_id_pk
               FROM Customer
               WHERE nick =  ?
