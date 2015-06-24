@@ -26,10 +26,6 @@
    */     
   function rest_put() {
     global $db_link;
-
-    // gets a timestamp for the insert to the delivery state
-    $order_time = date ("Y-m-d H:i:s");
-    
     $input = file_get_contents("php://input");
     $input = json_decode($input,true);
 
@@ -110,8 +106,8 @@
   
     // Insert into Delivery_State table
     $stmt_insert_delivery_state = "
-        INSERT INTO `Delivery_State` (`Delivery_delivery_id_pk`, `date_pk`, `Delivery_State_Type_delivery_status_type`, `comment`) 
-        VALUES ($next_delivery_id, '$order_time', 1, NULL)";
+        INSERT INTO `Delivery_State` (`Delivery_delivery_id_pk`, `Delivery_State_Type_delivery_status_type`, `comment`) 
+        VALUES ($next_delivery_id, 1, NULL)";
     if (!($db_link->query($stmt_insert_delivery_state)))
       db_error($answer);
 
