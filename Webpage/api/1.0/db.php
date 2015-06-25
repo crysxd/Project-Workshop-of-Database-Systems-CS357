@@ -8,6 +8,7 @@
   define("ERROR_GENERAL", 0);
   define("ERROR_UNAUTHORIZED", 1);
   define("ERROR_MISSING_PARAM", 2);
+  define("ERROR_WRONG_PHONE_FORMAT", 4);
   define("DEBUG",1);
 
   /****************************************************************************************************************************

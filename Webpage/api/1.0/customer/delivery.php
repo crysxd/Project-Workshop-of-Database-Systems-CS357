@@ -91,7 +91,7 @@
               array(&$args['user'], &$args['session']))))
       db_error($answer);
     $args['customer_id'] = $select_user_id->fetch_assoc();
-
+    var_dump( $args['customer_id'] );
     // gets the next delivery id
     
     // Insert into Delivery table

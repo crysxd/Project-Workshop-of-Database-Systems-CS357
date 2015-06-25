@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Restaurant` (
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
   `region_code` VARCHAR(3) NULL,
   `national_number` VARCHAR(15) NULL,
+  `email` VARCHAR(256) NULL,
   PRIMARY KEY (`restaurant_id_pk`))
 ENGINE = InnoDB;
 
@@ -46,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Customer` (
   `nick` VARCHAR(45) NOT NULL DEFAULT 'Name' COMMENT 'the nickname of the user\ndefault is combination of name',
   `password` VARCHAR(256) NULL,
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
+  `email` VARCHAR(256) NULL,
   PRIMARY KEY (`customer_id_pk`),
   UNIQUE INDEX `nick_UNIQUE` (`nick` ASC))
 ENGINE = InnoDB;
@@ -906,3 +908,92 @@ INSERT INTO `Rating` (`Meal_meal_id_pk`, `Customer_customer_id_pk`, `date`, `rat
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- joins the Delivery_State with Delivery_State_Type together
+
+CREATE VIEW Delivery_State_View AS 
+SELECT Delivery_delivery_id_pk, date_pk, name as delivery_status_type, comment
+FROM Delivery_State ds
+INNER JOIN Delivery_State_Type dst ON ds.Delivery_State_Type_delivery_status_type = dst.delivery_status_type_id_pk;
+
+-- joins the Delivery with Delivery_State together
+
+CREATE VIEW Delivery_View AS 
+SELECT d . * , ds.date_pk, Delivery_State_Type_delivery_status_type AS delivery_status_type_number, name AS delivery_status_type, ds.comment AS delivery_state_comment
+FROM Delivery_State ds
+INNER JOIN Delivery_State_Type dst ON ds.Delivery_State_Type_delivery_status_type = dst.delivery_status_type_id_pk
+INNER JOIN Delivery d ON d.delivery_id_pk = ds.Delivery_delivery_id_pk;
+-- Constraints Delivery_Meal_Map
+DELIMITER $$
+CREATE TRIGGER delivery_meal_map_constraints BEFORE INSERT ON Delivery_Meal_Map FOR EACH ROW
+BEGIN
+    DECLARE msg VARCHAR(255);
+    IF !(NEW.amount > 0) THEN
+        SET msg = "DIE: You inserted a resctricted VALUE";
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
+    END IF;
+END;
+$$
+DELIMITER ;
+-- Constraints for restaurant
+
+DELIMITER $$
+CREATE TRIGGER restaurant_constraints BEFORE INSERT ON Restaurant FOR EACH ROW
+BEGIN
+    DECLARE msg VARCHAR(255);
+    IF !(NEW.shipping_cost >= 0 &&
+        NEW.min_order_value >= 0 &&
+        NEW.max_delivery_range >= 0 &&
+        NEW.position_lat >= 0 &&
+        NEW.position_long >= 0)
+    THEN
+        SET msg = "DIE: You inserted a resctricted VALUE";
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
+    END IF;
+END;
+$$
+DELIMITER ;
+-- Constraints for Meal
+DELIMITER $$
+CREATE TRIGGER meal_constraints BEFORE INSERT ON Meal FOR EACH ROW
+BEGIN
+    DECLARE msg VARCHAR(255);
+    IF !(NEW.price >= 0 &&
+        NEW.spiciness <= 3 &&
+        NEW.spiciness >= 0)
+    THEN
+        SET msg = "DIE: You inserted a resctricted VALUE";
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
+    END IF;
+END;
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER rating_constraints BEFORE INSERT ON Rating FOR EACH ROW
+BEGIN
+    DECLARE msg VARCHAR(255);
+
+    -- Gets a Table with all the Meals from the customer and checks if the one which is needed for the rating is presente
+    SELECT COUNT( * ) INTO @o_existent
+    FROM (
+
+        SELECT dmm.Meal_meal_id_pk
+        FROM Delivery_Meal_Map dmm
+        INNER JOIN (
+
+            SELECT * 
+            FROM Delivery_View
+            WHERE Customer_customer_id = NEW.Customer_customer_id_pk && delivery_status_type_number = 4
+        )d ON d.delivery_id_pk = dmm.Delivery_delivery_id_pk
+    )ddmm
+    WHERE ddmm.Meal_meal_id_pk = NEW.Meal_meal_id_pk;
+
+    IF !(NEW.rating >= 0 &&
+        NEW.rating <= 5 &&
+        @o_existent = 1)
+    THEN
+        SET msg = "DIE: You inserted a resctricted VALUE";
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
+    END IF;
+END;
+$$
+DELIMITER ;

@@ -22,3 +22,13 @@ cat ./tables/Delivery.sql >> mymeal_database.sql
 cat ./tables/Delivery_State.sql >> mymeal_database.sql
 cat ./tables/Delivery_Meal_Map.sql >> mymeal_database.sql
 cat ./tables/Rating.sql >> mymeal_database.sql
+
+# Views
+cat ./views/delivery_views.sql >> mymeal_database.sql
+
+# Constraints/Triggers >> mymeal_database.sql
+cat ./constraints/delivery_meal_map_constraints.sql >> mymeal_database.sql
+cat ./constraints/restaurant_constraints.sql >> mymeal_database.sql
+cat ./constraints/meal_constraints.sql >> mymeal_database.sql
+cat ./constraints/rating_constraints.sql >> mymeal_database.sql
+

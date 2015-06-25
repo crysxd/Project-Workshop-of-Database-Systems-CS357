@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Restaurant` (
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
   `region_code` VARCHAR(3) NULL,
   `national_number` VARCHAR(15) NULL,
+  `email` VARCHAR(256) NULL,
   PRIMARY KEY (`restaurant_id_pk`))
 ENGINE = InnoDB;
 
@@ -45,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Customer` (
   `nick` VARCHAR(45) NOT NULL DEFAULT 'Name' COMMENT 'the nickname of the user\ndefault is combination of name',
   `password` VARCHAR(256) NULL,
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
+  `email` VARCHAR(256) NULL,
   PRIMARY KEY (`customer_id_pk`),
   UNIQUE INDEX `nick_UNIQUE` (`nick` ASC))
 ENGINE = InnoDB;
