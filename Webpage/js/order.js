@@ -77,6 +77,12 @@ $(document).ready(function() {
 
 /* Click handler for complete order button */
 $('.btn-complete-order').click(function() {
+  /* Check if the user is logged in */
+  if(getSession() == null) {
+    showErrorOverlay('Please log in', 'You must be logged in to order food.', null, 'showOverlay($("#login-overlay"))');
+    return;
+  }
+  
   /* show loading overlay*/
   showLoadingOverlay(function() {
     /* Load session */
