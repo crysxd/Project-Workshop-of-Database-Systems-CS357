@@ -1,13 +1,14 @@
 <?php
   define("DB_HOST", "localhost");
-  define("DB_USER", "mymeal_admin");
-  define("DB_PASS", "u9wZpVbs7xbD45JR");
+  define("DB_USER", "mymeal_user");
+  define("DB_PASS", "BFGHQvGR7MBCphXP");
   define("DB_NAME", "mymeal");
   define("IMAGE_DIRECTORY", "img");
   define("PASSWORD_HASH_FUNCTION", "sha1");
   define("ERROR_GENERAL", 0);
   define("ERROR_UNAUTHORIZED", 1);
   define("ERROR_MISSING_PARAM", 2);
+  define("ERROR_WRONG_PHONE_FORMAT", 4);
   define("DEBUG",1);
 
   /****************************************************************************************************************************

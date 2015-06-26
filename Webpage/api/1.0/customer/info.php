@@ -53,12 +53,12 @@
       // extracts the phone number fragments and saves them into the $phone_number object
       $phone_number_proto = $phoneUtil->parse($phone_number, "CH", $phoneNumber);
     } catch (\libphonenumber\NumberParseException $e) {
-      db_error($e);
+      db_error(array(), "Phone number is unvalid.", $ERROR_WRONG_PHONE_FORMAT);
     }
     
     // checks if phone number is valid
     if(!($phoneUtil->isValidNumber($phone_number_proto))) {
-      db_error("Phone number is unvalid.");
+      db_error(array(), "Phone number is unvalid.", $ERROR_WRONG_PHONE_FORMAT);
     }
     
     $region_code = $phoneNumber->getCountryCode();

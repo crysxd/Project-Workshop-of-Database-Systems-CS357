@@ -12,24 +12,25 @@ USE `mymeal` ;
 CREATE TABLE IF NOT EXISTS `mymeal`.`Restaurant` (
   `restaurant_id_pk` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(256) NOT NULL,
-  `min_order_value` FLOAT UNSIGNED NULL,
-  `shipping_cost` FLOAT UNSIGNED NULL COMMENT 'must be >= 0\n',
-  `max_delivery_range` INT NULL COMMENT 'in kilometers, \nadditional enums like:\ncitys, districts\nin 100 meter steps',
-  `description` TEXT NULL DEFAULT NULL,
-  `country` VARCHAR(256) NULL,
-  `postcode` VARCHAR(45) NULL,
+  `min_order_value` FLOAT UNSIGNED NOT NULL,
+  `shipping_cost` FLOAT UNSIGNED NOT NULL COMMENT 'must be >= 0\n',
+  `max_delivery_range` INT NOT NULL COMMENT 'in kilometers, \nadditional enums like:\ncitys, districts\nin 100 meter steps',
+  `description` TEXT NULL,
+  `country` VARCHAR(256) NOT NULL,
+  `postcode` VARCHAR(45) NOT NULL,
   `city` VARCHAR(256) NULL,
   `district` VARCHAR(45) NULL,
-  `street_name` VARCHAR(256) NULL,
+  `street_name` VARCHAR(256) NOT NULL,
   `street_number` VARCHAR(45) NULL,
   `add_info` VARCHAR(256) NULL,
   `position_lat` DOUBLE NULL,
   `position_long` DOUBLE NULL,
   `offered` TINYINT(1) NULL DEFAULT 1 COMMENT 'Describes if a current restaurant an',
-  `password` VARCHAR(256) NULL,
+  `password` VARCHAR(256) NOT NULL,
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
-  `region_code` VARCHAR(3) NULL,
-  `national_number` VARCHAR(15) NULL,
+  `region_code` VARCHAR(3) NOT NULL,
+  `national_number` VARCHAR(15) NOT NULL,
+  `email` VARCHAR(256) NULL,
   PRIMARY KEY (`restaurant_id_pk`))
 ENGINE = InnoDB;
 
@@ -39,25 +40,16 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Customer` (
   `customer_id_pk` INT NOT NULL AUTO_INCREMENT COMMENT 'used as identifer.\nthere may be no two users with the same number\nhas to be double because with in we just can represent 10 digits, but chinese phone numbers have 11 digits\na list as representation would take more space',
-  `region_code` VARCHAR(3) NULL COMMENT 'the region code of the phone number',
-  `national_number` VARCHAR(15) NULL,
-  `last_name` VARCHAR(256) NULL,
-  `first_name` VARCHAR(256) NULL,
-  `nick` VARCHAR(45) NOT NULL DEFAULT 'Name' COMMENT 'the nickname of the user\ndefault is combination of name',
-  `password` VARCHAR(256) NULL,
+  `region_code` VARCHAR(3) NOT NULL COMMENT 'the region code of the phone number',
+  `national_number` VARCHAR(15) NOT NULL,
+  `last_name` VARCHAR(256) NOT NULL,
+  `first_name` VARCHAR(256) NOT NULL,
+  `nick` VARCHAR(45) NOT NULL COMMENT 'the nickname of the user\ndefault is combination of name',
+  `password` VARCHAR(256) NOT NULL,
   `session_id` VARCHAR(64) NULL COMMENT 'unique and truly random 256 key',
+  `email` VARCHAR(256) NULL,
   PRIMARY KEY (`customer_id_pk`),
   UNIQUE INDEX `nick_UNIQUE` (`nick` ASC))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mymeal`.`Meal_Category`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mymeal`.`Meal_Category` (
-  `meal_category_id_pk` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
-  PRIMARY KEY (`meal_category_id_pk`))
 ENGINE = InnoDB;
 
 
@@ -67,40 +59,19 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mymeal`.`Meal` (
   `meal_id_pk` INT NOT NULL AUTO_INCREMENT,
   `Restaurant_restaurant_id` INT NOT NULL,
-  `name` VARCHAR(256) NULL,
-  `price` VARCHAR(45) NULL,
-  `Meal_Category_meal_category_id` INT NULL,
+  `name` VARCHAR(256) NOT NULL,
+  `price` VARCHAR(45) NOT NULL,
   `description` TEXT NULL DEFAULT NULL COMMENT 'optional',
   `spiciness` TINYINT UNSIGNED NULL COMMENT 'Range 0-3',
   `offered` TINYINT(1) NULL DEFAULT 1,
   PRIMARY KEY (`meal_id_pk`),
   INDEX `fk_Menu_Restaurant1_idx` (`Restaurant_restaurant_id` ASC),
-  INDEX `fk_Meal_Dish_Category1_idx` (`Meal_Category_meal_category_id` ASC),
   CONSTRAINT `fk_Menu_Restaurant1`
     FOREIGN KEY (`Restaurant_restaurant_id`)
     REFERENCES `mymeal`.`Restaurant` (`restaurant_id_pk`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Meal_Dish_Category1`
-    FOREIGN KEY (`Meal_Category_meal_category_id`)
-    REFERENCES `mymeal`.`Meal_Category` (`meal_category_id_pk`)
-    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mymeal`.`Opening_Time`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mymeal`.`Opening_Time` (
-  `opening_time_id_pk` INT NOT NULL AUTO_INCREMENT,
-  `day_id` INT NULL COMMENT 'allow enums like weekday, weekend',
-  `starting_time` INT NULL COMMENT 'i would save starting time an closing time as int\nlike this representation 1030 = 10:30',
-  `closing_time` INT NULL,
-  PRIMARY KEY (`opening_time_id_pk`),
-  INDEX `day_id_fk` (`day_id` ASC))
-ENGINE = InnoDB
-COMMENT = 'a restaurant may have multiple opening times';
 
 
 -- -----------------------------------------------------
@@ -110,11 +81,11 @@ CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery` (
   `delivery_id_pk` INT NOT NULL AUTO_INCREMENT,
   `Customer_customer_id` INT NOT NULL,
   `Restaurant_restaurant_id` INT NOT NULL,
-  `country` VARCHAR(256) NULL,
-  `postcode` VARCHAR(45) NULL,
+  `country` VARCHAR(256) NOT NULL,
+  `postcode` VARCHAR(45) NOT NULL,
   `city` VARCHAR(256) NULL,
   `district` VARCHAR(45) NULL,
-  `street_name` VARCHAR(256) NULL,
+  `street_name` VARCHAR(256) NOT NULL,
   `street_number` VARCHAR(45) NULL,
   `add_info` VARCHAR(256) NULL,
   `comment` VARCHAR(256) NULL,
@@ -140,9 +111,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mymeal`.`Rating` (
   `Meal_meal_id_pk` INT NOT NULL,
   `Customer_customer_id_pk` INT NOT NULL,
-  `date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `rating` TINYINT NULL COMMENT 'not be bigger than 5',
-  `comment` TEXT NULL DEFAULT NULL,
+  `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `rating` TINYINT NOT NULL COMMENT 'not be bigger than 5',
+  `comment` TEXT NULL,
   PRIMARY KEY (`Customer_customer_id_pk`, `Meal_meal_id_pk`),
   INDEX `fk_Rating_dish1_idx` (`Meal_meal_id_pk` ASC),
   INDEX `fk_Rating_user1_idx` (`Customer_customer_id_pk` ASC),
@@ -195,35 +166,12 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mymeal`.`Restaurant_Opening_Time_Map`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mymeal`.`Restaurant_Opening_Time_Map` (
-  `restaurant_opening_time_map_id_pk` INT NOT NULL AUTO_INCREMENT,
-  `Restaurant_restaurant_id` INT NOT NULL,
-  `Opening_Time_opening_time_id` INT NOT NULL,
-  PRIMARY KEY (`restaurant_opening_time_map_id_pk`),
-  INDEX `fk_restaurants_has_opening_times_opening_times1_idx` (`Opening_Time_opening_time_id` ASC),
-  INDEX `fk_restaurants_has_opening_times_restaurants1_idx` (`Restaurant_restaurant_id` ASC),
-  CONSTRAINT `fk_restaurants_has_opening_times_restaurants1`
-    FOREIGN KEY (`Restaurant_restaurant_id`)
-    REFERENCES `mymeal`.`Restaurant` (`restaurant_id_pk`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_restaurants_has_opening_times_opening_times1`
-    FOREIGN KEY (`Opening_Time_opening_time_id`)
-    REFERENCES `mymeal`.`Opening_Time` (`opening_time_id_pk`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `mymeal`.`Delivery_Meal_Map`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mymeal`.`Delivery_Meal_Map` (
   `Delivery_delivery_id_pk` INT NOT NULL,
   `Meal_meal_id_pk` INT NOT NULL,
-  `amount` INT NULL,
+  `amount` INT NOT NULL,
   PRIMARY KEY (`Delivery_delivery_id_pk`, `Meal_meal_id_pk`),
   INDEX `fk_delivery_has_dish_dish1_idx` (`Meal_meal_id_pk` ASC),
   INDEX `fk_delivery_has_dish_delivery1_idx` (`Delivery_delivery_id_pk` ASC),
@@ -277,9 +225,12 @@ COMMENT = 'A dish is never tagged twice with the same tag';
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-GRANT USAGE ON *.* TO 'mymeal_admin'@'localhost' IDENTIFIED BY PASSWORD '*A90C4DA8A12927FB29B396EB67B95E7677CA6B20';
-
+CREATE USER 'mymeal_admin'@'localhost' IDENTIFIED BY 'u9wZpVbs7xbD45JR';
+GRANT USAGE ON *.* TO 'mymeal_admin'@'localhost' IDENTIFIED BY 'u9wZpVbs7xbD45JR';
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `mymeal`.* TO 'mymeal_admin'@'localhost';
+CREATE USER 'mymeal_user'@'localhost' IDENTIFIED BY 'BFGHQvGR7MBCphXP';
+GRANT SELECT, INSERT, DELETE, UPDATE, EXECUTE ON mymeal.* TO 'mymeal_user'@'localhost';
+
 USE `mymeal` ;
 
 -- created after http://www.movable-type.co.uk/scripts/latlong.html
@@ -607,14 +558,14 @@ CREATE TABLE IF NOT EXISTS `Meal` (
 -- Dumping data for table `Meal`
 --
 
-INSERT INTO `Meal` (`meal_id_pk`, `Restaurant_restaurant_id`, `name`, `price`, `Meal_Category_meal_category_id`, `description`, `spiciness`, `offered`) VALUES
-(1, 1, 'Jidan Guangbing', '8', NULL, 'Turnover filled with Jidan', 1, 1),
-(2, 1, 'Cai Bing without egg', '6', NULL, 'A regular Cai Bing without egg', 0, 1),
-(3, 1, 'Jingbing', '7', NULL, 'Jingbing with egg', 1, 1),
-(4, 2, 'Salad', '20', 1, 'Salad with tomatoes, olives and onions ', 0, 1),
-(5, 2, 'Veggie Burger', '70', 2, 'Veggie Burger with tofu and salad and pickles.', 0, 1),
-(6, 2, 'Soya Ice Cream', '30', 3, 'Ice cream made with soya instead of milk', 0, 1),
-(7, 3, 'Vegetable Kebab', '18', 2, 'Mustafas famous vegetable kebab', 1, 1);
+INSERT INTO `Meal` (`meal_id_pk`, `Restaurant_restaurant_id`, `name`, `price`, `description`, `spiciness`, `offered`) VALUES
+(1, 1, 'Jidan Guangbing', '8', 'Turnover filled with Jidan', 1, 1),
+(2, 1, 'Cai Bing without egg', '6', 'A regular Cai Bing without egg', 0, 1),
+(3, 1, 'Jingbing', '7', 'Jingbing with egg', 1, 1),
+(4, 2, 'Salad', '20', 'Salad with tomatoes, olives and onions ', 0, 1),
+(5, 2, 'Veggie Burger', '70', 'Veggie Burger with tofu and salad and pickles.', 0, 1),
+(6, 2, 'Soya Ice Cream', '30', 'Ice cream made with soya instead of milk', 0, 1),
+(7, 3, 'Vegetable Kebab', '18', 'Mustafas famous vegetable kebab', 1, 1);
 
 --
 -- Constraints for dumped tables
@@ -906,3 +857,92 @@ INSERT INTO `Rating` (`Meal_meal_id_pk`, `Customer_customer_id_pk`, `date`, `rat
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- joins the Delivery_State with Delivery_State_Type together
+
+CREATE VIEW Delivery_State_View AS 
+SELECT Delivery_delivery_id_pk, date_pk, name as delivery_status_type, comment
+FROM Delivery_State ds
+INNER JOIN Delivery_State_Type dst ON ds.Delivery_State_Type_delivery_status_type = dst.delivery_status_type_id_pk;
+
+-- joins the Delivery with Delivery_State together
+
+CREATE VIEW Delivery_View AS 
+SELECT d . * , ds.date_pk, Delivery_State_Type_delivery_status_type AS delivery_status_type_number, name AS delivery_status_type, ds.comment AS delivery_state_comment
+FROM Delivery_State ds
+INNER JOIN Delivery_State_Type dst ON ds.Delivery_State_Type_delivery_status_type = dst.delivery_status_type_id_pk
+INNER JOIN Delivery d ON d.delivery_id_pk = ds.Delivery_delivery_id_pk;
+-- Constraints Delivery_Meal_Map
+DELIMITER $$
+CREATE TRIGGER delivery_meal_map_constraints BEFORE INSERT ON Delivery_Meal_Map FOR EACH ROW
+BEGIN
+    DECLARE msg VARCHAR(255);
+    IF !(NEW.amount > 0) THEN
+        SET msg = "DIE: You inserted a resctricted VALUE";
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
+    END IF;
+END;
+$$
+DELIMITER ;
+-- Constraints for restaurant
+
+DELIMITER $$
+CREATE TRIGGER restaurant_constraints BEFORE INSERT ON Restaurant FOR EACH ROW
+BEGIN
+    DECLARE msg VARCHAR(255);
+    IF !(NEW.shipping_cost >= 0 &&
+        NEW.min_order_value >= 0 &&
+        NEW.max_delivery_range >= 0 &&
+        NEW.position_lat >= 0 &&
+        NEW.position_long >= 0)
+    THEN
+        SET msg = "DIE: You inserted a resctricted VALUE";
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
+    END IF;
+END;
+$$
+DELIMITER ;
+-- Constraints for Meal
+DELIMITER $$
+CREATE TRIGGER meal_constraints BEFORE INSERT ON Meal FOR EACH ROW
+BEGIN
+    DECLARE msg VARCHAR(255);
+    IF !(NEW.price >= 0 &&
+        NEW.spiciness <= 3 &&
+        NEW.spiciness >= 0)
+    THEN
+        SET msg = "DIE: You inserted a resctricted VALUE";
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
+    END IF;
+END;
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER rating_constraints BEFORE INSERT ON Rating FOR EACH ROW
+BEGIN
+    DECLARE msg VARCHAR(255);
+
+    -- Gets a Table with all the Meals from the customer and checks if the one which is needed for the rating is presente
+    SELECT COUNT( * ) INTO @o_existent
+    FROM (
+
+        SELECT dmm.Meal_meal_id_pk
+        FROM Delivery_Meal_Map dmm
+        INNER JOIN (
+
+            SELECT * 
+            FROM Delivery_View
+            WHERE Customer_customer_id = NEW.Customer_customer_id_pk && delivery_status_type_number = 4
+        )d ON d.delivery_id_pk = dmm.Delivery_delivery_id_pk
+    )ddmm
+    WHERE ddmm.Meal_meal_id_pk = NEW.Meal_meal_id_pk;
+
+    IF !(NEW.rating >= 0 &&
+        NEW.rating <= 5 &&
+        @o_existent = 1)
+    THEN
+        SET msg = "DIE: You inserted a resctricted VALUE";
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
+    END IF;
+END;
+$$
+DELIMITER ;

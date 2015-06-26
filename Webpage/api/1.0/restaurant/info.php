@@ -164,6 +164,12 @@
       db_error();
     }
     
+    // Load icon
+    $file = get_restaurant_icon_file_name($_GET['id']);
+    if(file_exists($file)) {
+      $answer['icon'] = file_get_contents($file);
+    }
+    
     // create answer
     $answer = $result->fetch_assoc();
     $answer['id'] = $_GET['id'];

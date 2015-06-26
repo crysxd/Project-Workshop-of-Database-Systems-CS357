@@ -1,0 +1,381 @@
+<dom-module id="restaurant-info-editor">
+
+  <template>
+    
+    <iron-ajax id="ajax" on-response="_ajaxDone" handle-as="json"></iron-ajax>
+    <iron-ajax id="ajaxSave" on-response="_ajaxSaveDone" handle-as="json"></iron-ajax>
+    <iron-ajax id="ajaxSearchAddress" on-response="_ajaxSearchAddressDone" handle-as="json"></iron-ajax>
+    
+    <form id="form">
+      <div class="form-group">
+        <label for="name">Restaurant Name</label>
+        <input type="text" class="form-control" id="name" placeholder="Enter name" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Enter password">
+        <input type="password" class="form-control" id="password-control" placeholder="Enter password again">
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="phone" class="form-control" id="phone" placeholder="Enter phone number" required>
+      </div>
+      <div class="form-group">
+        <label for="range">Delivery Range</label>
+        <div class="input-group">
+          <input type="number" class="form-control" id="range" min="0" placeholder="Enter delivery range" required>
+          <span class="input-group-addon" id="basic-addon1">meters</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="min-value">Minimum Order Value</label>
+        <div class="input-group">
+          <input type="number" class="form-control" id="min-value" min="0" placeholder="Enter minimum order value" required>
+          <span class="input-group-addon" id="basic-addon1">元</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="shipping-costs">Shipping costs</label>
+        <div class="input-group">
+          <input type="number" class="form-control" id="shipping-costs" min="0" placeholder="Enter shipping costs" required>
+          <span class="input-group-addon" id="basic-addon1">元</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Address</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="address-search" placeholder="Number, Street, City...">
+          <span class="input-group-btn">
+            <button class="btn btn-default" id="btn-search-address" type="button">Search address</button>
+          </span>
+        </div>   
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea type="number" class="form-control" id="description" placeholder="Description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="icon">Icon</label>
+        <div>
+          <input type="file" id="icon" accept="image/x-png">
+          <p class="help-block">The icon should be squarish and have transparent background.</p>
+          <img class="well" id="icon-preview" src>
+        </div>
+      </div>
+      <div id="btn-complete" class="btn btn-primary" data-loading-text="Loading...">Save</div>
+      <div id="btn-reset" class="btn btn-default">Reset</div>
+    </form>   
+
+    <!-- Dialog to choose a address -->
+    <div id="modal" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title meal-name">Choose a address</h4>
+          </div>
+          <div class="modal-body">
+
+            <div id="loading" class="modal-body-loading">
+              <img src="../imgs/loader.gif" alt="Loading...">
+            </div>
+
+            <div id="content" class="modal-body-content" id="address-list"> 
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div id="modal-cancel" class="btn btn-default" data-dismiss="modal">Cancel</div>
+          </div>
+        </div>
+      </div>
+    </div><!-- address dialog -->
+    
+  </template>
+
+  <script>
+    Polymer({
+      is: 'restaurant-info-editor',
+      properties: {
+        register: {
+          type: Boolean,
+          value: false
+        }
+      }, 
+      ready: function() {
+        /* If we should regsiter a new restaurant */
+        if(this.register) {
+          alert('Register task')
+        }
+        
+        /* If we edit an old one, load the data */
+        else {
+          $(this.$.password).attr('placeholder', 'Leave this field blank if you want to keep your old password');
+          this.$.ajax.url = '../api/1.0/restaurant/info.php';
+          this.$.ajax.params = utils.getSession();
+          delete this.$.ajax.params.name;
+          this.$.ajax.generateRequest(); 
+        }
+        
+        /* Add handler to save button */
+        var _this = this;
+        $(this.$['btn-complete']).click(function(e) {
+          _this._save();
+          e.stopPropagation;
+        });
+        
+        /* Add handler to reset button */
+        $(this.$['btn-reset']).click(function(e) {
+          _this._reset();
+          e.stopPropagation;
+        });
+        
+        /* Add handler to search button */
+        $(this.$['btn-search-address']).click(function(e) {
+          _this._searchAddress();
+          e.stopPropagation;
+        });
+        
+        /* Add handler to icon file input */
+        $(this.$['icon']).change(function(e) {
+          _this._iconChanged(e);
+          e.stopPropagation;
+        });
+        
+      },
+      _ajaxDone: function(request) {
+        var result = request.detail.response;
+        
+        /* Check for error */
+        if(utils.handleError(result)) {
+          return;
+        }
+        
+        /* Save data and fill */
+        this.data = result;
+        this._fillData();
+        
+      },
+      _fillData: function() {
+        /* Fill in data */
+        var address = this.data.street_number + ', ' + this.data.street_name + ', ' + 
+            this.data.postcode + ', ' + this.data.city;
+        $(this.$['name']).val(this.data.name);
+        $(this.$['phone']).val(this.data.phone);
+        $(this.$['range']).val(this.data.max_delivery_range);
+        $(this.$['min-value']).val(this.data.min_order_value);
+        $(this.$['shipping-costs']).val(this.data.shipping_cost);
+        $(this.$['address-search']).attr('placeholder', address);
+        $(this.$['description']).val(this.data.description);
+        $(this.$['icon-preview']).attr('src', this.data.icon == undefined ? '../imgs/icon.png' : this.data.icon);
+
+      },
+      _reset: function() {
+        this._fillData();
+      },
+      _save: function() {        
+        /* Check that there is data in all fields */
+        var emptyFields = $(this.$.form).find('input[required]').filter(function(){ return !this.value });
+        if(emptyFields.length > 0) {
+          /* Show popover */
+          $(emptyFields[0]).popover(
+            {content: 'Please fill in this field', placement: 'bottom'}).popover('show');
+          /* Scroll to field */
+          this._scrollTo(emptyFields[0]);
+          return;
+        }
+
+        /* Load values */
+        var params = this.register ? new Object() : utils.getSession();
+        params.name = $(this.$['name']).val();
+        params.pw = $(this.$['password']).val();
+        params.phone = $(this.$['phone']).val();
+        params.min_order_value = $(this.$['min-value']).val();
+        params.max_delivery_range = $(this.$['range']).val();
+        params.shipping_cost = $(this.$['shipping-costs']).val();
+        params.description = $(this.$['description']).val();
+        var icon = $(this.$['icon-preview']).attr('src');  
+        var address = $(this.$['address-search']).attr('result');
+        
+        /* If there is no icon set */
+        if(icon == '../img/logo.png') {
+          icon = undefined;
+        }
+
+        /* Check if the user searched for the address */
+        if(this.register && address == null) {
+          alert("Please search for your address");
+          return;
+        }
+
+        /* Decode */
+        address = JSON.parse(address);
+
+        /* Copy, prevent values from being empty */
+        params.street = address.simple.road ? address.simple.road : "null"
+        params.city = address.simple.city ? address.simple.city : "null";
+        params.country = address.simple.country ? address.simple.country : "null";
+        params.postcode = address.simple.postcode ? address.simple.postcode : "null";
+        params.position_lat = address.geometry.location.lat;
+        params.position_long = address.geometry.location.lng;
+
+        /* Check if passwords matches its control */
+        if(params.pw != $(this.$['password-control']).val()) {
+          /* Show popover */
+          $(this.$['password']).popover(
+            {content: 'The passwords do not match', placement: 'bottom'}).popover('show');
+          /* Scroll to field */
+          this._scrollTo(this.$['password']);
+          return;
+        }
+
+        /* Check if password is long enough (skip if not register task) */
+        if(this.register && params.pw.length > 0 && params.pw.length < 6) {
+          /* Show popover */
+          $(this.$['password']).popover(
+            {content: 'The password must have at least 6 characters', placement: 'bottom'}).popover('show');
+          /* Scroll to field */
+          this._scrollTo($(this.$['password']));
+          return;
+        }
+        
+        /* Reset button to loading state */
+        $(this.$['btn-complete']).button('loading');
+        
+        /* Send data */
+        this.$.ajaxSave.url = '../api/1.0/restaurant/info.php';
+        this.$.ajaxSave.methos = this.register ? 'PUT' : 'POST';
+        this.$.ajaxSave.params = params;
+        this.$.ajaxSave.generateRequest();
+        
+      },
+      _scrollTo: function(elem) {
+        /* Scroll to element */
+        $('html, body').animate({
+          scrollTop: $(elem).offset().top - 30 - $(this).offset().top
+        }, 500);
+        
+      },
+      _ajaxSaveDone: function(request) {
+        var result = request.detail.response;
+
+        /* Set button to normal state */
+        $(this.$['btn-complete']).button('reset');
+        
+        /* Handle error */
+        if(utils.handleError(result)) {
+          return;
+        }
+        
+        /* Set data (used to restore later) and fill in the data again to be sure */
+        this.data = result;
+        this._fillData();
+        
+      }, 
+      _searchAddress: function() {
+        /* Show dialog in loading state */
+        $(this.$.modal).modal('show'); 
+        $(this.$.loading).show();
+        $(this.$.content).hide();
+
+        /* Query data */
+        this.$.ajaxSearchAddress.url = 'http://www.kart4you.de/meals/geo.php';
+        this.$.ajaxSearchAddress.params =  {address: $(this.$['address-search']).val()};
+        this.$.ajaxSearchAddress.generateRequest();
+
+      },
+      _ajaxSearchAddressDone: function(request) {
+        var result = request.detail.response;
+        
+        /* Handle error */
+        if(utils.handleError(result)) {
+          return;
+        }
+        
+        /* Nothing found */
+        if(result.data.results.length == 0) {
+          alert('There where no results for your search, try to be more specific.');
+          $(this.$.modal).modal('hide'); 
+          return;
+        }
+        
+        /* Clean old results */
+        $(this.$.content).html('');
+        
+        /* Display results */
+        var _this = this;
+        $(result.data.results).each(function(i, d) {
+          /* Create element */
+          var e = $('<address class="btn btn-default btn-block"></address>');
+          
+          /* Fill */
+          var content = '<strong>' + d.simple.road + '<strong><br>';
+          content += d.simple.postal_code + ' '  + d.simple.city + '<br>';
+          content += d.simple.state + '<br>';
+          content += d.simple.country + '<br>';
+          $(e).html(content);
+          
+          /* Click listener */
+          $(e).click(function() {
+            /* Hide and set result attribute */
+            $(_this.$.modal).modal('hide');
+            $(this.$['address-search']).attr('result', JSON.stringify(d));
+          });
+          
+          /* Append */
+          $(_this.$.content).append(e);
+          
+        });
+        
+        /* Show content */
+        $(this.$.loading).hide();
+        $(this.$.content).show();
+    
+      },
+      _iconChanged: function(e) {
+        var _this = this;
+
+        /* Return if the value is empty */
+        if($(_this.$['icon']).val() == '') {
+          return;
+        }
+        
+        /* Read image file */
+        var reader = new FileReader();
+        reader.onload = function(result) {
+          /* Check the image size */
+          if(result.currentTarget.result.length > 100000) {
+            alert("The file size must not exceed 100kb.");
+            $(_this.$['icon']).val('');
+            return;
+          }
+
+          /* Set the data in the preview img */
+          $(_this.$['icon-preview']).attr('src', result.currentTarget.result);
+        };
+
+        /* Read the file */
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    });
+  </script>
+
+  <style>
+    restaurant-info-editor * + input {
+      margin-top: 5px;
+    }
+
+    restaurant-info-editor .well {
+      margin-top: 5px;
+    }
+
+    restaurant-info-editor img {
+      width: 92px;
+      height: 92px;
+      padding: 5px;
+      margin-right: 15px;
+    }
+  </style>
+
+</dom-module>
