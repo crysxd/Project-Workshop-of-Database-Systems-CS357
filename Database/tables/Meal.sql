@@ -44,14 +44,14 @@ CREATE TABLE IF NOT EXISTS `Meal` (
 -- Dumping data for table `Meal`
 --
 
-INSERT INTO `Meal` (`meal_id_pk`, `Restaurant_restaurant_id`, `name`, `price`, `Meal_Category_meal_category_id`, `description`, `spiciness`, `offered`) VALUES
-(1, 1, 'Jidan Guangbing', '8', NULL, 'Turnover filled with Jidan', 1, 1),
-(2, 1, 'Cai Bing without egg', '6', NULL, 'A regular Cai Bing without egg', 0, 1),
-(3, 1, 'Jingbing', '7', NULL, 'Jingbing with egg', 1, 1),
-(4, 2, 'Salad', '20', 1, 'Salad with tomatoes, olives and onions ', 0, 1),
-(5, 2, 'Veggie Burger', '70', 2, 'Veggie Burger with tofu and salad and pickles.', 0, 1),
-(6, 2, 'Soya Ice Cream', '30', 3, 'Ice cream made with soya instead of milk', 0, 1),
-(7, 3, 'Vegetable Kebab', '18', 2, 'Mustafas famous vegetable kebab', 1, 1);
+INSERT INTO `Meal` (`meal_id_pk`, `Restaurant_restaurant_id`, `name`, `price`, `description`, `spiciness`, `offered`) VALUES
+(1, 1, 'Jidan Guangbing', '8', 'Turnover filled with Jidan', 1, 1),
+(2, 1, 'Cai Bing without egg', '6', 'A regular Cai Bing without egg', 0, 1),
+(3, 1, 'Jingbing', '7', 'Jingbing with egg', 1, 1),
+(4, 2, 'Salad', '20', 'Salad with tomatoes, olives and onions ', 0, 1),
+(5, 2, 'Veggie Burger', '70', 'Veggie Burger with tofu and salad and pickles.', 0, 1),
+(6, 2, 'Soya Ice Cream', '30', 'Ice cream made with soya instead of milk', 0, 1),
+(7, 3, 'Vegetable Kebab', '18', 'Mustafas famous vegetable kebab', 1, 1);
 
 --
 -- Constraints for dumped tables

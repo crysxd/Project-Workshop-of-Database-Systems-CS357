@@ -5,6 +5,7 @@ cat ./schema/mymeal_schema.sql >> mymeal_database.sql
 
 # Users
 cat ./users/mymeal_admin.sql >> mymeal_database.sql
+cat ./users/mymeal_user.sql >> mymeal_database.sql
 
 # Functions
 cat ./functions/distance.sql >> mymeal_database.sql

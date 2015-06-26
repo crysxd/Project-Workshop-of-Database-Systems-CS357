@@ -1,7 +1,7 @@
 <?php
   define("DB_HOST", "localhost");
-  define("DB_USER", "mymeal_admin");
-  define("DB_PASS", "u9wZpVbs7xbD45JR");
+  define("DB_USER", "mymeal_user");
+  define("DB_PASS", "BFGHQvGR7MBCphXP");
   define("DB_NAME", "mymeal");
   define("IMAGE_DIRECTORY", "img");
   define("PASSWORD_HASH_FUNCTION", "sha1");
