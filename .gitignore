@@ -1,0 +1,7 @@
+.texpadtmp
+vendor
+Webpage
+*.lock
+*.aux
+*.gz
+*.pdf
