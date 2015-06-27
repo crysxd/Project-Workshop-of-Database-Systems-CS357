@@ -10,4 +10,35 @@
 
 %=======================================================================================
 \section{Security}
-\lipsum
+%---------------------------------------------------------------------------------------
+\subsection{SQL Injection}
+Two different approaches which complement each other are used in order to protect the database from SQL injection attacks. 
+
+Every parameter which is passed over the URL to the PHP backend is escaped using \texttt{mysqli\_real\_escape\_string(...)} function. This function is provided by PHP's mysqli library. Its purpose is to escape every potentially dangerous character like \texttt{"} or \texttt{\#} to \texttt{\textbackslash"} and \texttt{\textbackslash\#} . Escaping special characters in every parameter protects the database very effectively as infected parameters used by attackers are defused.
+
+In addition to escaping the parameters, prepared statements are used for every query in which parameters are inserted. When using prepared statements, the actual query is send to the server with placeholders for the parameters. The server then prepares the query. When the client (in this case the PHP script) wants to execute the query, only the missing parameters are transferred to the server. If one or more of the parameters are infected, the base structure of the prepared query is not  equal to the query's structure in which the parameters were inserted. This causes an error at the MySQL server and the infected query is not executed. In case of an database error the execution of the PHP script is stopped immediately after sending back an error.
+
+%---------------------------------------------------------------------------------------
+\subsection{Cross Site Scripting}
+To protect users from cross site scripting attacks by e.g. infecting user names or restaurant names, an other escape function is used. In addition to escaping all parameters provided to the server with \texttt{mysqli\_real\_escape\_string(...)} to protect the database, also use PHP's \texttt{htmlentities(...)} function is used to transform every special character to its HTML entity. For example the sign \texttt{>} which is very important for cross site scripting attacks is transformed into \texttt{\&gt;}. If a user registers himself with the username \texttt{<script>}, the user will be saved as \texttt{\&lt;script\&gt;} in the database. When the user name is displayed later at the web front end, the html entities are displayed as their UTF-8 character represents. The user sees no difference, but the cross site scripting attack is effectively prevented, as code with html entities is never executed by the browser. Using the html entities instead of UTF-8 in the database system makes cross site scripting attacks nearly impossible. A side effect of escaping UTF-8 special characters to the html entities is the insensitivity of the system to encoding errors in the chain from the front end to the database and back.
+
+%---------------------------------------------------------------------------------------
+\subsection{Login}
+When logging in, the customers have to send their user name and his password. Restaurant users have to provide their id instead of the user name. The received password is hashed by PHP using SHA1 and compared with the user's password stored in the database. The database only holds the SHA1 hash values of the passwords entered in the registration process. Hashing the password on the client site before sending gives no additional security gain, as a attacker reading the password in a man-in-the-middle attack will be able to login with which ever value he extracts.
+
+If the provided password equals the password stored in the database, a new session id is created and stored in the \texttt{session\_id} field (in the customer and restaurant table). The code to generate a new session id is shown in listing \ref{security_session_id}. The function \texttt{openssl\_random\_pseudo\_bytes(32)} is used to generate 32 random bytes. These bytes are then converted in a hex string which gives us a readable 64 byte random session id.
+
+\begin{figure}
+\lstset{language=php}
+\begin{lstlisting}
+session_id = bin2hex(openssl_random_pseudo_bytes(32));
+\end{lstlisting}
+\caption{Generation of session id}
+\label{security_session_id}
+\end{figure}
+
+%---------------------------------------------------------------------------------------
+\subsection{Authorisation}
+When a user calls a URL providing protected data or functionality, he must supply his user name or restaurant id along side with his current session id. The session can be validated using \texttt{check\_user\_session(...)} for customer users or \texttt{check\_restaurant\_session(...)} for restaurant users. Both functions compare the session id provided with the session id stored in the database. If the session id or the user name do not match the values in the database, the request is rejected with error code \texttt{ERROR\_UNAUTHORIZED} and the execution of the PHP script is stopped immediately. The web front end can then prompt the user to log in again and retry the request.
+
+The authorisation process is centralised in the functions named above. This minimises the possibility of coding errors, as the authentication process is done by a single line of code.
