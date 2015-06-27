@@ -3,5 +3,8 @@
 Webpage/api/1.0/img/*
 
 vendor/
+.texpadtmp
+*.pdf
+*.aux
 
 composer.lock
