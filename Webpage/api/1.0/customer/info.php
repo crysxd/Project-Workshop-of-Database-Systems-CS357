@@ -41,8 +41,7 @@
     // Check if params are sufficient
     // Password should have at least 6 characters
     if(strlen($_GET['pw']) < 6) {
-      $answer['err_no'] = 1003;
-      die(json_encode($answer));
+      db_error(array(), "Password is too short", 1003);
     }
     
     // builds up the utility for checking the number
