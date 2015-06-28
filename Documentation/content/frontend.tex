@@ -1,13 +1,109 @@
-\chapter{Frontend}
+\chapter{Front End}
 
 %=======================================================================================
 \section{Overview}
-\lipsum
+The front end is divided into the customer front end and the restaurant front end, both front ends are completely independent. The customer front end is shown when a user opens the webpage, whereas the restaurant front end is not directly visible but hidden in the subdirectory \texttt{control}.
+
+The customer front end consists up of 6 pages which are interconnected. A complete overview is seen in figure \ref{front_end_sitemap}. The pages Profile, Info and Home are always reachable from any page in the web page. The Home page displays a search bar allowing the user to search for the intended delivery address and forwarding him to the Restaurant page showing a overview of all restaurants available at his location. When the user selects on of the restaurants the user is forwarded to the Meals page containing the restaurant's menu. He can select the meals he wants to order and their quantities. When the user wants to proceed he clicks the button "Check out" which forwards him to the Order page where he can complete his order. After successfully placing the order, the user is forwarded to his profile page. The Profile page gives the user a overview of ongoing and completed orders as well as his contact information and meals which he is allowed to rate. The Info page contains useful information and help about the system and the fictive company. The user can register or log himself in on every page. 
+
+The restaurant front end is much simpler than the user front end. It just consists up of a login and main page. New restaurants can be registered on the login page. On the main page the restaurants can see their orders grouped by current state (one of pending, processing, in delivery or completed), their menu with the options to add, delete or edit meals as well as their contact and display information which can be edited.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{content/graphics/sitemap.pdf}
+\caption{The sitemap for the customer front end}
+\label{front_end_sitemap}
+\end{figure}
 
 %=======================================================================================
-\section{mplementation}
-\lipsum
+\section{Implementation}
+
+%---------------------------------------------------------------------------------------
+\subsection{Used Libraries}
+\subsection{jQuery}
+jQuery is a widely used JavaScript framework which adds commonly used functions to the language and simplifies many actions. jQuery is developed by Google Inc. and is a fundamental component of modern web development.
+
+\subsection{Bootstrap}
+Equally to jQuery, Bootstrap is a well known CSS-framework providing the possibility to develop web applications very fast. Bootstrap provides styles for common components such as buttons, text fields or dialogs. One main feature of Bootstrap is the grid system allowing web developers to separate a webpage into multiple columns which are resized and reorganised according to the available physical screen size. Four columns on a desktop machine may be displayed as 4 rows on a mobile device, allowing the content to be optimally displayed on all platforms.
+
+\subsection{Google Polymere}
+Google's Polymere framework was released in version 1.0 in late May 2015. Polymere brings the fundamental idea of object oriented programming into the world of web development. Instead of classes elements are used which defined once can be used multiple times in a webpage. The behaviour of an element can be changed by providing different attribute values to it. We use Polymere in the restaurant front end to display the different lists for the orders in different delivery states. Every list is an element of type \texttt{restaurant-delivery-list} but initialised to display only orders with one state.
 
 %=======================================================================================
 \section{Communication with the RESTful Interface}
-\lipsum
+A small jQuery plugin was written for easy communication with the server. The functions can be used to asynchronously request data from the server with a single function call. One function is provided for every HTTP method:
+
+\begin{itemize}
+\item \texttt{get(url, params, callback)} \\ Sends a \texttt{GET} request to the url providing the given url parameters
+\item \texttt{delete(url, params, callback)} \\ Sends a \texttt{DELETE} request to the url providing the given url parameters
+\item \texttt{post(url, params, callback, data)} \\ Sends a \texttt{POST} request to the url providing the given url parameters. The given data will be appended to the request.
+\item \texttt{put(url, params, callback, data)} \\ Sends a \texttt{PUT} request to the url providing the given url parameters. The given data will be appended to the request.
+
+\end{itemize}
+
+Each function takes the requested url, the url parameters and a function which will be called as soon as the request is completed as parameters. As the HTTP methods PUT and POST are meant to transport large amounts of data, the corresponding functions also can take a string as parameters which will be send to the server. All of these functions use the \texttt{send(...)} functions which implements the request to the server in an more abstract way to make it usable with all HTTP methods. The data received by \texttt{send(...)} is always treated as JSON and the received JSON text is automatically parsed into a JavaScript object. If the received data can not be parsed into a object, an error is raised and the request was not successful. In this case the callback function is called with an empty object 
+
+The usage of the functions is asynchronously, which means that a given function is called as soon as the request is completed. This function will take the loaded object as a parameter. The example usage of the get function is shown in listing \ref{api_example}. The described functions are implemented in the file \texttt{js/api.js}.
+
+\begin{figure}
+\lstset{language=javascript}
+\begin{lstlisting}
+var url = 'api/1.0/customer/info.php';
+var params = {user: 'test', session: '...'};
+
+%TODO $.api.get(url, params, function(result) {
+    /* This anonymous function is called as soon as the request is completed */
+    
+    /* Check if an error ocured, success will be false */
+    if(!result.success) {
+        alert('An error ocured!');
+        return;
+    }
+    
+    /* Everything is fine, print the received data */
+    console.log(result);
+    
+});
+\end{lstlisting}
+\caption{Example usage of the \texttt{get(...)} function to request data from the server}
+\label{api_example}
+\end{figure}
+
+%=======================================================================================
+\section{Shopping Cart}
+When the user selects items on the restaurant's menu, these items are put into a shopping cart. This shopping cart must also be available on the menu page to put items in it and on the order page to be processed. 
+
+A local SQLite database (called web SQL database) is used to store the shopping cart. This database is provided by the browser and can be accessed using JavaScript. The database is stored locally on the customer's machine and can be compared to a cookie which can be used by the webpage to store information. The database used to store the cart has only one table with the columns id, restaurant, price, amount and data. The id column holds the meal's id and the restaurant column the restaurant's id. This ids are copied from the ids received from the server when querying the restaurant's menu. The price column holds the meal's price and the amount column the amount selected by the user. The database holds only those meals selected by the user. If a meal has the amount zero, it is removed from the database. Initially the table is completely empty and meals are added as the used selects them by setting the amount to a non-zero value. The column data holds all known information about the meal such as the rating or full name encoded as a JSON string. This column is used when we later want to display the cart content in the order page. As all necessary information to display a information rich list of the chosen meals to the customer is included in the data column, no more network communication is necessary to load this information again.
+
+To select all items in the cart for one restaurant, the query in listing \ref{query_cart} is used. An other SQL query seen in listing \ref{query_cart_value}  is used to calculate the current cart value. Both operations are done for one restaurant which is the one selected by the used in the restaurant list and which's menu is displayed.
+
+
+\begin{figure}
+\lstset{language=sql}
+\begin{lstlisting}
+SELECT * FROM cart WHERE restaurant = ? ORDER BY id DESC
+\end{lstlisting}
+\caption{Query to list all cart items for one restaurant}
+\label{query_cart}
+\end{figure}
+
+
+\begin{figure}
+\lstset{language=sql}
+\begin{lstlisting}
+SELECT SUM(amount * price) AS value FROM cart WHERE restaurant = ?
+\end{lstlisting}
+\caption{Query to list all cart items for one restaurant}
+\label{query_cart_value}
+\end{figure}
+
+%=======================================================================================
+\section{Searching and Geocoding Addresses}
+In order to calculate the distances between restaurants and the user's address, we need geo coordinates of the address entered by the user. The process of converting a address int coordinates containing longitude and latitude is called geocoding. 
+
+\subsection{Selection of a Geocoding Service}
+Many online services provide rich RESTful APIs able geocode a address. This APIs can be directly used by a webpage without the interaction of a own server. The most known and internationally available services which are documented in English are the Google Maps API, Yahoo! Boss API and the OpenStreetMap Geocoding API. After first tests with the OpenStreetMap API, a very poor performance for addresses in China was seen as only less than a dozen streets where available in entire Minhang district. The Yahoo! Boss API delivered good results but was not available on a free basis. Finally we decided to use the Google Maps API as it delivered very good results and is free for non-commercial use. 
+
+Unfortunately the API is not available from clients in China. To solve this problem, a small PHP script was writted which is hosted on a server in Germany. Instead of calling the Google API directly, this PHP file is called. The PHP script redirects the request to the Google server, fetches the answer and sends it back to the client who originally requested the data. The PHP script is used as a simple proxy.
+
+\subsection{Use of the Geocoding Service}
+The geocoding service is used in the front end when the user searches his address on the start page. To provide the most comfortable experience to the user, a search bar is used to search for addresses. The user enters a search string, e.g. a road name and number, and this search string is transferred to the proxy and so to the Google servers. A set of matching addresses is returned which the web front end displays to the user. Every address at least consists up of a number, a street name, a city and a country as well as the desired geo coordinates. When the user selects the address, it is locally stored and the user is forwarded to the restaurant overview displaying all restaurants available at his location.
