@@ -1,12 +1,12 @@
-\chapter{Backend}
+
 
 %=======================================================================================
-\section{Approach to a Solution}
-\lipsum
+\section{Approach to our Solution}
+Our first approach was to use SQLite for the database. For the communication between the database and the frontend we wanted to use the REST API framework eve\cite{python-eve}. While trying to build up a server with eve we figured out that the framework is not in a state where it is usable for our project. That is the reason we went for PHP for the interface between frontend and backend. Since it is more convenient to use PHP with MySQL we also changed the database system to MySQL.
 
 %=======================================================================================
 \section{Implementation}
-\lipsum
+We implemented for each commucation between the frontend and backend an own php file. In there we grab the content of the JSON file the frontend sends, check if the needed parameter are given and escape them. Further we prepare the needed SQL queries and inserts for the MySQL server, bind the needed paramaters and execute the SQL requests. The needed results are fetched and wrapped in an answer array and are sended back to the frontend.
 
 %=======================================================================================
 \section{Security}

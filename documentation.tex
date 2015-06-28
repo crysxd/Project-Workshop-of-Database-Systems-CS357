@@ -4,6 +4,7 @@
 \usepackage{helvet}
 \usepackage{graphicx}
 \usepackage{enumitem}
+\usepackage{longtable}
 
 %http://de.wikibooks.org/wiki/LaTeX-W%C3%B6rterbuch:_fontfamily
 \renewcommand{\familydefault}{\sfdefault}
@@ -27,38 +28,418 @@
 %Used database framework: MySQL ??% TODO version
 In this chapter we introduce our database structure and explain design decisions as well as the meaning of every column.
 
-For the database of our MyFood webpage service we created the following ER model.
-\begin{figure}[h!]
-	\centering
-		\includegraphics[scale=0.5]{er_model.png}
-	\caption{ER model of our database.}
-\end{figure}
+% phpMyAdmin LaTeX Dump
+% version 4.0.10deb1
+% http://www.phpmyadmin.net
+%
+% Host: localhost
+% Generation Time: Jun 24, 2015 at 10:55 AM
+% Server version: 5.5.43-0ubuntu0.14.04.1-log
+% PHP Version: 5.5.9-1ubuntu4.9
+% 
+% Database: 'mymeal'
+% 
 
-We will now explain every column for every table.
+%
+% Structure: Customer
+%
 
-	\subsection{Restaurant}
-	The restaurant table represents the data of restaurant in real world.
+ \begin{longtable}{|l|c|c|c|l|} 
+ \caption{Structure of table Customer} \label{tab:Customer-structure} \\
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline
+\endfirsthead
+ \caption{Structure of table Customer (continued)} \\ 
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline \endhead \endfoot 
+\textbf{\textit{customer\_id\_pk}} & int(11) & No &  &  \\ \hline 
+region\_code & varchar(3) & Yes & NULL &  \\ \hline 
+national\_number & varchar(15) & Yes & NULL &  \\ \hline 
+last\_name & varchar(256) & Yes & NULL &  \\ \hline 
+first\_name & varchar(256) & Yes & NULL &  \\ \hline 
+\textbf{nick} & varchar(45) & No & Name &  \\ \hline 
+password & varchar(256) & Yes & NULL &  \\ \hline 
+session\_id & varchar(64) & Yes & NULL &  \\ \hline 
+ \end{longtable}
 
-	\setdescription{itemsep=5pt,parsep=0pt,leftmargin=0.5cm, style=sameline}
-	\begin{description}
-		\item[restaurant\_id\_pk: INT] This an automaticly generated surrogate key.
-		\item[name: VARCHAR(256)] The name of the restaurant.
-		\item[min\_order\_value: FLOAT] This value describes the minimum amount of value of a delivery so that a customer can submit a delivery.
-	\end{description}
+%
+% Data: Customer
+%
+ \begin{longtable}{|l|l|l|l|l|l|l|l|} 
+ \hline \endhead \hline \endfoot \hline 
+ \caption{Content of table Customer} \label{tab:Customer-data} \\\hline \multicolumn{1}{|c|}{\textbf{customer\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{region\_code}} & \multicolumn{1}{|c|}{\textbf{national\_number}} & \multicolumn{1}{|c|}{\textbf{last\_name}} & \multicolumn{1}{|c|}{\textbf{first\_name}} & \multicolumn{1}{|c|}{\textbf{nick}} & \multicolumn{1}{|c|}{\textbf{password}} & \multicolumn{1}{|c|}{\textbf{session\_id}} \\ \hline \hline  \endfirsthead 
+\caption{Content of table Customer (continued)} \\ \hline \multicolumn{1}{|c|}{\textbf{customer\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{region\_code}} & \multicolumn{1}{|c|}{\textbf{national\_number}} & \multicolumn{1}{|c|}{\textbf{last\_name}} & \multicolumn{1}{|c|}{\textbf{first\_name}} & \multicolumn{1}{|c|}{\textbf{nick}} & \multicolumn{1}{|c|}{\textbf{password}} & \multicolumn{1}{|c|}{\textbf{session\_id}} \\ \hline \hline \endhead \endfoot
+1 & 49 & 3070143434 & Sturm & Gerald & garrythestorm & 6787017c44f171579326c2207f82a3da & 8aa84cf899b633d0a143780a49fa69b865417bca \\ \hline 
+2 & 86 & 14324389911 & Yao & Lan & user & 7c4a8d09ca3762af61e59520943dc26494f8941b & f71a2b3076455873248203bc1dc1cd4946972d99 \\ \hline 
+3 & 86 & 14232323989 & Zhenfan & Li & dragonpunch1940 & 2acf35c77fff945a69c2d79a2f8713fd & 539862b13f47be78c65fbe150baf930601a1c628 \\ \hline 
+4 & 1 & 7184572531 & Branton & Gloria & bunnybee & 42a6b10b2c1daa800a25f3e740edb2b3 & 4ef047a953b200ce3a5a58f322dcb663fe73a885 \\ \hline 
+5 & 1 & 2126844814 & John & Thomas H. & johnny & 229657d8b627ffd14a3bccca1a0f9b6e & 3f9004d2643b05cbc645087c65088684d1d70e79 \\ \hline 
+ \end{longtable}
 
-	\subsection{Delivery\_State}
-	delivery state should be uniquely identified with the Delivery and time
+%
+% Structure: Delivery
+%
+ \begin{longtable}{|l|c|c|c|l|l|} 
+ \caption{Structure of table Delivery} \label{tab:Delivery-structure} \\
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline
+\endfirsthead
+ \caption{Structure of table Delivery (continued)} \\ 
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline \endhead \endfoot 
+\textbf{\textit{delivery\_id\_pk}} & int(11) & No &  &  &  \\ \hline 
+Customer\_customer\_id & int(11) & No &  & Customer (customer\_id\_pk) &  \\ \hline 
+Restaurant\_restaurant\_id & int(11) & No &  & Restaurant (restaurant\_id\_pk) &  \\ \hline 
+country & varchar(256) & Yes & NULL &  &  \\ \hline 
+postcode & varchar(45) & Yes & NULL &  &  \\ \hline 
+city & varchar(256) & Yes & NULL &  &  \\ \hline 
+district & varchar(45) & Yes & NULL &  &  \\ \hline 
+street\_name & varchar(256) & Yes & NULL &  &  \\ \hline 
+street\_number & varchar(45) & Yes & NULL &  &  \\ \hline 
+add\_info & varchar(256) & Yes & NULL &  &  \\ \hline 
+comment & varchar(256) & Yes & NULL &  &  \\ \hline 
+ \end{longtable}
 
-\subsection{Dish}
-We use the same
+%
+% Data: Delivery
+%
+ \begin{longtable}{|l|l|l|l|l|l|l|l|l|l|l|} 
+ \hline \endhead \hline \endfoot \hline 
+ \caption{Content of table Delivery} \label{tab:Delivery-data} \\\hline \multicolumn{1}{|c|}{\textbf{delivery\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{Customer\_customer\_id}} & \multicolumn{1}{|c|}{\textbf{Restaurant\_restaurant\_id}} & \multicolumn{1}{|c|}{\textbf{country}} & \multicolumn{1}{|c|}{\textbf{postcode}} & \multicolumn{1}{|c|}{\textbf{city}} & \multicolumn{1}{|c|}{\textbf{district}} & \multicolumn{1}{|c|}{\textbf{street\_name}} & \multicolumn{1}{|c|}{\textbf{street\_number}} & \multicolumn{1}{|c|}{\textbf{add\_info}} & \multicolumn{1}{|c|}{\textbf{comment}} \\ \hline \hline  \endfirsthead 
+\caption{Content of table Delivery (continued)} \\ \hline \multicolumn{1}{|c|}{\textbf{delivery\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{Customer\_customer\_id}} & \multicolumn{1}{|c|}{\textbf{Restaurant\_restaurant\_id}} & \multicolumn{1}{|c|}{\textbf{country}} & \multicolumn{1}{|c|}{\textbf{postcode}} & \multicolumn{1}{|c|}{\textbf{city}} & \multicolumn{1}{|c|}{\textbf{district}} & \multicolumn{1}{|c|}{\textbf{street\_name}} & \multicolumn{1}{|c|}{\textbf{street\_number}} & \multicolumn{1}{|c|}{\textbf{add\_info}} & \multicolumn{1}{|c|}{\textbf{comment}} \\ \hline \hline \endhead \endfoot
+1 & 2 & 1 & China & 200030 & Shanghai & Minhang & Dongchuan Road & 723 & \textit{NULL} & \textit{NULL} \\ \hline 
+2 & 3 & 2 & China & 200030 & Shanghai & Minhang & Dongchuan Road & 654 & \textit{NULL} & \textit{NULL} \\ \hline 
+3 & 2 & 2 & China & 200030 & Shanghai & Minhang & Dongchuan Road & 723 & \textit{NULL} & \textit{NULL} \\ \hline 
+4 & 1 & 1 & China & \textit{NULL} & Shanghai & Minghang QÃ¼ & 800 Dong Chuan Lu & \textit{NULL} & \textit{NULL} & \textit{NULL} \\ \hline 
+5 & 1 & 1 & China & \textit{NULL} & Shanghai & Minghang QÃ¼ & 800 Dong Chuan Lu & \textit{NULL} & \textit{NULL} & \textit{NULL} \\ \hline 
+ \end{longtable}
 
-\subsection{Restaurant}
-Text
+%
+% Structure: Delivery_Meal_Map
+%
+ \begin{longtable}{|l|c|c|c|l|l|} 
+ \caption{Structure of table Delivery\_Meal\_Map} \label{tab:Delivery_Meal_Map-structure} \\
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline
+\endfirsthead
+ \caption{Structure of table Delivery\_Meal\_Map (continued)} \\ 
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline \endhead \endfoot 
+\textbf{\textit{Delivery\_delivery\_id\_pk}} & int(11) & No &  & Delivery (delivery\_id\_pk) &  \\ \hline 
+\textbf{\textit{Meal\_meal\_id\_pk}} & int(11) & No &  & Meal (meal\_id\_pk) &  \\ \hline 
+amount & int(11) & Yes & NULL &  &  \\ \hline 
+ \end{longtable}
 
-\section{Server}
-Text
-\section{Front end}
-Text
+%
+% Data: Delivery_Meal_Map
+%
+ \begin{longtable}{|l|l|l|} 
+ \hline \endhead \hline \endfoot \hline 
+ \caption{Content of table Delivery\_Meal\_Map} \label{tab:Delivery_Meal_Map-data} \\\hline \multicolumn{1}{|c|}{\textbf{Delivery\_delivery\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{Meal\_meal\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{amount}} \\ \hline \hline  \endfirsthead 
+\caption{Content of table Delivery\_Meal\_Map (continued)} \\ \hline \multicolumn{1}{|c|}{\textbf{Delivery\_delivery\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{Meal\_meal\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{amount}} \\ \hline \hline \endhead \endfoot
+1 & 1 & 1 \\ \hline 
+1 & 2 & 2 \\ \hline 
+1 & 3 & 2 \\ \hline 
+2 & 5 & 1 \\ \hline 
+2 & 6 & 2 \\ \hline 
+3 & 5 & 3 \\ \hline 
+4 & 1 & 1 \\ \hline 
+4 & 2 & 1 \\ \hline 
+4 & 3 & 12 \\ \hline 
+5 & 1 & 1 \\ \hline 
+5 & 2 & 2 \\ \hline 
+5 & 3 & 12 \\ \hline 
+ \end{longtable}
+
+%
+% Structure: Delivery_State
+%
+ \begin{longtable}{|l|c|c|c|l|l|} 
+ \caption{Structure of table Delivery\_State} \label{tab:Delivery_State-structure} \\
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline
+\endfirsthead
+ \caption{Structure of table Delivery\_State (continued)} \\ 
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline \endhead \endfoot 
+\textbf{\textit{Delivery\_delivery\_id\_pk}} & int(11) & No &  & Delivery (delivery\_id\_pk) &  \\ \hline 
+\textbf{\textit{date\_pk}} & timestamp & No & CURRENT\_TIMESTAMP &  &  \\ \hline 
+Delivery\_State\_Type\_delivery\_status\_type & int(11) & No &  & Delivery\_State\_Type (delivery\_status\_type\_id\_pk) &  \\ \hline 
+comment & varchar(256) & Yes & NULL &  &  \\ \hline 
+ \end{longtable}
+
+%
+% Data: Delivery_State
+%
+ \begin{longtable}{|l|l|l|l|} 
+ \hline \endhead \hline \endfoot \hline 
+ \caption{Content of table Delivery\_State} \label{tab:Delivery_State-data} \\\hline \multicolumn{1}{|c|}{\textbf{Delivery\_delivery\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{date\_pk}} & \multicolumn{1}{|c|}{\textbf{Delivery\_State\_Type\_delivery\_status\_type}} & \multicolumn{1}{|c|}{\textbf{comment}} \\ \hline \hline  \endfirsthead 
+\caption{Content of table Delivery\_State (continued)} \\ \hline \multicolumn{1}{|c|}{\textbf{Delivery\_delivery\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{date\_pk}} & \multicolumn{1}{|c|}{\textbf{Delivery\_State\_Type\_delivery\_status\_type}} & \multicolumn{1}{|c|}{\textbf{comment}} \\ \hline \hline \endhead \endfoot
+1 & 2015-05-02 02:08:10 & 1 & \textit{NULL} \\ \hline 
+1 & 2015-05-02 02:10:12 & 2 & \textit{NULL} \\ \hline 
+1 & 2015-05-02 02:25:44 & 3 & \textit{NULL} \\ \hline 
+1 & 2015-05-02 02:43:38 & 4 & \textit{NULL} \\ \hline 
+2 & 2015-05-24 20:08:10 & 1 & \textit{NULL} \\ \hline 
+2 & 2015-05-24 21:10:21 & 2 & \textit{NULL} \\ \hline 
+2 & 2015-05-24 21:45:56 & 3 & \textit{NULL} \\ \hline 
+2 & 2015-05-24 22:20:43 & 4 & \textit{NULL} \\ \hline 
+3 & 2015-06-11 01:08:42 & 1 & \textit{NULL} \\ \hline 
+3 & 2015-06-11 02:10:23 & 2 & \textit{NULL} \\ \hline 
+3 & 2015-06-11 02:55:44 & 3 & \textit{NULL} \\ \hline 
+4 & 2015-06-11 01:08:23 & 1 & \textit{NULL} \\ \hline 
+5 & 2015-06-18 00:17:16 & 1 & \textit{NULL} \\ \hline 
+ \end{longtable}
+
+%
+% Structure: Delivery_State_Type
+%
+ \begin{longtable}{|l|c|c|c|l|} 
+ \caption{Structure of table Delivery\_State\_Type} \label{tab:Delivery_State_Type-structure} \\
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline
+\endfirsthead
+ \caption{Structure of table Delivery\_State\_Type (continued)} \\ 
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline \endhead \endfoot 
+\textbf{\textit{delivery\_status\_type\_id\_pk}} & int(11) & No &  &  \\ \hline 
+name & varchar(256) & Yes & NULL &  \\ \hline 
+ \end{longtable}
+
+%
+% Data: Delivery_State_Type
+%
+ \begin{longtable}{|l|l|} 
+ \hline \endhead \hline \endfoot \hline 
+ \caption{Content of table Delivery\_State\_Type} \label{tab:Delivery_State_Type-data} \\\hline \multicolumn{1}{|c|}{\textbf{delivery\_status\_type\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{name}} \\ \hline \hline  \endfirsthead 
+\caption{Content of table Delivery\_State\_Type (continued)} \\ \hline \multicolumn{1}{|c|}{\textbf{delivery\_status\_type\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{name}} \\ \hline \hline \endhead \endfoot
+1 & Pending \\ \hline 
+2 & Processing \\ \hline 
+3 & In delivery \\ \hline 
+4 & Done \\ \hline 
+ \end{longtable}
+
+%
+% Structure: Meal
+%
+ \begin{longtable}{|l|c|c|c|l|l|} 
+ \caption{Structure of table Meal} \label{tab:Meal-structure} \\
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline
+\endfirsthead
+ \caption{Structure of table Meal (continued)} \\ 
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline \endhead \endfoot 
+\textbf{\textit{meal\_id\_pk}} & int(11) & No &  &  &  \\ \hline 
+Restaurant\_restaurant\_id & int(11) & No &  & Restaurant (restaurant\_id\_pk) &  \\ \hline 
+name & varchar(256) & Yes & NULL &  &  \\ \hline 
+price & varchar(45) & Yes & NULL &  &  \\ \hline 
+Meal\_Category\_meal\_category\_id & int(11) & Yes & NULL & Meal\_Category (meal\_category\_id\_pk) &  \\ \hline 
+description & text & Yes & NULL &  &  \\ \hline 
+spiciness & tinyint(3) & Yes & NULL &  &  \\ \hline 
+offered & tinyint(1) & Yes & 1 &  &  \\ \hline 
+ \end{longtable}
+
+%
+% Data: Meal
+%
+ \begin{longtable}{|l|l|l|l|l|l|l|l|} 
+ \hline \endhead \hline \endfoot \hline 
+ \caption{Content of table Meal} \label{tab:Meal-data} \\\hline \multicolumn{1}{|c|}{\textbf{meal\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{Restaurant\_restaurant\_id}} & \multicolumn{1}{|c|}{\textbf{name}} & \multicolumn{1}{|c|}{\textbf{price}} & \multicolumn{1}{|c|}{\textbf{Meal\_Category\_meal\_category\_id}} & \multicolumn{1}{|c|}{\textbf{description}} & \multicolumn{1}{|c|}{\textbf{spiciness}} & \multicolumn{1}{|c|}{\textbf{offered}} \\ \hline \hline  \endfirsthead 
+\caption{Content of table Meal (continued)} \\ \hline \multicolumn{1}{|c|}{\textbf{meal\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{Restaurant\_restaurant\_id}} & \multicolumn{1}{|c|}{\textbf{name}} & \multicolumn{1}{|c|}{\textbf{price}} & \multicolumn{1}{|c|}{\textbf{Meal\_Category\_meal\_category\_id}} & \multicolumn{1}{|c|}{\textbf{description}} & \multicolumn{1}{|c|}{\textbf{spiciness}} & \multicolumn{1}{|c|}{\textbf{offered}} \\ \hline \hline \endhead \endfoot
+1 & 1 & Jidan Guangbing & 8 & \textit{NULL} & Turnover filled with Jidan & 1 & 1 \\ \hline 
+2 & 1 & Cai Bing without egg & 6 & \textit{NULL} & A regular Cai Bing without egg & 0 & 1 \\ \hline 
+3 & 1 & Jingbing & 7 & \textit{NULL} & Jingbing with egg & 1 & 1 \\ \hline 
+4 & 2 & Salad & 20 & 1 & Salad with tomatoes, olives and onions  & 0 & 1 \\ \hline 
+5 & 2 & Veggie Burger & 70 & 2 & Veggie Burger with tofu and salad and pickles. & 0 & 1 \\ \hline 
+6 & 2 & Soya Ice Cream & 30 & 3 & Ice cream made with soya instead of milk & 0 & 1 \\ \hline 
+7 & 3 & Vegetable Kebab & 18 & 2 & Mustafas famous vegetable kebab & 1 & 1 \\ \hline 
+ \end{longtable}
+
+%
+% Structure: Meal_Category
+%
+ \begin{longtable}{|l|c|c|c|l|} 
+ \caption{Structure of table Meal\_Category} \label{tab:Meal_Category-structure} \\
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline
+\endfirsthead
+ \caption{Structure of table Meal\_Category (continued)} \\ 
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline \endhead \endfoot 
+\textbf{\textit{meal\_category\_id\_pk}} & int(11) & No &  &  \\ \hline 
+name & varchar(45) & Yes & NULL &  \\ \hline 
+ \end{longtable}
+
+%
+% Data: Meal_Category
+%
+ \begin{longtable}{|l|l|} 
+ \hline \endhead \hline \endfoot \hline 
+ \caption{Content of table Meal\_Category} \label{tab:Meal_Category-data} \\\hline \multicolumn{1}{|c|}{\textbf{meal\_category\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{name}} \\ \hline \hline  \endfirsthead 
+\caption{Content of table Meal\_Category (continued)} \\ \hline \multicolumn{1}{|c|}{\textbf{meal\_category\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{name}} \\ \hline \hline \endhead \endfoot
+1 & appetizer \\ \hline 
+2 & main menu \\ \hline 
+3 & desert \\ \hline 
+ \end{longtable}
+
+%
+% Structure: Meal_Tag_Map
+%
+ \begin{longtable}{|l|c|c|c|l|l|} 
+ \caption{Structure of table Meal\_Tag\_Map} \label{tab:Meal_Tag_Map-structure} \\
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline
+\endfirsthead
+ \caption{Structure of table Meal\_Tag\_Map (continued)} \\ 
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline \endhead \endfoot 
+\textbf{\textit{Meal\_meal\_id\_pk}} & int(11) & No &  & Meal (meal\_id\_pk) &  \\ \hline 
+\textbf{\textit{Tag\_tag\_id\_pk}} & int(11) & No &  & Tag (tag\_id\_pk) &  \\ \hline 
+ \end{longtable}
+
+%
+% Data: Meal_Tag_Map
+%
+ \begin{longtable}{|l|l|} 
+ \hline \endhead \hline \endfoot \hline 
+ \caption{Content of table Meal\_Tag\_Map} \label{tab:Meal_Tag_Map-data} \\\hline \multicolumn{1}{|c|}{\textbf{Meal\_meal\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{Tag\_tag\_id\_pk}} \\ \hline \hline  \endfirsthead 
+\caption{Content of table Meal\_Tag\_Map (continued)} \\ \hline \multicolumn{1}{|c|}{\textbf{Meal\_meal\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{Tag\_tag\_id\_pk}} \\ \hline \hline \endhead \endfoot
+1 & 1 \\ \hline 
+2 & 1 \\ \hline 
+3 & 1 \\ \hline 
+2 & 2 \\ \hline 
+ \end{longtable}
+
+%
+% Structure: Opening_Time
+%
+ \begin{longtable}{|l|c|c|c|l|} 
+ \caption{Structure of table Opening\_Time} \label{tab:Opening_Time-structure} \\
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline
+\endfirsthead
+ \caption{Structure of table Opening\_Time (continued)} \\ 
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline \endhead \endfoot 
+\textbf{\textit{opening\_time\_id\_pk}} & int(11) & No &  &  \\ \hline 
+day\_id & int(11) & Yes & NULL &  \\ \hline 
+starting\_time & int(11) & Yes & NULL &  \\ \hline 
+closing\_time & int(11) & Yes & NULL &  \\ \hline 
+ \end{longtable}
+
+%
+% Data: Opening_Time
+%
+ \begin{longtable}{|l|l|l|l|} 
+ \hline \endhead \hline \endfoot \hline 
+ \caption{Content of table Opening\_Time} \label{tab:Opening_Time-data} \\\hline \multicolumn{1}{|c|}{\textbf{opening\_time\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{day\_id}} & \multicolumn{1}{|c|}{\textbf{starting\_time}} & \multicolumn{1}{|c|}{\textbf{closing\_time}} \\ \hline \hline  \endfirsthead 
+\caption{Content of table Opening\_Time (continued)} \\ \hline \multicolumn{1}{|c|}{\textbf{opening\_time\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{day\_id}} & \multicolumn{1}{|c|}{\textbf{starting\_time}} & \multicolumn{1}{|c|}{\textbf{closing\_time}} \\ \hline \hline \endhead \endfoot
+ \end{longtable}
+
+%
+% Structure: Rating
+%
+ \begin{longtable}{|l|c|c|c|l|l|} 
+ \caption{Structure of table Rating} \label{tab:Rating-structure} \\
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline
+\endfirsthead
+ \caption{Structure of table Rating (continued)} \\ 
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline \endhead \endfoot 
+\textbf{\textit{Meal\_meal\_id\_pk}} & int(11) & No &  & Meal (meal\_id\_pk) &  \\ \hline 
+\textbf{\textit{Customer\_customer\_id\_pk}} & int(11) & No &  & Customer (customer\_id\_pk) &  \\ \hline 
+date & timestamp & Yes & CURRENT\_TIMESTAMP &  &  \\ \hline 
+rating & tinyint(4) & Yes & NULL &  &  \\ \hline 
+comment & text & Yes & NULL &  &  \\ \hline 
+ \end{longtable}
+
+%
+% Data: Rating
+%
+ \begin{longtable}{|l|l|l|l|l|} 
+ \hline \endhead \hline \endfoot \hline 
+ \caption{Content of table Rating} \label{tab:Rating-data} \\\hline \multicolumn{1}{|c|}{\textbf{Meal\_meal\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{Customer\_customer\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{date}} & \multicolumn{1}{|c|}{\textbf{rating}} & \multicolumn{1}{|c|}{\textbf{comment}} \\ \hline \hline  \endfirsthead 
+\caption{Content of table Rating (continued)} \\ \hline \multicolumn{1}{|c|}{\textbf{Meal\_meal\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{Customer\_customer\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{date}} & \multicolumn{1}{|c|}{\textbf{rating}} & \multicolumn{1}{|c|}{\textbf{comment}} \\ \hline \hline \endhead \endfoot
+1 & 2 & 2015-05-02 02:43:22 & 4 & really tasty, but a bit salty \\ \hline 
+3 & 2 & 2015-05-05 20:14:54 & 3 & Really good, but way too expensive \\ \hline 
+5 & 3 & 2015-05-14 01:00:00 & 5 & Good, a! \\ \hline 
+6 & 3 & 2015-05-25 01:00:04 & 5 & Hen Good! \\ \hline 
+ \end{longtable}
+
+%
+% Structure: Restaurant
+%
+ \begin{longtable}{|l|c|c|c|l|} 
+ \caption{Structure of table Restaurant} \label{tab:Restaurant-structure} \\
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline
+\endfirsthead
+ \caption{Structure of table Restaurant (continued)} \\ 
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline \endhead \endfoot 
+\textbf{\textit{restaurant\_id\_pk}} & int(11) & No &  &  \\ \hline 
+name & varchar(256) & No &  &  \\ \hline 
+min\_order\_value & float & Yes & NULL &  \\ \hline 
+shipping\_cost & float & Yes & NULL &  \\ \hline 
+max\_delivery\_range & int(11) & Yes & NULL &  \\ \hline 
+description & text & Yes & NULL &  \\ \hline 
+country & varchar(256) & Yes & NULL &  \\ \hline 
+postcode & varchar(45) & Yes & NULL &  \\ \hline 
+city & varchar(256) & Yes & NULL &  \\ \hline 
+district & varchar(45) & Yes & NULL &  \\ \hline 
+street\_name & varchar(256) & Yes & NULL &  \\ \hline 
+street\_number & varchar(45) & Yes & NULL &  \\ \hline 
+add\_info & varchar(256) & Yes & NULL &  \\ \hline 
+position\_lat & double & Yes & NULL &  \\ \hline 
+position\_long & double & Yes & NULL &  \\ \hline 
+offered & tinyint(1) & Yes & 1 &  \\ \hline 
+password & varchar(256) & Yes & NULL &  \\ \hline 
+session\_id & varchar(64) & Yes & NULL &  \\ \hline 
+region\_code & varchar(3) & Yes & NULL &  \\ \hline 
+national\_number & varchar(15) & Yes & NULL &  \\ \hline 
+ \end{longtable}
+
+%
+% Data: Restaurant
+%
+ \begin{longtable}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|} 
+ \hline \endhead \hline \endfoot \hline 
+ \caption{Content of table Restaurant} \label{tab:Restaurant-data} \\\hline \multicolumn{1}{|c|}{\textbf{restaurant\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{name}} & \multicolumn{1}{|c|}{\textbf{min\_order\_value}} & \multicolumn{1}{|c|}{\textbf{shipping\_cost}} & \multicolumn{1}{|c|}{\textbf{max\_delivery\_range}} & \multicolumn{1}{|c|}{\textbf{description}} & \multicolumn{1}{|c|}{\textbf{country}} & \multicolumn{1}{|c|}{\textbf{postcode}} & \multicolumn{1}{|c|}{\textbf{city}} & \multicolumn{1}{|c|}{\textbf{district}} & \multicolumn{1}{|c|}{\textbf{street\_name}} & \multicolumn{1}{|c|}{\textbf{street\_number}} & \multicolumn{1}{|c|}{\textbf{add\_info}} & \multicolumn{1}{|c|}{\textbf{position\_lat}} & \multicolumn{1}{|c|}{\textbf{position\_long}} & \multicolumn{1}{|c|}{\textbf{offered}} & \multicolumn{1}{|c|}{\textbf{password}} & \multicolumn{1}{|c|}{\textbf{session\_id}} & \multicolumn{1}{|c|}{\textbf{region\_code}} & \multicolumn{1}{|c|}{\textbf{national\_number}} \\ \hline \hline  \endfirsthead 
+\caption{Content of table Restaurant (continued)} \\ \hline \multicolumn{1}{|c|}{\textbf{restaurant\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{name}} & \multicolumn{1}{|c|}{\textbf{min\_order\_value}} & \multicolumn{1}{|c|}{\textbf{shipping\_cost}} & \multicolumn{1}{|c|}{\textbf{max\_delivery\_range}} & \multicolumn{1}{|c|}{\textbf{description}} & \multicolumn{1}{|c|}{\textbf{country}} & \multicolumn{1}{|c|}{\textbf{postcode}} & \multicolumn{1}{|c|}{\textbf{city}} & \multicolumn{1}{|c|}{\textbf{district}} & \multicolumn{1}{|c|}{\textbf{street\_name}} & \multicolumn{1}{|c|}{\textbf{street\_number}} & \multicolumn{1}{|c|}{\textbf{add\_info}} & \multicolumn{1}{|c|}{\textbf{position\_lat}} & \multicolumn{1}{|c|}{\textbf{position\_long}} & \multicolumn{1}{|c|}{\textbf{offered}} & \multicolumn{1}{|c|}{\textbf{password}} & \multicolumn{1}{|c|}{\textbf{session\_id}} & \multicolumn{1}{|c|}{\textbf{region\_code}} & \multicolumn{1}{|c|}{\textbf{national\_number}} \\ \hline \hline \endhead \endfoot
+1 & Hualian & 10 & 0 & 10000 & Taste special Jidan Guangbing here. & China & 201109 & Shanghai & Minhang & Dongchuan Road & 800 & \textit{NULL} & 31.02188 & 121.43097 & 1 & 098f6bcd4621d373cade4e832627b4f6 & 26dfe8116b93ced6cfca858f375d23f1489d3207 & 86 & 17336010252 \\ \hline 
+2 & Veggi Palace & 25 & 10 & 20000 & The best Veggi dishes you get in Shanghai & China & 200030 & Shanghai & Xuhui & Huashan Road & 1954 & \textit{NULL} & 31.19875 & 121.4364 & 1 & bdc87b9c894da5168059e00ebffb9077 & 4570258f13c64eefb56a26bac08093636f0fc102 & 86 & 17455250768 \\ \hline 
+3 & Mustafa's Vegetable Kebap & 0 & 5 & 5000 & Mustafa's famous vegetable kebap only in Berlin & Deutschland & 10961 & Berlin & Schoeneberg & Mehringdamm & 32 & Next to the apartment blocks. & 52.49383 & 13.38787 & 1 & 5f4dcc3b5aa765d61d8327deb882cf99 & 75a2b6313ea2d41950160cc12678cf12ec461b79 & 86 & 14893035276 \\ \hline 
+ \end{longtable}
+
+%
+% Structure: Restaurant_Opening_Time_Map
+%
+ \begin{longtable}{|l|c|c|c|l|l|} 
+ \caption{Structure of table Restaurant\_Opening\_Time\_Map} \label{tab:Restaurant_Opening_Time_Map-structure} \\
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline
+\endfirsthead
+ \caption{Structure of table Restaurant\_Opening\_Time\_Map (continued)} \\ 
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{Links to}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline \endhead \endfoot 
+\textbf{\textit{restaurant\_opening\_time\_map\_id\_pk}} & int(11) & No &  &  &  \\ \hline 
+Restaurant\_restaurant\_id & int(11) & No &  & Restaurant (restaurant\_id\_pk) &  \\ \hline 
+Opening\_Time\_opening\_time\_id & int(11) & No &  & Opening\_Time (opening\_time\_id\_pk) &  \\ \hline 
+ \end{longtable}
+
+%
+% Data: Restaurant_Opening_Time_Map
+%
+ \begin{longtable}{|l|l|l|} 
+ \hline \endhead \hline \endfoot \hline 
+ \caption{Content of table Restaurant\_Opening\_Time\_Map} \label{tab:Restaurant_Opening_Time_Map-data} \\\hline \multicolumn{1}{|c|}{\textbf{restaurant\_opening\_time\_map\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{Restaurant\_restaurant\_id}} & \multicolumn{1}{|c|}{\textbf{Opening\_Time\_opening\_time\_id}} \\ \hline \hline  \endfirsthead 
+\caption{Content of table Restaurant\_Opening\_Time\_Map (continued)} \\ \hline \multicolumn{1}{|c|}{\textbf{restaurant\_opening\_time\_map\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{Restaurant\_restaurant\_id}} & \multicolumn{1}{|c|}{\textbf{Opening\_Time\_opening\_time\_id}} \\ \hline \hline \endhead \endfoot
+ \end{longtable}
+
+%
+% Structure: Tag
+%
+ \begin{longtable}{|l|c|c|c|l|} 
+ \caption{Structure of table Tag} \label{tab:Tag-structure} \\
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline
+\endfirsthead
+ \caption{Structure of table Tag (continued)} \\ 
+ \hline \multicolumn{1}{|c|}{\textbf{Column}} & \multicolumn{1}{|c|}{\textbf{Type}} & \multicolumn{1}{|c|}{\textbf{Null}} & \multicolumn{1}{|c|}{\textbf{Default}} & \multicolumn{1}{|c|}{\textbf{MIME}} \\ \hline \hline \endhead \endfoot 
+\textbf{\textit{tag\_id\_pk}} & int(11) & No &  &  \\ \hline 
+name & varchar(45) & Yes & NULL &  \\ \hline 
+color & varchar(6) & Yes & NULL &  \\ \hline 
+ \end{longtable}
+
+%
+% Data: Tag
+%
+ \begin{longtable}{|l|l|l|} 
+ \hline \endhead \hline \endfoot \hline 
+ \caption{Content of table Tag} \label{tab:Tag-data} \\\hline \multicolumn{1}{|c|}{\textbf{tag\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{name}} & \multicolumn{1}{|c|}{\textbf{color}} \\ \hline \hline  \endfirsthead 
+\caption{Content of table Tag (continued)} \\ \hline \multicolumn{1}{|c|}{\textbf{tag\_id\_pk}} & \multicolumn{1}{|c|}{\textbf{name}} & \multicolumn{1}{|c|}{\textbf{color}} \\ \hline \hline \endhead \endfoot
+1 & Vegetarian & 195805 \\ \hline 
+2 & Vegan & 22c13e \\ \hline 
+3 & Pork & f97990 \\ \hline 
+4 & Cold & 73b9c1 \\ \hline 
+5 & Kosher & 6c1547 \\ \hline 
+ \end{longtable}
 
 
 \end{document}
