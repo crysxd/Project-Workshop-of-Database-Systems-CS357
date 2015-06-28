@@ -1,6 +1,13 @@
 *.swp
 *~
-*.aux
 *.out
 *.dvi
 *.log
+
+.texpadtmp
+vendor
+Webpage
+*.lock
+*.aux
+*.gz
+*.pdf
