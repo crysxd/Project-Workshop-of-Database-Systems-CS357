@@ -31,7 +31,7 @@
 
     $args_str = array("user", "session");
     $args_put_str = array('restaurant', 'dishes', 'address');
-    $args_address_str = array('road', 'city', 'postal_code', 'country', 'lat', 'lng');
+    $args_address_str = array('road', 'city', 'district', 'postal_code', 'country', 'lat', 'lng');
     $args_dish_str = array('id', 'quantity');
 
     check_parms_available($args_str); 
@@ -42,7 +42,7 @@
     
     // Checking if user has this session id
     check_customer_session($args['user'], $args['session']);
-    
+  
     // if there are no dishes to add we don't have to insert anything and the process can die
     if (empty($input['dishes']))
       db_error($answer, '$dishes may not be empty');
@@ -58,8 +58,13 @@
     $args['dishes'] = array();
     $args['address'] = array();
     
-    foreach ($args_put_str as $arg_str)
+    foreach ($args_put_str as $arg_str){
       $args[$arg_str] = $input[$arg_str];
+    }
+    
+    // If no street number is given the number is empty
+    if(!(array_key_exists('number', $args['address'])))
+      $args['address']['number']= '';
     
     $answer = array();
 
@@ -80,6 +85,27 @@
       db_error($answer, "Restaurant_id and address does not match in distance");
     }
 
+    // check if the delivery value fullfills the minimum amount of the restaurant
+    $stmt_meal_value = "SELECT price FROM Meal WHERE meal_id_pk = ?";
+    
+    $meal_value_sum = 0;
+    foreach ($args['dishes'] as $dish){
+      if(!($stmt_meal_value_result = push_stmt($stmt_meal_value, "i", 
+            array(&$dish['id']))))
+        db_error(array(), "Meal ID is unvalid.", $ERROR_GENERAL);
+      $meal_value_sum += $stmt_meal_value_result->fetch_assoc()['price'];
+    }
+    
+    $stmt_restaurant_min_order_value = "SELECT min_order_value FROM Restaurant WHERE restaurant_id_pk = ?";
+    
+    if(!($stmt_restaurant_min_order_value_result = push_stmt($stmt_restaurant_min_order_value, "i", 
+      array(&$args['restaurant']))))
+      db_error(array(), "Restaurant ID is unvalid.", $ERROR_GENERAL);
+    
+    $restaurant_min_order_value = $stmt_restaurant_min_order_value_result->fetch_assoc()['min_order_value'];
+    if ($restaurant_min_order_value > $meal_value_sum)
+      db_error(array(), "Delivery value to low.", $ERROR_TOO_LOW_DELIVERY_VALUE);
+    
     //  Statements
     
     // Get customer id with nick $user
@@ -87,8 +113,6 @@
               array(&$args['user'], &$args['session']))))
       db_error($answer);
     $args['customer_id'] = $select_user_id->fetch_assoc()['customer_id_pk'];
-
-    // gets the next delivery id
     
     // Insert into Delivery table
     $stmt_insert_delivery = "
@@ -96,8 +120,9 @@
             `Restaurant_restaurant_id`, `country`, `postcode`, `city`, `district`, `street_name`, `street_number`, `add_info`, `comment`) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)";
     
+    var_dump($args);
     if(!(push_stmt_insert($stmt_insert_delivery, "iissssss", 
-            array(&$args['customer_id'], &$args['restaurant'],  &$args['address']['country'], &$args['address']['postcode'],
+            array(&$args['customer_id'], &$args['restaurant'],  &$args['address']['country'], &$args['address']['postal_code'],
             &$args['address']['city'], &$args['address']['district'], &$args['address']['road'] , &$args['address']['number']))))
       db_error($answer);
     
