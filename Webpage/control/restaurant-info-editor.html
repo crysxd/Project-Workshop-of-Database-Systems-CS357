@@ -106,7 +106,7 @@
       ready: function() {
         /* If we should regsiter a new restaurant */
         if(this.register) {
-          alert('Register task')
+
         }
         
         /* If we edit an old one, load the data */
@@ -159,8 +159,20 @@
       },
       _fillData: function() {
         /* Fill in data */
-        var address = this.data.street_number + ', ' + this.data.street_name + ', ' + 
-            this.data.postcode + ', ' + this.data.city;
+        var address = this.data.street_name;
+        
+        if(this.data.postcode) {
+          address += ', ' + this.data.postcode
+        }
+        
+        if(this.data.city) {
+          address += ', ' + this.data.city
+        }
+        
+        if(this.data.country) {
+          address += ', ' + this.data.country
+        }
+            
         $(this.$['name']).val(this.data.name);
         $(this.$['phone']).val(this.data.phone);
         $(this.$['range']).val(this.data.max_delivery_range);
@@ -209,16 +221,33 @@
           return;
         }
 
-        /* Decode */
-        address = JSON.parse(address);
+        /* Parse address if entered */
+        if(address != undefined) {
+          /* Decode */
+          address = JSON.parse(address);   
+          
+          /* Copy, prevent values from being empty */
+          params.street = address.simple.road ? address.simple.road : null;
+          params.city = address.simple.city ? address.simple.city : null;
+          params.country = address.simple.country ? address.simple.country : null;
+          params.postcode = address.simple.postcode ? address.simple.postcode : null;
+          params.position_lat = address.geometry.location.lat;
+          params.position_long = address.geometry.location.lng;
 
-        /* Copy, prevent values from being empty */
-        params.street = address.simple.road ? address.simple.road : "null"
-        params.city = address.simple.city ? address.simple.city : "null";
-        params.country = address.simple.country ? address.simple.country : "null";
-        params.postcode = address.simple.postcode ? address.simple.postcode : "null";
-        params.position_lat = address.geometry.location.lat;
-        params.position_long = address.geometry.location.lng;
+        } 
+        
+        /* No new address entered, copy old data */
+        else {
+          console.log(this.data);
+          params.street = this.data.street_name;
+          params.city = this.data.city;
+          params.country = this.data.country;
+          params.postcode = this.data.postcode;
+          params.position_lat = this.data.position_lat;
+          params.position_long = this.data.position_long;
+          
+        }
+
 
         /* Check if passwords matches its control */
         if(params.pw != $(this.$['password-control']).val()) {
@@ -245,8 +274,9 @@
         
         /* Send data */
         this.$.ajaxSave.url = '../api/1.0/restaurant/info.php';
-        this.$.ajaxSave.methos = this.register ? 'PUT' : 'POST';
+        this.$.ajaxSave.method = this.register ? 'PUT' : 'POST';
         this.$.ajaxSave.params = params;
+        this.$.ajaxSave.body = $(this.$['icon-preview']).attr('src');
         this.$.ajaxSave.generateRequest();
         
       },
@@ -259,12 +289,24 @@
       },
       _ajaxSaveDone: function(request) {
         var result = request.detail.response;
+        console.log(result);
 
         /* Set button to normal state */
         $(this.$['btn-complete']).button('reset');
         
         /* Handle error */
         if(utils.handleError(result)) {
+          return;
+        }
+        
+        /* If register -> forward */
+        if(this.register) {
+          var session = {name: result.name, session: result.session, id: result.id};
+          utils.setSession(session);
+          
+          alert('Yout id is ' + result.id + '. You need this id to log in!');
+          window.location.href = 'control.html';
+          
           return;
         }
         
@@ -320,7 +362,8 @@
           $(e).click(function() {
             /* Hide and set result attribute */
             $(_this.$.modal).modal('hide');
-            $(this.$['address-search']).attr('result', JSON.stringify(d));
+            console.log(d);
+            $(_this.$['address-search']).attr('result', JSON.stringify(d));
           });
           
           /* Append */
