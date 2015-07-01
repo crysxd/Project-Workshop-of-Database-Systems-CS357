@@ -233,12 +233,11 @@
           params.postcode = address.simple.postcode ? address.simple.postcode : null;
           params.position_lat = address.geometry.location.lat;
           params.position_long = address.geometry.location.lng;
-
+          
         } 
         
         /* No new address entered, copy old data */
         else {
-          console.log(this.data);
           params.street = this.data.street_name;
           params.city = this.data.city;
           params.country = this.data.country;
@@ -289,7 +288,6 @@
       },
       _ajaxSaveDone: function(request) {
         var result = request.detail.response;
-        console.log(result);
 
         /* Set button to normal state */
         $(this.$['btn-complete']).button('reset');
@@ -362,7 +360,6 @@
           $(e).click(function() {
             /* Hide and set result attribute */
             $(_this.$.modal).modal('hide');
-            console.log(d);
             $(_this.$['address-search']).attr('result', JSON.stringify(d));
           });
           
