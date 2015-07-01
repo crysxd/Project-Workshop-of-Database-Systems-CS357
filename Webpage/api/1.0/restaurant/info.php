@@ -117,7 +117,7 @@
     }
     
     // Bind parameters
-    $bind = $stmt->bind_param("siiissssssiisi", $region_code, $_GET['min_order_value'], $_GET['shipping_cost'], $_GET['max_delivery_range'],
+    $bind = $stmt->bind_param("siiisssssssssi", $region_code, $_GET['min_order_value'], $_GET['shipping_cost'], $_GET['max_delivery_range'],
                               $_GET['name'], $_GET['street'], $_GET['postcode'], $national_number, $_GET['city'], $_GET['country'],
                               $_GET['position_lat'], $_GET['position_long'], $_GET['description'], $_GET['id']);
     
