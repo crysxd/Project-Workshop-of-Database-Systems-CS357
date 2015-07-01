@@ -20,6 +20,23 @@
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="../assets/js/ie-emulation-modes-warning.js"></script>
+    
+    <!-- Session handling and more -->
+    <script src="main.js"></script>
+
+    <!-- jQuery -->
+    <script src="../js/jquery-2.1.0.min.js"></script>
+    <script src="../js/api.js"></script>
+
+    <!-- Polymer -->
+    <script src="../js/webcomponents-lite.js"></script>
+    <link rel="import" href="../assets/polymer/polymer.html">
+    <link rel="import" href="../assets/iron-ajax/iron-ajax.html">
+    <link rel="import" href="restaurant-delivery-info.html">
+    <link rel="import" href="restaurant-delivery-list.html">
+    <link rel="import" href="restaurant-menu-list.html">
+    <link rel="import" href="restaurant-meal-info.html">
+    <link rel="import" href="restaurant-info-editor.html">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -55,306 +72,45 @@
 
         <!-- Tab for pending orders -->
         <div class="tab-pane active table table-striped" id="tab-pending-orders">
-          <table class="table table-striped table-hover table-orders">
-            <thead>
-              <tr><th>#</th><th>Recepient</th><th>Pending Since</th><th>Options</th></tr>
-            </thead>
-            <tbody> 
-              <template>
-                <tr class="table-row order">
-                  <td>Undefined</td>
-                  <td>Undefined</td>
-                  <td>Undefined</td>
-                  <td><div class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok">&nbsp;</span>Process</div></td>
-                </tr>
-              </template>
-               <tr class="table-row order">
-                  <td>Undefined</td>
-                  <td>Undefined</td>
-                  <td>Undefined</td>
-                  <td><div class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok">&nbsp;</span>Process</div></td>
-                </tr>
-            </tbody>
-          </table>
+          <restaurant-delivery-list state="1" next="Process" auto="3"></restaurant-delivery-list>
         </div>
         
         <!-- Tab for orders being processed -->
         <div class="tab-pane" id="tab-processing-orders">
-          <table class="table table-striped table-hover table-orders">
-            <thead>
-              <tr><th>#</th><th>Recepient</th><th>Processing Since</th><th>Options</th></tr>
-            </thead>
-            <tbody> 
-              <template>
-                <tr class="table-row order">
-                  <td>Undefined</td>
-                  <td>Undefined</td>
-                  <td>Undefined</td>
-                  <td><div class="btn btn-success btn-sm"><span class="glyphicon glyphicon-send">&nbsp;</span>Deliver</div></td>
-                </tr>
-              </template>
-            </tbody>
-          </table>
+          <restaurant-delivery-list state="2" next="In Delivery"></restaurant-delivery-list>
         </div>
           
         <!-- Tab for orders on the road processed -->
         <div class="tab-pane" id="tab-on-road-orders">
-          <table class="table table-striped table-hover table-orders">
-            <thead>
-              <tr><th>#</th><th>Recepient</th><th>On Road Since</th><th>Options</th></tr>
-            </thead>
-            <tbody> 
-              <template>
-                <tr class="table-row order">
-                  <td>Undefined</td>
-                  <td>Undefined</td>
-                  <td>Undefined</td>
-                  <td><div class="btn btn-success btn-sm"><span class="glyphicon glyphicon-send">&nbsp;</span>Deliver</div></td>
-                </tr>
-              </template>
-            </tbody>
-          </table>
+          <restaurant-delivery-list state="3" next="Complete"></restaurant-delivery-list>
         </div>
           
         <!-- Tab for completed orders -->
         <div class="tab-pane" id="tab-completed-orders">
-          <div class="form-inline pull-right">
-            <div class="input-group padded">
-              <input type="text" class="form-control" placeholder="Search for user or order number...">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-              </span>
-            </div>
-          </div>
-          <table class="table table-striped table-hover">
-            <thead>
-              <tr><th>#</th><th>Recepient</th><th>Completed On</th></tr>
-            </thead>
-            <tbody> 
-              <template>
-                <tr class="table-row order">
-                  <td>Undefined</td>
-                  <td>Undefined</td>
-                  <td>Undefined</td>
-                </tr>
-              </template>
-              <tr class="row-load-more">
-                <td colspan="3"><span class="glyphicon glyphicon-repeat">&nbsp;</span> Load more items</td>
-              </tr>
-            </tbody>
-          </table>
+          <restaurant-delivery-list state="4"></restaurant-delivery-list>
         </div>
           
         <!-- Tab for the menu -->
         <div class="tab-pane" id="tab-menu">
-          <div class="form-inline padded pull-right">
-            <div class="form-group">
-              <div id="btn-new-meal" class="btn btn-success"><span class="glyphicon glyphicon-plus">&nbsp;</span>Add meal</div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for meal...">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                </span>
-              </div>
-            </div>
-          </div>
-          <table class="table table-striped table-hover">
-            <thead>
-              <tr><th>Meal</th></tr>
-            </thead>
-            <tbody>
-              <template>
-                <tr class="row meal"><td></td></tr>
-              </template>
-            </tbody>
-          </table>
+          <restaurant-menu-list></restaurant-menu-list>  
         </div>
           
         <!-- Tab for the restaurant infotmations -->
         <div class="tab-pane padded" id="tab-info">
-          <link href="register-form.html" rel="import" onload="this.parentNode.innerHTML=this.import.children[0].innerHTML"/>
+          <restaurant-info-editor></restaurant-info-editor>
         </div>
         
       </div>
     </div><!-- Main Container -->
-    
-    
-    <!-- Dialog to display a order -->
-    <div id="order-modal" class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 class="modal-title">Order <span class="order-id">324342</span></h4>
-          </div>
-          <div class="modal-body">
-            
-            <div class="modal-body-loading">
-              <img src="../imgs/loader.gif" alt="Loading...">
-            </div>
-            
-            <div class="modal-body-content">            
-              <h4>Information</h4>
-              <table class="table table-striped table-bordered">
-                <thead>
-                  <tr><th>Position</th><th>Value</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>Customer</td><td>crys</td></tr>
-                  <tr><td>Shipping costs</td><td>23</td></tr>
-                  <tr><td>Order value</td><td>324</td></tr>
-                  <tr><td>Contact phone</td><td>130 2342 2342</td></tr>
-                  <tr>
-                    <td>Address</td>
-                    <td>
-                      <address>
-                        Christian Würthner<br>
-                        800 Dongchuan Lu<br>
-                        Minhang Qu<br>
-                        20123 Shanghai Shi
-                      </address>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              
-              <h4>Items</h4>
-              <table class="table table-striped table-bordered">
-                <thead>
-                  <tr><th>#</th><th>Name</th><th>Price</th><th>Amount</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>32423</td><td>A cool meal</td><td>34</td><td>1</td></tr>
-                </tbody>
-              </table>
-              
-              <h4>Log</h4>
-              <table class="table table-striped table-bordered">
-                <thead>
-                  <tr><th>Position</th><th>Value</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>2015-05-29 12:50</td><td>Pending</td></tr>
-                  <tr><td>2015-05-29 13:03</td><td>Processing</td></tr>
-                  <tr><td>2015-05-29 13:12</td><td>On Road</td></tr>
-                  <tr><td>2015-05-29 13:21</td><td>Delivered</td></tr>
-                </tbody>
-              </table>
-            </div>
-            
-          </div>
-        </div>
-      </div>
-    </div><!-- order dialog-->
-    
-    <!-- Dialog to display a meal -->
-    <div id="meal-modal" class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 class="modal-title meal-name">Add a new meal</h4>
-          </div>
-          <div class="modal-body">
-            
-            <div class="modal-body-loading">
-              <img src="../imgs/loader.gif" alt="Loading...">
-            </div>
-            
-            <div class="modal-body-content"> 
-              <form>
-                <div class="form-group">
-                  <label for="meal-modal-title">Title</label>
-                  <input type="text" class="form-control" id="meal-modal-title" placeholder="Enter title">
-                </div>
-                <div class="form-group">
-                  <label for="meal-modal-title">Price</label>
-                  <div class="input-group">
-                    <input type="number" class="form-control" id="meal-modal-price" placeholder="Enter price">
-                    <span class="input-group-addon" id="basic-addon1">元</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="meal-modal-description">Description</label>
-                  <textarea class="form-control" id="meal-modal-description" placeholder="Enter description"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="meal-modal-spiciness">Spiciness Level</label>
-                  <select class="form-control" id="meal-modal-spiciness">
-                    <option value="0">Not spicy</option>
-                    <option value="1">Minimal hot</option>
-                    <option value="2">Hot</option>
-                    <option value="3">Very hot</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="meal-modal-tags">Tags</label>
-                  <div id="meal-modal-tags" class="row">
-                    <div class="col-xs-3">
-                      <input  type="checkbox" id="meal-modal-price" > Vegan
-                    </div>
-                    <div class="col-xs-3">
-                      <input  type="checkbox" id="meal-modal-price" > Vegetarian
-                    </div>
-                    <div class="col-xs-3">
-                      <input  type="checkbox" id="meal-modal-price" > Pork
-                    </div>
-                    <div class="col-xs-3">
-                      <input  type="checkbox" id="meal-modal-price" > Vegan
-                    </div>
-                    <div class="col-xs-3">
-                      <input  type="checkbox" id="meal-modal-price" > Vegan
-                    </div>
-                  </div>
-                </div>
-              </form>
-              <div class="modal-footer">
-                <div id="meal-modal-cancel" class="btn btn-default" data-dismiss="modal">Cancel</div>
-                <div id="meal-modal-save" class="btn btn-primary">Save</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div><!-- meal dialog -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../js/jquery-2.1.0.min.js"></script>
     <script src="../bootstrap/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
     <script>
       $('.navbar-brand').html(JSON.parse(localStorage.getItem('restaurantSession')).name);
-      
-      $('.table-orders .order').click(function() {
-        $('#order-modal').modal('show'); 
-        window.setTimeout(function() {
-          $('#order-modal .modal-body-loading').hide(); 
-          $('#order-modal .modal-body-content').show(); 
-        }, 500);
-      });
-      $('#btn-new-meal').click(function() {
-        $('#meal-modal').modal('show'); 
-        window.setTimeout(function() {
-          $('#meal-modal .modal-body-loading').hide(); 
-          $('#meal-modal .modal-body-content').show(); 
-        }, 500);
-      });
-      $('#btn-search-address').click(function() {
-        $('#address-modal').modal('show'); 
-        window.setTimeout(function() {
-          $('#address-modal .modal-body-loading').hide(); 
-          $('#address-modal .modal-body-content').show(); 
-        }, 500);
-      });
     </script>
   </body>
 </html>

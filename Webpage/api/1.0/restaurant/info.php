@@ -83,10 +83,30 @@
     // create answer array
     $answer = array();
     $answer['success'] = false;
+    
+    // Parse phone number
+   /* $phone_number = $_GET['phone'];
+    $phoneNumber = new \libphonenumber\PhoneNumber();
+    $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+    try {
+      // extracts the phone number fragments and saves them into the $phone_number object
+      $phone_number_proto = $phoneUtil->parse($phone_number, "CH", $phoneNumber);
+    } catch (\libphonenumber\NumberParseException $e) {
+      db_error(array(), "Phone number is unvalid.", $ERROR_WRONG_PHONE_FORMAT);
+    }
+    
+    // checks if phone number is valid
+    if(!($phoneUtil->isValidNumber($phone_number_proto))) {
+      db_error(array(), "Phone number is unvalid.", $ERROR_WRONG_PHONE_FORMAT);
+    }*/
+    
+    $region_code = '+86';//$phoneNumber->getCountryCode();
+    $national_number = $_GET['phone'];//$phoneNumber->getNationalNumber();
+    
 
     // prepare statement
     $stmt = $db_link->prepare("UPDATE restaurant ".
-                              "SET region_code = '+86', min_order_value = ?, shipping_cost = ?, max_delivery_range = ?, ".
+                              "SET region_code = ?, min_order_value = ?, shipping_cost = ?, max_delivery_range = ?, ".
                               "name = ?, street_name = ?, postcode = ?, national_number = ?, city = ?, country = ?, ".
                               "position_lat = ?, position_long = ?, description = ?, offered = 1 ".
                               "WHERE restaurant_id_pk = ?");
@@ -97,29 +117,22 @@
     }
     
     // Bind parameters
-    $bind = $stmt->bind_param("iiissssssiisi", $_GET['min_order_value'], $_GET['shipping_cost'], $_GET['max_delivery_range'],
-                              $_GET['name'], $_GET['street'], $_GET['postcode'], $_GET['phone'], $_GET['city'], $_GET['country'],
+    $bind = $stmt->bind_param("siiissssssiisi", $region_code, $_GET['min_order_value'], $_GET['shipping_cost'], $_GET['max_delivery_range'],
+                              $_GET['name'], $_GET['street'], $_GET['postcode'], $national_number, $_GET['city'], $_GET['country'],
                               $_GET['position_lat'], $_GET['position_long'], $_GET['description'], $_GET['id']);
     
     // execute
     if(!$bind || !$stmt->execute()) {
       db_error();
       
-    } else {
-      $answer['success'] = true;
-      $answer['id'] = $_GET['id'];
-      $answer['session'] = $_GET['session'];
-      $answer['name'] = $_GET['name'];
-            
-      // Get path and copy
-      $file = get_restaurant_icon_file_name($_GET['id']);
-      save_image_from_input($file);
-            
-    }
-    
-        
+    } 
+
+    // Get path and copy
+    $file = get_restaurant_icon_file_name($_GET['id']);
+    save_image_from_input($file);
+                 
     // if a new password is supplied, update it
-    if(array_key_exists('pw', $_GET)) {
+    if(array_key_exists('pw', $_GET) && strlen($_GET['pw']) > 0) {
       // Check if params are sufficient
       // Password should have at least 6 characters
       if(strlen($_GET['pw']) < 6) {
@@ -142,7 +155,7 @@
     }
     
     // Encode answer as json and print aka send
-    echo json_encode($answer);
+    rest_get();
 
   }
         
@@ -150,9 +163,37 @@
    * Handles get requests
    */     
   function rest_get() {
-    // create answer array
-    $answer = array("success" => false, "err_no" => ERROR_GENERAL, "err_msg" => "Not implemented");
-       
+    global $db_link;
+    
+    // Check params and session
+    check_parms_available(array("id", "session"));
+    check_restaurant_session($_GET['id'], $_GET['session']); 
+    
+    // prepare query
+    $stmt = $db_link->prepare("SELECT *, CONCAT(region_code, ' ', national_number) AS phone FROM restaurant WHERE restaurant_id_pk = ?");
+    
+    // check, bin, execute and get results
+    if(!$stmt || !$stmt->bind_param("i", $_GET["id"]) || !$stmt->execute() || !$result=$stmt->get_result()) {
+      db_error();
+    }
+    
+    // create answer
+    $answer = $result->fetch_assoc();
+    $answer['id'] = $_GET['id'];
+    $answer['success'] = true;
+    $answer['session'] = $answer['session_id'];
+    unset($answer['restaurant_id_pk']);
+    unset($answer['password']);
+    unset($answer['session_id']);
+    unset($answer['national_number']);
+    unset($answer['region_code']);
+    
+    // Load icon
+    $file = get_restaurant_icon_file_name($_GET['id']);
+    if(file_exists($file)) {
+      $answer['icon'] = file_get_contents($file);
+    }
+    
     // Encode answer as json and print aka send
     echo json_encode($answer);
   }

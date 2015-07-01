@@ -133,7 +133,7 @@
             <a id="meals-search-complete" class="btn btn-default">
               &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
             </a>
-            <a class="btn btn-success btn-checkout" href="javascript:leaveTo('order.php')">
+            <a class="btn btn-success btn-checkout">
               Check out&nbsp;<span class="badge"><span class="cart-value"></span>元</span>
             </a>          
           </span>

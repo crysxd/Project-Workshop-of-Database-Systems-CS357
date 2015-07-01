@@ -31,7 +31,7 @@
     global $db_link;
     
     // assure all required parameters are available, will die if not all are available
-    check_parms_available(array("first_name", "sure_name", "pw", "nick", "phone"));
+    check_parms_available(array("first_name", "sure_name", "pw", "nick", "phone", "email"));
         
     // create answer array
     $answer = array();
@@ -41,8 +41,7 @@
     // Check if params are sufficient
     // Password should have at least 6 characters
     if(strlen($_GET['pw']) < 6) {
-      $answer['err_no'] = 1003;
-      die(json_encode($answer));
+      db_error(array(), "Password is too short", 1003);
     }
     
     // builds up the utility for checking the number
@@ -68,8 +67,8 @@
     $password = hash(PASSWORD_HASH_FUNCTION, $_GET['pw']);
     
     // prepare statement
-    $stmt = $db_link->prepare("INSERT INTO Customer(region_code, national_number, last_name, first_name, nick, password) VALUES(?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $region_code, $national_number, $_GET['sure_name'], $_GET['first_name'], $_GET['nick'], $password);
+    $stmt = $db_link->prepare("INSERT INTO Customer(region_code, national_number, last_name, first_name, nick, password, email) VALUES(?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssss", $region_code, $national_number, $_GET['sure_name'], $_GET['first_name'], $_GET['nick'], $password, $_GET['email']);
     
     
     // execute
@@ -122,7 +121,7 @@
     check_customer_session($args['user'], $args['session']);
     
     $stmt_select_user="
-      SELECT nick, CONCAT(  '+', region_code,  ' ', national_number ) phone, first_name, last_name sure_name
+      SELECT nick, CONCAT(  '+', region_code,  ' ', national_number ) phone, first_name, last_name sure_name, email
       FROM Customer
       WHERE nick = ?";
     
@@ -153,56 +152,30 @@
     ";
     
     $stmt_select_ongoing_deliveries = "
-        SELECT * 
-        FROM (
-          SELECT cdds.delivery_id_pk id, r.name restaurant, dst.name state, cdds.date_pk state_since
-          FROM (
-            SELECT d.delivery_id_pk, d.Restaurant_restaurant_id, ds.date_pk, ds.Delivery_State_Type_delivery_status_type
-            TYPE 
-            FROM (
-              SELECT customer_id_pk
-              FROM Customer
-              WHERE nick =  ?
-            )c
-            INNER JOIN Delivery d ON c.customer_id_pk = d.Customer_customer_id
-            INNER JOIN Delivery_State ds ON d.delivery_id_pk = ds.Delivery_delivery_id_pk
-            WHERE d.delivery_id_pk != ( 
-              SELECT d.delivery_id_pk
-              FROM (
-                SELECT customer_id_pk
-                FROM Customer
-                WHERE nick =  ?
-              )c
-              INNER JOIN Delivery d ON c.customer_id_pk = d.Customer_customer_id
-              INNER JOIN Delivery_State ds ON d.delivery_id_pk = ds.Delivery_delivery_id_pk
-              WHERE ds.Delivery_State_Type_delivery_status_type = 4 ) 
-          )cdds
-          INNER JOIN Delivery_State_Type dst ON cdds.type = dst.delivery_status_type_id_pk
-          INNER JOIN Restaurant r ON cdds.Restaurant_restaurant_id = r.restaurant_id_pk
-          ORDER BY state_since DESC
-        )cddsr
-        GROUP BY cddsr.id
+      SELECT d.delivery_id_pk AS id, r.name AS restaurant, m.name AS state, s.date_pk AS state_since
+      FROM delivery AS d
+      INNER JOIN (
+          SELECT max(Delivery_State_Type_delivery_status_type) AS state, delivery_delivery_id_pk, max(date_pk) AS date_pk
+          FROM delivery_state
+          GROUP BY delivery_delivery_id_pk 
+      ) AS s on d.delivery_id_pk = s.delivery_delivery_id_pk
+      INNER JOIN customer AS c ON d.customer_customer_id = c.customer_id_pk
+      INNER JOIN delivery_state_type AS m ON s.state = m.delivery_status_type_id_pk
+      INNER JOIN restaurant AS r ON d.restaurant_restaurant_id = r.restaurant_id_pk
+      WHERE c.nick = ? AND s.state != 4
     ";
     $stmt_select_old_deliveries = "
-        SELECT * 
-        FROM (
-          SELECT cdds.delivery_id_pk id, r.name restaurant, dst.name state, cdds.date_pk state_since
-          FROM (
-            SELECT d.delivery_id_pk, d.Restaurant_restaurant_id, ds.date_pk, ds.Delivery_State_Type_delivery_status_type type
-            FROM (
-              SELECT customer_id_pk
-              FROM Customer
-              WHERE nick =  ?
-            )c
-            INNER JOIN Delivery d ON c.customer_id_pk = d.Customer_customer_id
-            INNER JOIN Delivery_State ds ON d.delivery_id_pk = ds.Delivery_delivery_id_pk
-            WHERE ds.Delivery_State_Type_delivery_status_type = 4
-          )cdds
-          INNER JOIN Delivery_State_Type dst ON cdds.type = dst.delivery_status_type_id_pk
-          INNER JOIN Restaurant r ON cdds.Restaurant_restaurant_id = r.restaurant_id_pk
-          ORDER BY state_since DESC
-        )cddsr
-        GROUP BY cddsr.id
+      SELECT d.delivery_id_pk AS id, r.name AS restaurant, m.name AS state, s.date_pk AS state_since
+      FROM delivery AS d
+      INNER JOIN (
+          SELECT max(Delivery_State_Type_delivery_status_type) AS state, delivery_delivery_id_pk, max(date_pk) AS date_pk
+          FROM delivery_state
+          GROUP BY delivery_delivery_id_pk 
+      ) AS s on d.delivery_id_pk = s.delivery_delivery_id_pk
+      INNER JOIN customer AS c ON d.customer_customer_id = c.customer_id_pk
+      INNER JOIN delivery_state_type AS m ON s.state = m.delivery_status_type_id_pk
+      INNER JOIN restaurant AS r ON d.restaurant_restaurant_id = r.restaurant_id_pk
+      WHERE c.nick = ? AND s.state = 4
     ";
     
     $answer['success'] = true;
@@ -212,7 +185,7 @@
       db_error($answer);
     
     if(!(add_answer($answer, $select_user_result, 
-                    array('nick', 'phone', 'first_name', 'first_name', 'sure_name'))))
+                    array('nick', 'phone', 'first_name', 'first_name', 'sure_name', 'email'))))
       db_error($answer);
     
     $answer['ratable_dishes'] = array();
@@ -225,7 +198,7 @@
     
     $answer['ongoing_deliveries'] = array();
     //
-    if(!($select_ongoing_deliveries_result = push_stmt($stmt_select_ongoing_deliveries, "ss", array(&$args['user'], &$args['user']))))
+    if(!($select_ongoing_deliveries_result = push_stmt($stmt_select_ongoing_deliveries, "s", array(&$args['user']))))
       db_error($answer);
     
     while($select_ongoing_deliveries_result && ($fetched_ongoing_deliveries_dishes_row = $select_ongoing_deliveries_result->fetch_assoc()))

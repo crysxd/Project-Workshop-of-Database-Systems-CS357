@@ -77,6 +77,12 @@ $(document).ready(function() {
 
 /* Click handler for complete order button */
 $('.btn-complete-order').click(function() {
+  /* Check if the user is logged in */
+  if(getSession() == null) {
+    showErrorOverlay('Please log in', 'You must be logged in to order food.', null, 'showOverlay($("#login-overlay"))');
+    return;
+  }
+  
   /* show loading overlay*/
   showLoadingOverlay(function() {
     /* Load session */
@@ -108,10 +114,12 @@ $('.btn-complete-order').click(function() {
         if(handleError(data)) {
           return;
         }
+        
+        /* Delete cart */
+        cart.deleteRestaurant(restaurant);
 
         /* Show confirmation, will forward user to profile */
         showOverlay($('#success-overlay'), hideLoadingOverlay);
-        
         
       }, put);
     });

@@ -76,6 +76,8 @@
               <dd class="user-nick">undefined</dd>
               <dt>Phone</dt>
               <dd class="user-phone">undefined</dd>
+              <dt>Email</dt>
+              <dd class="user-email">undefined</dd>
             </dl>
           </div>
         </section>

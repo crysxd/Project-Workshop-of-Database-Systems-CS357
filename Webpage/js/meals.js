@@ -1,13 +1,11 @@
 var restaurant = 1;
+var minOrderValue = 0;
 
 /* When the doc is ready fade out the loading screen after 1s */
 $(document).ready(function() {
   /* get restaurant id */
   restaurant = getUrlParam('restaurant');
-  
-  /* Set checkout url */
-  $('.btn-checkout').attr('href', 'javascript:leaveTo("order.php?restaurant=' + restaurant + '")');
-  
+
   /* Init the cart database */
   cart.initCart();
   
@@ -30,6 +28,25 @@ $('#meals-search-complete').click(function() {
   loadMenu();
 
 });
+
+/* Click handler for checkout button */
+$('.btn-checkout').click(function() {
+  /* Query value */
+  cart.getCartValue(restaurant, function(value) {
+    /* If value is high enough, forward to next page */
+    if(value > 0 && value >= minOrderValue) {
+      leaveTo('order.php?restaurant=' + restaurant);
+
+    } 
+    
+    /* If value is too low, show error */
+    else {
+      showErrorOverlay('Price to low', 'Please add more items to the cart to meet the minimum order value');
+
+    }
+  });
+});
+
 
 /* Loads the menu*/
 function loadMenu() {
@@ -59,6 +76,9 @@ function loadMenu() {
         console.error(data);
         return;
       }
+      
+      /* Set min order value */
+      minOrderValue = data.min_order_value;
 
       /* Set general information */
       $('.restaurant-name').html(data.name);

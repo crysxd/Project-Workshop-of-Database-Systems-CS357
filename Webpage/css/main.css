@@ -57,11 +57,6 @@ body {
     min-height: 100%; /*at least 100% height, otherwise the footer will be misaligned */
 }
 
-#splash-screen>footer {
-  margin-left: -70px; /* stretch footer over full width */
-  margin-right: -70px;
-}
-
 #splash-screen>.splash-container>.splash-container-scroller {
   background: rgba(253, 253, 253, 0.80);
   border-radius: 5px;
