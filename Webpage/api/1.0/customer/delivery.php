@@ -31,7 +31,7 @@
 
     $args_str = array("user", "session");
     $args_put_str = array('restaurant', 'dishes', 'address');
-    $args_address_str = array('road', 'city', 'district', 'postal_code', 'country', 'lat', 'lng');
+    $args_address_str = array('road', 'city', 'postal_code', 'country', 'lat', 'lng');
     $args_dish_str = array('id', 'quantity');
 
     check_parms_available($args_str); 
@@ -117,13 +117,12 @@
     // Insert into Delivery table
     $stmt_insert_delivery = "
         INSERT INTO `Delivery` (`Customer_customer_id`, 
-            `Restaurant_restaurant_id`, `country`, `postcode`, `city`, `district`, `street_name`, `street_number`, `add_info`, `comment`) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)";
+            `Restaurant_restaurant_id`, `country`, `postcode`, `city`, `street_name`, `street_number`, `add_info`, `comment`) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, NULL, NULL)";
     
-    var_dump($args);
-    if(!(push_stmt_insert($stmt_insert_delivery, "iissssss", 
+    if(!(push_stmt_insert($stmt_insert_delivery, "iisssss", 
             array(&$args['customer_id'], &$args['restaurant'],  &$args['address']['country'], &$args['address']['postal_code'],
-            &$args['address']['city'], &$args['address']['district'], &$args['address']['road'] , &$args['address']['number']))))
+            &$args['address']['city'], &$args['address']['road'] , &$args['address']['number']))))
       db_error($answer);
     
     // Get the last inserted primary key
