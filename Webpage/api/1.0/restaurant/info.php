@@ -2,6 +2,7 @@
 
   // include main database script
   include_once("../db.php");
+  include_once("../../../../vendor/autoload.php");
 
   // open database connection
   db_open();
@@ -85,7 +86,7 @@
     $answer['success'] = false;
     
     // Parse phone number
-   /* $phone_number = $_GET['phone'];
+    $phone_number = $_GET['phone'];
     $phoneNumber = new \libphonenumber\PhoneNumber();
     $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
     try {
@@ -98,10 +99,10 @@
     // checks if phone number is valid
     if(!($phoneUtil->isValidNumber($phone_number_proto))) {
       db_error(array(), "Phone number is unvalid.", $ERROR_WRONG_PHONE_FORMAT);
-    }*/
+    }
     
-    $region_code = '+86';//$phoneNumber->getCountryCode();
-    $national_number = $_GET['phone'];//$phoneNumber->getNationalNumber();
+    $region_code = $phoneNumber->getCountryCode();
+    $national_number = $phoneNumber->getNationalNumber();
     
 
     // prepare statement
@@ -170,7 +171,7 @@
     check_restaurant_session($_GET['id'], $_GET['session']); 
     
     // prepare query
-    $stmt = $db_link->prepare("SELECT *, CONCAT(region_code, ' ', national_number) AS phone FROM restaurant WHERE restaurant_id_pk = ?");
+    $stmt = $db_link->prepare("SELECT *, CONCAT('+', region_code, ' ', national_number) AS phone FROM restaurant WHERE restaurant_id_pk = ?");
     
     // check, bin, execute and get results
     if(!$stmt || !$stmt->bind_param("i", $_GET["id"]) || !$stmt->execute() || !$result=$stmt->get_result()) {
