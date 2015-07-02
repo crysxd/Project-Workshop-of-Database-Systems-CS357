@@ -51,6 +51,7 @@
 
 #meals-list .meal-name {
   width: 100%;
+  font-weight: bold;
 }
 
 #meals-list .meal-name p {
