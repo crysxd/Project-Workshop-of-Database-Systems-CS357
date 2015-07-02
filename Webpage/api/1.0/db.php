@@ -32,7 +32,9 @@
     
     // Set return type to JSON
     header('Content-Type: application/json');
-  
+    
+    // Diable error reporting
+    error_reporting(0);
   }
 
   /****************************************************************************************************************************
