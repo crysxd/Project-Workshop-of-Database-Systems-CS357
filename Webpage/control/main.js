@@ -19,7 +19,7 @@ utils.deleteSession = function() {
 /* Function to handle rest errors */
 utils.handleError = function(data) {
   if(!data.success) {
-    var message = 'The page can not be displayed';
+    var message = 'An error occured: ' + data.err_msg;
     var action = undefined;
     
     /* If the user was unauthorized, log out */
