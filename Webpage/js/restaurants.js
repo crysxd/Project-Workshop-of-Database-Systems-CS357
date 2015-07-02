@@ -1,4 +1,4 @@
-var restaurants_meal_batch_size = 12;
+var restaurants_meal_batch_size = 100;
 var restuarants_meal_position = 0;
 
 /* If we are on a mobile device we must fix the splash-screen height,
