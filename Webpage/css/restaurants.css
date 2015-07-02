@@ -40,7 +40,7 @@
 }
 
 #restaurants .restaurant-icon {
-  max-width: 100%;
+  width: 125px;
   max-height: 125px;
 }
 
