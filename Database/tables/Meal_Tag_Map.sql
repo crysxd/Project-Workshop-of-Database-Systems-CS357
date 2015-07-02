@@ -20,20 +20,6 @@ SET time_zone = "+00:00";
 -- Database: `mymeal`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `Meal_Tag_Map`
---
-
-CREATE TABLE IF NOT EXISTS `Meal_Tag_Map` (
-  `Meal_meal_id_pk` int(11) NOT NULL,
-  `Tag_tag_id_pk` int(11) NOT NULL,
-  PRIMARY KEY (`Meal_meal_id_pk`,`Tag_tag_id_pk`),
-  KEY `fk_dish_has_tag_tag1_idx` (`Tag_tag_id_pk`),
-  KEY `fk_dish_has_tag_dish1_idx` (`Meal_meal_id_pk`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='A dish is never tagged twice with the same tag';
-
 --
 -- Dumping data for table `Meal_Tag_Map`
 --
@@ -42,9 +28,57 @@ INSERT INTO `Meal_Tag_Map` (`Meal_meal_id_pk`, `Tag_tag_id_pk`) VALUES
 (1, 1),
 (2, 1),
 (3, 1),
-(2, 2);
+(2, 2),
 
+(9,2),
+(11,2),
+(13,1),
+(14,2),
 
+(16,2),
+(18,2),
+(20,1),
+(21,2),
+
+(23,2),
+(25,2),
+(27,1),
+(28,2),
+
+(30,2),
+(32,2),
+(34,1),
+(35,2),
+
+(37,2),
+(39,2),
+(41,1),
+(42,2),
+
+(44,2),
+(46,2),
+(48,1),
+(49,2),
+
+(51,2),
+(53,2),
+(55,1),
+(56,2),
+
+(58,2),
+(60,2),
+(62,1),
+(63,2),
+
+(65,2),
+(67,2),
+(69,1),
+(70,2),
+
+(75,2),
+
+(77,1),
+(78,2);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

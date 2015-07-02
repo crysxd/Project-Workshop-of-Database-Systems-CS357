@@ -12,7 +12,6 @@ cat ./functions/distance.sql >> mymeal_database.sql
 
 # Tables
 cat ./tables/Tag.sql >> mymeal_database.sql
-cat ./tables/Meal_Category.sql >> mymeal_database.sql
 cat ./tables/Delivery_State_Type.sql >> mymeal_database.sql
 
 cat ./tables/Restaurant.sql >> mymeal_database.sql

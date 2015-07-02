@@ -278,19 +278,6 @@ SET time_zone = "+00:00";
 -- Database: `mymeal`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `Tag`
---
-
-CREATE TABLE IF NOT EXISTS `Tag` (
-  `tag_id_pk` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `color` varchar(6) DEFAULT NULL,
-  PRIMARY KEY (`tag_id_pk`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
-
 --
 -- Dumping data for table `Tag`
 --
@@ -301,52 +288,6 @@ INSERT INTO `Tag` (`tag_id_pk`, `name`, `color`) VALUES
 (3, 'Pork', 'f97990'),
 (4, 'Cold', '73b9c1'),
 (5, 'Kosher', '6c1547');
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
--- phpMyAdmin SQL Dump
--- version 4.0.10deb1
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: May 31, 2015 at 11:55 AM
--- Server version: 5.5.43-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4.9
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
---
--- Database: `mymeal`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Meal_Category`
---
-
-CREATE TABLE IF NOT EXISTS `Meal_Category` (
-  `meal_category_id_pk` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`meal_category_id_pk`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `Meal_Category`
---
-
-INSERT INTO `Meal_Category` (`meal_category_id_pk`, `name`) VALUES
-(1, 'appetizer'),
-(2, 'main menu'),
-(3, 'desert');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
@@ -399,13 +340,13 @@ INSERT INTO `Delivery_State_Type` (`delivery_status_type_id_pk`, `name`) VALUES
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 -- phpMyAdmin SQL Dump
--- version 4.0.10deb1
+-- version 4.2.11
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 30, 2015 at 12:43 AM
--- Server version: 5.5.43-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4.9
+-- Generation Time: Jul 02, 2015 at 08:50 AM
+-- Server version: 5.6.21
+-- PHP Version: 5.6.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -423,36 +364,24 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Restaurant`
---
-
-CREATE TABLE IF NOT EXISTS `Restaurant` (
-  `restaurant_id_pk` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(256) NOT NULL,
-  `min_order_value` float unsigned DEFAULT NULL,
-  `shipping_cost` float unsigned DEFAULT NULL COMMENT 'must be >= 0\n',
-  `max_delivery_range` float DEFAULT NULL COMMENT 'in kilometers, \nadditional enums like:\ncitys, districts\nin 100 meter steps',
-  `description` text,
-  `street` varchar(256) NOT NULL COMMENT 'http://www.bitboost.com/ref/international-address-formats/prc-china/',
-  `city` varchar(256) NOT NULL,
-  `province` varchar(256) NOT NULL,
-  `add_info` varchar(256) DEFAULT NULL,
-  `position_lat` double DEFAULT NULL,
-  `position_long` double DEFAULT NULL,
-  `offered` tinyint(1) DEFAULT NULL COMMENT 'Describes if a current restaurant an',
-  `password` varchar(256) DEFAULT NULL,
-  `session_id` varchar(64) DEFAULT NULL COMMENT 'unique and truly random 256 key',
-  PRIMARY KEY (`restaurant_id_pk`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
---
 -- Dumping data for table `Restaurant`
 --
 
-INSERT INTO `Restaurant` (`restaurant_id_pk`, `name`, `min_order_value`, `shipping_cost`, `max_delivery_range`, `description`, `street_number`, `street_name`, `postcode`, `city`,  `country`, `district`, `add_info`, `position_lat`, `position_long`, `offered`, `password`, `session_id`, `region_code`, `national_number`) VALUES
-(1, 'Hualian', 10, 0, 10000, 'Taste special Jidan Guangbing here.', '800', 'Dongchuan Road', '201109', 'Shanghai', 'China', 'Minhang', NULL, 31.02188, 121.43097, 1, '098f6bcd4621d373cade4e832627b4f6', '26dfe8116b93ced6cfca858f375d23f1489d3207', '86', '17336010252'),
-(2, 'Veggi Palace', 25, 10, 20000, 'The best Veggi dishes you get in Shanghai', '1954', 'Huashan Road', '200030', 'Shanghai', 'China', 'Xuhui', NULL, 31.19875, 121.4364, 1, 'bdc87b9c894da5168059e00ebffb9077', '4570258f13c64eefb56a26bac08093636f0fc102', '86', '17455250768'),
-(3, 'Mustafa''s Vegetable Kebap', 0, 5, 5000, 'Mustafa''s famous vegetable kebap only in Berlin', '32', 'Mehringdamm', '10961','Berlin',  'Deutschland', 'Schoeneberg', 'Next to the apartment blocks.', 52.49383, 13.38787, 1, '5f4dcc3b5aa765d61d8327deb882cf99', '75a2b6313ea2d41950160cc12678cf12ec461b79', '86', '14893035276');
+INSERT INTO `Restaurant` (`restaurant_id_pk`, `name`, `min_order_value`, `shipping_cost`, `max_delivery_range`, `description`, `country`, `postcode`, `city`, `district`, `street_name`, `street_number`, `add_info`, `position_lat`, `position_long`, `offered`, `password`, `session_id`, `region_code`, `national_number`, `email`) VALUES
+(1, 'Hualian', 10, 0, 10000, 'Taste special Jidan Guangbing here.', 'China', '200030', 'Shanghai', 'Minghang Qu', 'Dongchuan Road', '800', NULL, 31.02188, 121.43097, 1, '098f6bcd4621d373cade4e832627b4f6', '26dfe8116b93ced6cfca858f375d23f1489d3207', '86', '17336010252', NULL),
+(2, 'Veggi Palace', 25, 10, 20000, 'The best Veggi dishes you get in Shanghai', 'China', '200030', 'Shanghai', 'Xuhui Qu', 'Huashan Road', '1954', NULL, 31.19875, 121.4364, 1, 'bdc87b9c894da5168059e00ebffb9077', '4570258f13c64eefb56a26bac08093636f0fc102', '86', '17455250768', NULL),
+(3, 'Mustafa''s Vegetable Kebap', 0, 5, 5000, 'Mustafa''s famous vegetable kebap only in Berlin', 'Germany', '10961', 'Berlin', 'Schoeneberg', 'Mehringdamm', '32', 'Next to the apartment blocks.', 52.49383, 13.38787, 1, '5f4dcc3b5aa765d61d8327deb882cf99', '75a2b6313ea2d41950160cc12678cf12ec461b79', '86', '14893035276', NULL),
+(4, 'å¿…èƒœå®…æ€¥é€', 25, 0, 10000, 'Order some awsome pizza!', 'China', '', 'Minhang Qu', NULL, '2370 Dong Chuan Lu', NULL, NULL, 31.012494, 121.410644, 1, '7c4a8d09ca3762af61e59520943dc26494f8941b', 'bcc87b640667c0ca1a2d998ccd07fb1cb91821ef84031084fbb3ff45613a8cc5', '86', '13096883169', NULL),
+(5, 'è‚¯å¾·åŸºå®…æ€¥é€', 25, 5, 10000, 'Get some fried chicken', 'æ±Ÿå·è·¯248å¼„134å·ä¸Šæµ·å¸‚é—µè¡ŒåŒºæ±Ÿå·è·¯è¡—é“ä¸œé£Žæ–°æ‘ç¬¬ä¸€å±…å§”å®¶åº­è®¡åˆ’æŒ‡å¯¼å®¤ é‚®æ”¿ç¼–ç : 200240', '', 'Shanghai Shi', NULL, 'China', NULL, NULL, 31.007075, 121.420572, 1, '7c4a8d09ca3762af61e59520943dc26494f8941b', 'aee0384e9238d080309c28a01aa3c9a9e0c148edbb279567208fcab37bae7275', '86', '13096883169', NULL),
+(6, 'æžå®¢ä¾¿å½“ ', 10, 0, 10000, 'ä¸‰ä¸ªè€ç”·å­©çš„åˆ›ä¸šæ•…äº‹ï¼Œå†ä¸å¹²ç‚¹äº‹å°±è€äº†ï¼ŒæŠ“ä½é’æ˜¥çš„å°¾å·´ã€‚æˆ‘ä»¬ç”¨å¿ƒæŠŠå…³é£ŸæåŠé…æ–™ï¼Œç²¾å¿ƒçƒ¹åˆ¶ï¼Œè„šè¸å®žåœ°ï¼Œåšåˆ°æžè‡´ï¼', 'China', '', 'Minhang Qu', NULL, '800 Dong Chuan Lu', NULL, NULL, 31.0218816, 121.4309663, 1, '0', '884006e0cb074556c26c22e0aee3c6b7b5307adf192cb1775b4bef6303486c61', '86', '13096883169', NULL),
+(7, 'æžå®¢ä¾¿å½“ ', 10, 0, 10000, 'ä¸‰ä¸ªè€ç”·å­©çš„åˆ›ä¸šæ•…äº‹ï¼Œå†ä¸å¹²ç‚¹äº‹å°±è€äº†ï¼ŒæŠ“ä½é’æ˜¥çš„å°¾å·´ã€‚æˆ‘ä»¬ç”¨å¿ƒæŠŠå…³é£ŸæåŠé…æ–™ï¼Œç²¾å¿ƒçƒ¹åˆ¶ï¼Œè„šè¸å®žåœ°ï¼Œåšåˆ°æžè‡´ï¼', 'China', '', 'Minhang Qu', NULL, '800 Dong Chuan Lu', NULL, NULL, 31.0218816, 121.4309663, 1, '7c4a8d09ca3762af61e59520943dc26494f8941b', '247ccce33e9558df4666b2f8ebdcf31f8acfa47fbb79d1a91343f02283f8f388', '86', '13096883169', NULL),
+(8, 'å°ä¹”', 50, 0, 10000, 'å°ä¹”å®—æ—¨ï¼šè®©æ‚¨åƒçš„å¹²å‡€&amp;middot;å¥åº·&amp;middot;å«ç”Ÿï¼Œåº”å¯¹ç”Ÿæ´»ä¸­çš„ä¸€åˆ‡æŒ‘æˆ˜ï¼~', 'China', '', 'Minhang Qu', NULL, '800 Dong Chuan Lu', NULL, NULL, 31.0218816, 121.4309663, 1, '7c4a8d09ca3762af61e59520943dc26494f8941b', '6ce9700bba683d8ef6c10731dfa64242dbcf9f006ef4cd42cefc195630dd3e4b', '86', '13096883169', NULL),
+(9, 'æ­£å®—æ²™åŽ¿å°åƒ', 15, 0, 10000, 'æ‚¨çš„æ”¯æŒæ˜¯æˆ‘ä»¬å‰è¿›çš„åŠ¨åŠ›ï¼Œæ‚¨çš„æ»¡æ„æ˜¯æˆ‘ä»¬æ°¸è¿œçš„è¿½æ±‚ï¼Œæˆ‘ä»¬ä¼šå°†ä¸æ‡ˆçš„è¿½æ±‚åŒ–ä¸ºæ°¸æ’çš„åŠ¨åŠ›ï¼Œåšå‡ºæœ€ç¾Žçš„ç¾Žé£Ÿï¼Œä»¥ä¿åŒå­¦ä»¬çš„æ»¡æ„', 'China', '', 'Minhang Qu', NULL, '889 Dong Chuan Lu', NULL, NULL, 31.016787, 121.429583, 1, '7c4a8d09ca3762af61e59520943dc26494f8941b', '7bfeff713839c3dd5472677c6fc75024ae75724ab16ec59cf9cd58fc913dd4fc', '86', '13096883169', NULL),
+(10, 'æ³¡æ³¡é¦™é¦™é¸¡.ç²¥.ä¾¿å½“', 20, 5, 10000, 'æ³¡æ³¡æ‰€æœ‰äº§å“å‡ä¸ºçŽ°åšçŽ°å–ï¼', 'China', '', 'Minhang Qu', NULL, '840 Dong Chuan Lu', NULL, NULL, 31.0177304, 121.4322453, 1, '7c4a8d09ca3762af61e59520943dc26494f8941b', 'd291bdac0b2b2693e97efa6d00bef2b7bfe8858f0d1ad95212594c241ff74ed3', '86', '13096883169', NULL),
+(11, 'å•¤é…’é¸­é¥­', 30, 10, 10000, 'æ†¨å¤§å” ç»™åŠ›æ¯ä¸€å¤©ï¼å€¼å¾—ä½ æ‹¥æœ‰(*^__^*)', 'China', '', 'Minhang Qu', NULL, '811 Dong Chuan Lu', NULL, NULL, 31.0180851, 121.4336476, 1, '7c4a8d09ca3762af61e59520943dc26494f8941b', '16eb04e6f154843bef1dfffcb42e734b8bafc91d4eb62a4506fd4613247f390f', '86', '13096883169', NULL),
+(12, 'é¥­æœ‰å¼•åŠ›', 10, 0, 10000, 'æˆ‘ä»¬è‰¯å¿ƒç»è¥ï¼ŒåŠªåŠ›åšåˆ°è®©æ‚¨æ»¡æ„,å¸Œæœ›å¤šææ„è§ï¼Œè®©æˆ‘ä»¬æ…¢æ…¢å‘å‰è¿ˆè¿›ï¼ï¼ï¼', 'China', '', 'Minhang Qu', NULL, '375 Shi Ping Lu', NULL, NULL, 31.0171109, 121.4198246, 1, '7c4a8d09ca3762af61e59520943dc26494f8941b', '206379db4227f79e2faa00fbc6fbb32ffdd7b4244b56d83af88ca29e9976182b', '86', '13096883169', NULL),
+(13, 'å´”å¤§å¦ˆ', 10, 4, 10000, 'ç”¨ä¸­é¤ï¼Œå·¦æ‰‹æ‰§ç¢—ï¼Œå³æ‰‹æŒç­·', 'China', '', 'Minhang Qu', NULL, '811 Dong Chuan Lu', NULL, NULL, 31.0180851, 121.4336476, 1, '7c4a8d09ca3762af61e59520943dc26494f8941b', '6f23f21851d85f949387fefcc40521c7209f54f2e25b90b124185c1e9a19f37b', '86', '13096883169', NULL),
+(14, 'çŽ›ç‰¹å¿«é¤ ', 10, 2, 10000, 'æ–°åº—å¼€å¼ ï¼Œæ³¨é‡å“è´¨å’Œå£å‘³ï¼Œè®©æ‚¨åƒçš„å®‰å¿ƒï¼Œåƒçš„èˆ’å¿ƒã€‚', 'China', '', 'Minhang Qu', NULL, '805 Dong Chuan Lu', NULL, NULL, 31.0182305, 121.4341035, 1, '7c4a8d09ca3762af61e59520943dc26494f8941b', '1c8f85a0eb09a5dc493e69deb6794dd832fcae282c848d7efc8ba5c87df337bd', '86', '13096883169', NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
@@ -506,8 +435,8 @@ INSERT INTO `Customer` (`customer_id_pk`, `region_code`, `national_number`, `las
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 31, 2015 at 11:59 AM
--- Server version: 5.5.43-0ubuntu0.14.04.1
+-- Generation Time: Jul 02, 2015 at 02:49 PM
+-- Server version: 5.5.43-0ubuntu0.14.04.1-log
 -- PHP Version: 5.5.9-1ubuntu4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -523,26 +452,6 @@ SET time_zone = "+00:00";
 -- Database: `mymeal`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `Meal`
---
-
-CREATE TABLE IF NOT EXISTS `Meal` (
-  `meal_id_pk` int(11) NOT NULL AUTO_INCREMENT,
-  `Restaurant_restaurant_id` int(11) NOT NULL,
-  `name` varchar(256) DEFAULT NULL,
-  `price` varchar(45) DEFAULT NULL,
-  `Meal_Category_meal_category_id` int(11) DEFAULT NULL,
-  `description` text COMMENT 'optional',
-  `spiciness` tinyint(3) unsigned DEFAULT NULL COMMENT 'Range 0-3',
-  `offered` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`meal_id_pk`),
-  KEY `fk_Menu_Restaurant1_idx` (`Restaurant_restaurant_id`),
-  KEY `fk_Meal_Dish_Category1_idx` (`Meal_Category_meal_category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
-
 --
 -- Dumping data for table `Meal`
 --
@@ -554,13 +463,91 @@ INSERT INTO `Meal` (`meal_id_pk`, `Restaurant_restaurant_id`, `name`, `price`, `
 (4, 2, 'Salad', '20', 'Salad with tomatoes, olives and onions ', 0, 1),
 (5, 2, 'Veggie Burger', '70', 'Veggie Burger with tofu and salad and pickles.', 0, 1),
 (6, 2, 'Soya Ice Cream', '30', 'Ice cream made with soya instead of milk', 0, 1),
-(7, 3, 'Vegetable Kebab', '18', 'Mustafas famous vegetable kebab', 1, 1);
+(7, 3, 'Vegetable Kebab', '18', 'Mustafas famous vegetable kebab', 1, 1),
 
---
--- Constraints for dumped tables
---
+(8, 6, 'Sour Beef', '14', NULL , 0, 1),
+(9, 6, 'Shredded Cabbage', '9', NULL , 1, 1),
+(10, 6, 'Fragrant Duck', '14', NULL , 1, 1),
+(11, 6, 'Rice', '2', NULL , 0, 1),
+(12, 6, 'Spicy Chicken', '14', NULL , 3, 1),
+(13, 6, 'Tomato scrambled eggs', '11', NULL , 0, 1),
+(14, 6, 'Mapo Tofu', '9', NULL , 2, 1),
 
+(15, 7, 'Sour Beef', '14', NULL , 0, 1),
+(16, 7, 'Shredded Cabbage', '9', NULL , 1, 1),
+(17, 7, 'Fragrant Duck', '14', NULL , 1, 1),
+(18, 7, 'Rice', '2', NULL , 0, 1),
+(19, 7, 'Spicy Chicken', '14', NULL , 3, 1),
+(20, 7, 'Tomato scrambled eggs', '11', NULL , 0, 1),
+(21, 7, 'Mapo Tofu', '9', NULL , 2, 1),
 
+(22, 8, 'Sour Beef', '14', NULL , 0, 1),
+(23, 8, 'Shredded Cabbage', '9', NULL , 1, 1),
+(24, 8, 'Fragrant Duck', '14', NULL , 1, 1),
+(25, 8, 'Rice', '2', NULL , 0, 1),
+(26, 8, 'Spicy Chicken', '14', NULL , 3, 1),
+(27, 8, 'Tomato scrambled eggs', '11', NULL , 0, 1),
+(28, 8, 'Mapo Tofu', '9', NULL , 2, 1),
+
+(29, 9, 'Sour Beef', '14', NULL , 0, 1),
+(30, 9, 'Shredded Cabbage', '9', NULL , 1, 1),
+(31, 9, 'Fragrant Duck', '14', NULL , 1, 1),
+(32, 9, 'Rice', '2', NULL , 0, 1),
+(33, 9, 'Spicy Chicken', '14', NULL , 3, 1),
+(34, 9, 'Tomato scrambled eggs', '11', NULL , 0, 1),
+(35, 9, 'Mapo Tofu', '9', NULL , 2, 1),
+
+(36, 10, 'Sour Beef', '14', NULL , 0, 1),
+(37, 10, 'Shredded Cabbage', '9', NULL , 1, 1),
+(38, 10, 'Fragrant Duck', '14', NULL , 1, 1),
+(39, 10, 'Rice', '2', NULL , 0, 1),
+(40, 10, 'Spicy Chicken', '14', NULL , 3, 1),
+(41, 10, 'Tomato scrambled eggs', '11', NULL , 0, 1),
+(42, 10, 'Mapo Tofu', '9', NULL , 2, 1),
+
+(43, 11, 'Sour Beef', '14', NULL , 0, 1),
+(44, 11, 'Shredded Cabbage', '9', NULL , 1, 1),
+(45, 11, 'Fragrant Duck', '14', NULL , 1, 1),
+(46, 11, 'Rice', '2', NULL , 0, 1),
+(47, 11, 'Spicy Chicken', '14', NULL , 3, 1),
+(48, 11, 'Tomato scrambled eggs', '11', NULL , 0, 1),
+(49, 11, 'Mapo Tofu', '9', NULL , 2, 1),
+
+(50, 12, 'Sour Beef', '14', NULL , 0, 1),
+(51, 12, 'Shredded Cabbage', '9', NULL , 1, 1),
+(52, 12, 'Fragrant Duck', '14', NULL , 1, 1),
+(53, 12, 'Rice', '2', NULL , 0, 1),
+(54, 12, 'Spicy Chicken', '14', NULL , 3, 1),
+(55, 12, 'Tomato scrambled eggs', '11', NULL , 0, 1),
+(56, 12, 'Mapo Tofu', '9', NULL , 2, 1),
+
+(57, 13, 'Sour Beef', '14', NULL , 0, 1),
+(58, 13, 'Shredded Cabbage', '9', NULL , 1, 1),
+(59, 13, 'Fragrant Duck', '14', NULL , 1, 1),
+(60, 13, 'Rice', '2', NULL , 0, 1),
+(61, 13, 'Spicy Chicken', '14', NULL , 3, 1),
+(62, 13, 'Tomato scrambled eggs', '11', NULL , 0, 1),
+(63, 13, 'Mapo Tofu', '9', NULL , 2, 1),
+
+(64, 14, 'Sour Beef', '14', NULL , 0, 1),
+(65, 14, 'Shredded Cabbage', '9', NULL , 1, 1),
+(66, 14, 'Fragrant Duck', '14', NULL , 1, 1),
+(67, 14, 'Rice', '2', NULL , 0, 1),
+(68, 14, 'Spicy Chicken', '14', NULL , 3, 1),
+(69, 14, 'Tomato scrambled eggs', '11', NULL , 0, 1),
+(70, 14, 'Mapo Tofu', '9', NULL , 2, 1),
+
+(71, 4, 'Super Extreme Bisa Pu + Italian caviar fan Beibisapu', '66.5', NULL , 1, 1),
+(72, 4, 'Super Supreme pizza large + Italian caviar fan Bei Bisa large', '98.5', NULL , 2, 1),
+(73, 4, 'Seafood supreme Bisa Pu + Korean beef Bisa Pu Zhen', '69.5', NULL , 1, 1),
+(74, 4, 'Korean beef Bisa Pu Zhen', '98.5', NULL , 3, 1),
+(75, 4, 'Mango Pineapple', '12', NULL , 0, 1),
+
+(76, 5, 'New Orleans roast wings', '11', NULL , 2, 1),
+(77, 5, 'Hibiscus fresh vegetable soup', '6', NULL , 2, 1),
+(78, 5, 'Corn salad', '5', NULL , 2, 1),
+(79, 5, 'Old Beijing Chicken Roll', '15', NULL , 2, 1),
+(80, 5, 'Spicy chicken wings (2)', '10', NULL , 2, 1);
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
@@ -586,20 +573,6 @@ SET time_zone = "+00:00";
 -- Database: `mymeal`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `Meal_Tag_Map`
---
-
-CREATE TABLE IF NOT EXISTS `Meal_Tag_Map` (
-  `Meal_meal_id_pk` int(11) NOT NULL,
-  `Tag_tag_id_pk` int(11) NOT NULL,
-  PRIMARY KEY (`Meal_meal_id_pk`,`Tag_tag_id_pk`),
-  KEY `fk_dish_has_tag_tag1_idx` (`Tag_tag_id_pk`),
-  KEY `fk_dish_has_tag_dish1_idx` (`Meal_meal_id_pk`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='A dish is never tagged twice with the same tag';
-
 --
 -- Dumping data for table `Meal_Tag_Map`
 --
@@ -608,9 +581,57 @@ INSERT INTO `Meal_Tag_Map` (`Meal_meal_id_pk`, `Tag_tag_id_pk`) VALUES
 (1, 1),
 (2, 1),
 (3, 1),
-(2, 2);
+(2, 2),
 
+(9,2),
+(11,2),
+(13,1),
+(14,2),
 
+(16,2),
+(18,2),
+(20,1),
+(21,2),
+
+(23,2),
+(25,2),
+(27,1),
+(28,2),
+
+(30,2),
+(32,2),
+(34,1),
+(35,2),
+
+(37,2),
+(39,2),
+(41,1),
+(42,2),
+
+(44,2),
+(46,2),
+(48,1),
+(49,2),
+
+(51,2),
+(53,2),
+(55,1),
+(56,2),
+
+(58,2),
+(60,2),
+(62,1),
+(63,2),
+
+(65,2),
+(67,2),
+(69,1),
+(70,2),
+
+(75,2),
+
+(77,1),
+(78,2);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
@@ -637,34 +658,30 @@ SET time_zone = "+00:00";
 -- Database: `mymeal`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `Delivery`
---
-
-CREATE TABLE IF NOT EXISTS `Delivery` (
-  `delivery_id_pk` int(11) NOT NULL AUTO_INCREMENT,
-  `Customer_customer_id` int(11) NOT NULL,
-  `Restaurant_restaurant_id` int(11) NOT NULL,
-  `street` varchar(256) NOT NULL,
-  `postcode` varchar(45) NOT NULL,
-  `city` varchar(256) NOT NULL,
-  `add_info` varchar(256) DEFAULT NULL,
-  `comment` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`delivery_id_pk`),
-  KEY `fk_User_has_Restaurant_Restaurant1_idx` (`Restaurant_restaurant_id`),
-  KEY `fk_delivery_users1_idx` (`Customer_customer_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
 --
 -- Dumping data for table `Delivery`
 --
 
 INSERT INTO `Delivery` (`delivery_id_pk`, `Customer_customer_id`, `Restaurant_restaurant_id`, `country`, `postcode`, `city`, `district`, `street_name`, `street_number`, `add_info`, `comment`) VALUES
-(1, 2, 1, 'China', '200030',  'Shanghai', 'Minhang', 'Dongchuan Road', '723', NULL, NULL),
+(1, 2, 1, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '723', NULL, NULL),
 (2, 3, 2, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '654', NULL, NULL),
-(3, 2, 2, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '723', NULL, NULL);
+(3, 2, 2, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '723', NULL, NULL),
+
+(4, 7, 4, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '724', NULL, NULL),
+(5, 8, 5, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '725', NULL, NULL),
+(6, 9, 6, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '726', NULL, NULL),
+(7, 10, 7, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '727', NULL, NULL),
+(8, 11, 8, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '728', NULL, NULL),
+(9, 12, 9, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '729', NULL, NULL),
+(10, 13, 10, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '730', NULL, NULL),
+(11, 14, 11, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '731', NULL, NULL),
+
+(12, 7, 12, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '724', NULL, NULL),
+(13, 8, 13, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '725', NULL, NULL),
+(14, 9, 14, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '726', NULL, NULL),
+
+(15, 10, 4, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '727', NULL, NULL),
+(16, 11, 8, 'China', '200030', 'Shanghai', 'Minhang', 'Dongchuan Road', '728', NULL, NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
@@ -691,22 +708,6 @@ SET time_zone = "+00:00";
 -- Database: `mymeal`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `Delivery_State`
---
-
-CREATE TABLE IF NOT EXISTS `Delivery_State` (
-  `Delivery_delivery_id_pk` int(11) NOT NULL,
-  `date_pk` datetime NOT NULL,
-  `Delivery_State_Type_delivery_status_type` int(11) NOT NULL,
-  `comment` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`Delivery_delivery_id_pk`,`date_pk`),
-  KEY `fk_DeliveryState_delivery1_idx` (`Delivery_delivery_id_pk`),
-  KEY `fk_delivery_state_delivery_state_type1_idx` (`Delivery_State_Type_delivery_status_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 --
 -- Dumping data for table `Delivery_State`
 --
@@ -722,9 +723,67 @@ INSERT INTO `Delivery_State` (`Delivery_delivery_id_pk`, `date_pk`, `Delivery_St
 (2, '2015-05-24 14:20:43', 4, NULL),
 (3, '2015-06-10 17:08:42', 1, NULL),
 (3, '2015-06-10 18:10:23', 2, NULL),
-(3, '2015-06-10 18:55:44', 3, NULL);
+(3, '2015-06-10 18:55:44', 3, NULL),
+
+(4, '2015-07-01 16:12:02', 1, NULL),
+(4, '2015-07-01 16:42:02', 2, NULL),
+(4, '2015-07-01 17:12:02', 3, NULL),
+(4, '2015-07-01 17:32:02', 4, NULL),
+
+(5, '2015-07-01 16:12:02', 1, NULL),
+(5, '2015-07-01 16:42:02', 2, NULL),
+(5, '2015-07-01 17:12:02', 3, NULL),
+(5, '2015-07-01 17:32:02', 4, NULL),
+
+(6, '2015-07-01 16:12:02', 1, NULL),
+(6, '2015-07-01 16:42:02', 2, NULL),
+(6, '2015-07-01 17:12:02', 3, NULL),
+(6, '2015-07-01 17:32:02', 4, NULL),
+
+(7, '2015-07-01 16:12:02', 1, NULL),
+(7, '2015-07-01 16:42:02', 2, NULL),
+(7, '2015-07-01 17:12:02', 3, NULL),
+(7, '2015-07-01 17:32:02', 4, NULL),
+
+(8, '2015-07-01 16:12:02', 1, NULL),
+(8, '2015-07-01 16:42:02', 2, NULL),
+(8, '2015-07-01 17:12:02', 3, NULL),
+(8, '2015-07-01 17:32:02', 4, NULL),
+
+(9, '2015-07-01 16:12:02', 1, NULL),
+(9, '2015-07-01 16:42:02', 2, NULL),
+(9, '2015-07-01 17:12:02', 3, NULL),
+(9, '2015-07-01 17:32:02', 4, NULL),
+
+(10, '2015-07-01 16:12:02', 1, NULL),
+(10, '2015-07-01 16:42:02', 2, NULL),
+(10, '2015-07-01 17:12:02', 3, NULL),
+(10, '2015-07-01 17:32:02', 4, NULL),
+
+(11, '2015-07-01 16:12:02', 1, NULL),
+(11, '2015-07-01 16:42:02', 2, NULL),
+(11, '2015-07-01 17:12:02', 3, NULL),
+(11, '2015-07-01 17:32:02', 4, NULL),
 
 
+(12, '2015-07-02 11:12:02', 1, NULL),
+(12, '2015-07-02 11:42:02', 2, NULL),
+(12, '2015-07-02 12:12:02', 3, NULL),
+(12, '2015-07-02 12:32:02', 4, NULL),
+
+(13, '2015-07-02 16:12:02', 1, NULL),
+(13, '2015-07-02 16:42:02', 2, NULL),
+
+(14, '2015-07-02 16:12:02', 1, NULL),
+(14, '2015-07-02 16:42:02', 2, NULL),
+(14, '2015-07-02 17:12:02', 3, NULL),
+
+(15, '2015-07-02 16:12:02', 1, NULL),
+
+(16, '2015-07-02 16:12:02', 1, NULL),
+(16, '2015-07-02 16:42:02', 2, NULL),
+(16, '2015-07-02 17:12:02', 3, NULL),
+(16, '2015-07-02 17:15:03', 4, NULL);
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
@@ -752,21 +811,6 @@ SET time_zone = "+00:00";
 -- Database: `mymeal`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `Delivery_Meal_Map`
---
-
-CREATE TABLE IF NOT EXISTS `Delivery_Meal_Map` (
-  `Delivery_delivery_id_pk` int(11) NOT NULL,
-  `Meal_meal_id_pk` int(11) NOT NULL,
-  `amount` int(11) DEFAULT NULL,
-  PRIMARY KEY (`Delivery_delivery_id_pk`,`Meal_meal_id_pk`),
-  KEY `fk_delivery_has_dish_dish1_idx` (`Meal_meal_id_pk`),
-  KEY `fk_delivery_has_dish_delivery1_idx` (`Delivery_delivery_id_pk`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 --
 -- Dumping data for table `Delivery_Meal_Map`
 --
@@ -777,8 +821,42 @@ INSERT INTO `Delivery_Meal_Map` (`Delivery_delivery_id_pk`, `Meal_meal_id_pk`, `
 (1, 3, 2),
 (2, 5, 1),
 (2, 6, 2),
-(3, 5, 3);
+(3, 5, 3),
 
+(4,71,1),
+
+(5,78,1),
+(5,79,2),
+(5,80,2),
+
+(6,14,1),
+(6,13,1),
+
+(7,16,1),
+(7,21,2),
+
+(8,22,5),
+(8,24,3),
+
+(9,30,2),
+(9,31,2),
+(9,33,2),
+
+(10,38,1),
+
+(11,47,10),
+
+(12,53,1),
+
+(13,60,2),
+
+(14,65,7),
+
+(15,73,1),
+(15,74,1),
+(15,75,1),
+
+(16,28,100);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

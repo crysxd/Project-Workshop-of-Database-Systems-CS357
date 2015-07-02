@@ -20,19 +20,6 @@ SET time_zone = "+00:00";
 -- Database: `mymeal`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `Tag`
---
-
-CREATE TABLE IF NOT EXISTS `Tag` (
-  `tag_id_pk` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `color` varchar(6) DEFAULT NULL,
-  PRIMARY KEY (`tag_id_pk`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
-
 --
 -- Dumping data for table `Tag`
 --

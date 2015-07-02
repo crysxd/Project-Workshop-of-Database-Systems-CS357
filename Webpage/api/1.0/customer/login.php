@@ -12,11 +12,11 @@
   $answer = array();
 
   // Prepare Statements
-  $stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM customer WHERE nick=? AND password=?");
+  $stmt = $db_link->prepare("SELECT COUNT(*) as ok FROM Customer WHERE nick=? AND password=?");
   $stmt->bind_param("ss", $user, $pw);
 
   // assure query parameters are clean and set parameters
-  $user = mysql_real_escape_string($_GET['user']);
+  $user = mysqli_real_escape_string($db_link, $_GET['user']);
   $pw = hash(PASSWORD_HASH_FUNCTION, $_GET['pw']);
 
   // Execute queries
