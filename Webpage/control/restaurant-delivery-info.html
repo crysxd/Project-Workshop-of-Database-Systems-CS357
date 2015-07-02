@@ -102,6 +102,9 @@
         
       },
       _ajaxDone: function(request) {
+        /* Resetting value to be able to open the same again */
+        this.delivery = undefined;
+        
         var result = request.detail.response;
 
         /* Check error */
