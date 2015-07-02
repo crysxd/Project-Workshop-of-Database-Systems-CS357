@@ -1,5 +1,6 @@
 #restaurants {
   margin: 0;
+  border-radius: 5px;
 }
 
 #restaurants>* {
@@ -42,6 +43,7 @@
 #restaurants .restaurant-icon {
   width: 125px;
   max-height: 125px;
+  
 }
 
 #restaurants .data {
