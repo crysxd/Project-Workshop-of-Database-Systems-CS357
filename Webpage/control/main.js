@@ -25,7 +25,7 @@ utils.handleError = function(data) {
     /* If the user was unauthorized, log out */
     if(data.err_no == 1) {
       utils.deleteSession();
-      action = function() { window.location.href = 'index.php'; };
+      action = function() { window.location.href = 'index.html'; };
       message = 'Your login seems to be invalid. Please login again.'
     }
     
