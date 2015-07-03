@@ -20,7 +20,7 @@ BEGIN
 
     IF !(NEW.rating >= 0 &&
         NEW.rating <= 5 &&
-        @o_existent = 1)
+        @o_existent >= 1)
     THEN
         SET msg = "DIE: You inserted a resctricted VALUE";
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
