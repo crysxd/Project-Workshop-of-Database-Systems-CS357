@@ -20,18 +20,6 @@ SET time_zone = "+00:00";
 -- Database: `mymeal`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `Meal_Category`
---
-
-CREATE TABLE IF NOT EXISTS `Meal_Category` (
-  `meal_category_id_pk` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`meal_category_id_pk`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
 --
 -- Dumping data for table `Meal_Category`
 --

@@ -20,18 +20,6 @@ SET time_zone = "+00:00";
 -- Database: `mymeal`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `Delivery_State_Type`
---
-
-CREATE TABLE IF NOT EXISTS `Delivery_State_Type` (
-  `delivery_status_type_id_pk` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`delivery_status_type_id_pk`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
 --
 -- Dumping data for table `Delivery_State_Type`
 --

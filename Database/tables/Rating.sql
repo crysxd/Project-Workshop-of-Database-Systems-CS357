@@ -23,21 +23,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Rating`
---
-
-CREATE TABLE IF NOT EXISTS `Rating` (
-  `Meal_meal_id_pk` int(11) NOT NULL,
-  `Customer_customer_id_pk` int(11) NOT NULL,
-  `date` datetime DEFAULT NULL,
-  `rating` smallint(6) DEFAULT NULL COMMENT 'smallint because the number will not be bigger than 10',
-  `comment` text,
-  PRIMARY KEY (`Customer_customer_id_pk`,`Meal_meal_id_pk`),
-  KEY `fk_Rating_dish1_idx` (`Meal_meal_id_pk`),
-  KEY `fk_Rating_user1_idx` (`Customer_customer_id_pk`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Every user can rate a dish just once';
-
---
 -- Dumping data for table `Rating`
 --
 
