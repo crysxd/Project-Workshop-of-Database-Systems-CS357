@@ -2,7 +2,7 @@
 This is the project for the course "Project Workshop of Database Systems" (CS357, SS2015) of 
 - Saulo Ribeiro de Andrade – 7120309033 (sauloandradegames)
 - Alexander Goscinski – 7120309027 (agoscinski)
-- Christan Würthner (crysxd
+- Christan Würthner (crysxd)
 
 The aim for the project was to create a food-delivery system equal to the Chinese webpage ele.me. A customer should be able to find restaurants close to his location, select the dishes he wants and then place the order. The restaurant is informed about new orders with the state "pending"  in an admin panel. The restaurant can change the state of the delivery to "processing", "in delivery" and "completed". The user can see the progess of his orders on his profile page.
 
