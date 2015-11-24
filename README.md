@@ -30,3 +30,7 @@ In the admin panel you cann process orders placed by customers, edit the restaur
 ![alt text](https://github.com/crysxd/Project-Workshop-of-Database-Systems-CS357/raw/images/Place_to_7-2-2015%2011-07-56%20AM.jpg)
 ![alt text](https://github.com/crysxd/Project-Workshop-of-Database-Systems-CS357/raw/images/mockDrop_ONEPLUS%20ONE%20%3D%202.jpg)
 ![alt text](https://raw.githubusercontent.com/crysxd/Project-Workshop-of-Database-Systems-CS357/images/Place_to_7-2-2015%207-57-43%20AM.jpg?token=AFlnnGo-gKVmSXzc9-UsH2ynYwHAApZzks5Vn0sZwA%3D%3D)
+![alt text](https://raw.githubusercontent.com/crysxd/Project-Workshop-of-Database-Systems-CS357/images/Screen%20Shot%202015-11-24%20at%207.33.12%20PM.png)
+![alt text](https://raw.githubusercontent.com/crysxd/Project-Workshop-of-Database-Systems-CS357/images/Screen%20Shot%202015-11-24%20at%207.33.17%20PM.png)
+![alt text](https://raw.githubusercontent.com/crysxd/Project-Workshop-of-Database-Systems-CS357/images/Screen%20Shot%202015-11-24%20at%207.33.24%20PM.png)
+![alt text](https://raw.githubusercontent.com/crysxd/Project-Workshop-of-Database-Systems-CS357/images/Screen%20Shot%202015-11-24%20at%207.33.30%20PM.png)
